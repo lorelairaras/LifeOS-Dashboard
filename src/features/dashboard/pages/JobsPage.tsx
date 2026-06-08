@@ -12,7 +12,7 @@ import Modal from '@/components/Modal'
 import ConfirmDialog from '@/components/ConfirmDialog'
 
 export default function JobsPage() {
-  const { jobs, addJob, updateJob, deleteJob } = useJobs()
+  const { jobs, loading, error, addJob, updateJob, deleteJob } = useJobs()
 
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'all'>('all')
   const [formOpen, setFormOpen] = useState(false)
@@ -65,13 +65,23 @@ export default function JobsPage() {
         }}
       />
 
-      {jobs.length > 0 && (
+      {loading && (
+        <div className="py-12 text-center text-sm text-text-muted">Loading applications...</div>
+      )}
+
+      {error && (
+        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+          {error}
+        </div>
+      )}
+
+      {!loading && jobs.length > 0 && (
         <div className="mb-6">
           <JobFilters statusFilter={statusFilter} onStatusChange={setStatusFilter} />
         </div>
       )}
 
-      {jobs.length === 0 ? (
+      {!loading && jobs.length === 0 ? (
         <EmptyState
           title="No applications tracked yet"
           description="Start logging your job search to never lose track of where you've applied."

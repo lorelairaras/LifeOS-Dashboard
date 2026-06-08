@@ -6,9 +6,17 @@ export default function HeroSection() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="flex min-h-screen items-center justify-center pt-16"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden pt-16"
     >
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 text-center">
+      {/* Decorative floating shapes — CSS-only 3D */}
+      <div className="pointer-events-none absolute inset-0 motion-reduce:hidden" aria-hidden="true">
+        <div className="absolute left-[10%] top-[20%] h-16 w-16 animate-float rounded-full bg-accent/5 blur-sm" />
+        <div className="absolute right-[15%] top-[30%] h-24 w-24 animate-float-slow rounded-lg bg-accent/5 blur-sm" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-[25%] left-[20%] h-12 w-12 animate-float rounded-full bg-accent/5 blur-sm" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-[30%] right-[10%] h-20 w-20 animate-float-slow rounded-lg bg-accent/5 blur-sm" style={{ animationDelay: '0.5s' }} />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow */}
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-accent">
           Frontend Developer · Business Analyst · Product Thinker

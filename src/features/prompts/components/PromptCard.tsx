@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2, Sparkles } from 'lucide-react'
 import type { Prompt } from '@/types'
 import Badge from '@/components/Badge'
 import CopyButton from '@/components/CopyButton'
@@ -6,6 +6,7 @@ import {
   CATEGORY_LABELS,
   CATEGORY_VARIANTS,
 } from '@/features/prompts/data/promptCategories'
+import { isAiConfigured } from '@/lib/ai/aiConfig'
 
 interface PromptCardProps {
   prompt: Prompt
@@ -13,6 +14,7 @@ interface PromptCardProps {
   onEdit: (prompt: Prompt) => void
   onDelete: (prompt: Prompt) => void
   onView: (prompt: Prompt) => void
+  onImprove?: (prompt: Prompt) => void
 }
 
 export default function PromptCard({
@@ -21,6 +23,7 @@ export default function PromptCard({
   onEdit,
   onDelete,
   onView,
+  onImprove,
 }: PromptCardProps) {
   return (
     <article className="flex flex-col rounded-xl bg-surface-800 p-5 shadow-sm">
@@ -79,6 +82,18 @@ export default function PromptCard({
           View full prompt
         </button>
         <div className="flex items-center gap-1">
+          {onImprove && (
+            <button
+              type="button"
+              aria-label={isAiConfigured ? `Improve prompt: ${prompt.title}` : 'AI not configured'}
+              title={isAiConfigured ? 'Improve with AI' : 'Add VITE_AI_API_KEY to enable'}
+              onClick={() => onImprove(prompt)}
+              disabled={!isAiConfigured}
+              className="rounded-md p-1.5 text-text-muted transition-colors hover:bg-surface-700 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Sparkles size={13} aria-hidden="true" />
+            </button>
+          )}
           <button
             type="button"
             aria-label={`Edit prompt: ${prompt.title}`}

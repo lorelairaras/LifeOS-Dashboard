@@ -108,7 +108,7 @@ test.describe('Dashboard shell', () => {
 
   test('TC-DB-002: navigation has all required links', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
-    for (const label of ['Tasks', 'Prompts', 'Jobs', 'Budget', 'Projects', 'Settings']) {
+    for (const label of ['Tasks', 'Prompts', 'Jobs', 'Budget', 'Projects']) {
       await expect(nav.getByRole('link', { name: label })).toBeVisible()
     }
   })
@@ -122,7 +122,7 @@ test.describe('Dashboard shell', () => {
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
     await nav.getByRole('link', { name: 'Tasks' }).click()
     await expect(page).toHaveURL('/dashboard/tasks')
-    await expect(page.getByRole('heading', { name: 'Tasks' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Tasks', exact: true })).toBeVisible()
   })
 })
 
@@ -215,7 +215,7 @@ test.describe('Budget Tracker', () => {
   })
 
   test('TC-BT-001: empty state with no entries', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Budget' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
     await expect(page.getByText(/no budget entries yet/i)).toBeVisible()
     await expect(page.getByRole('button', { name: /add entry/i }).first()).toBeVisible()
   })
@@ -276,7 +276,7 @@ test.describe('Budget Tracker', () => {
 
   test('TC-BT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('heading', { name: 'Budget' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)

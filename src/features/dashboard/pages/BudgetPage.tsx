@@ -13,7 +13,7 @@ import Modal from '@/components/Modal'
 import ConfirmDialog from '@/components/ConfirmDialog'
 
 export default function BudgetPage() {
-  const { entries, addEntry, updateEntry, deleteEntry } = useBudget()
+  const { entries, loading, error, addEntry, updateEntry, deleteEntry } = useBudget()
 
   const [typeFilter, setTypeFilter] = useState<EntryType | 'all'>('all')
   const [formOpen, setFormOpen] = useState(false)
@@ -65,7 +65,17 @@ export default function BudgetPage() {
         }}
       />
 
-      {entries.length > 0 && (
+      {loading && (
+        <div className="py-12 text-center text-sm text-text-muted">Loading budget...</div>
+      )}
+
+      {error && (
+        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+          {error}
+        </div>
+      )}
+
+      {!loading && entries.length > 0 && (
         <>
           <SummaryBar entries={entries} />
           <div className="mb-6">
@@ -74,7 +84,7 @@ export default function BudgetPage() {
         </>
       )}
 
-      {entries.length === 0 ? (
+      {!loading && entries.length === 0 ? (
         <EmptyState
           title="No budget entries yet"
           description="Record your first income or expense to start tracking."

@@ -1,5 +1,6 @@
 import Section from '@/components/Section'
 import ProjectCard from '@/components/ProjectCard'
+import Card3D from '@/components/Card3D'
 import { projects } from '@/features/portfolio/data/portfolioData'
 
 export default function ProjectsSection() {
@@ -16,7 +17,9 @@ export default function ProjectsSection() {
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2" role="list" aria-label="Portfolio projects">
         {projects.map((project) => (
           <li key={project.id}>
-            <ProjectCard project={project} />
+            <Card3D className="h-full">
+              <ProjectCard project={project} />
+            </Card3D>
           </li>
         ))}
       </ul>

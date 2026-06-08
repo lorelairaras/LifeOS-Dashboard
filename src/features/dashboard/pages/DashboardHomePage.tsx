@@ -1,24 +1,22 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckSquare, Briefcase, Wallet, FolderKanban, Plus } from 'lucide-react'
-import type { Task, JobApplication, BudgetEntry, Project } from '@/types'
+import { useTasks } from '@/features/tasks/hooks/useTasks'
+import { useJobs } from '@/features/jobs/hooks/useJobs'
+import { useBudget } from '@/features/budget/hooks/useBudget'
 import StatCard from '@/components/StatCard'
 import WeeklyFocusWidget from '@/components/WeeklyFocusWidget'
 import Button from '@/components/Button'
 import { isOverdue } from '@/utils/dateUtils'
 import { calculateTotals, formatCurrency, filterCurrentMonth } from '@/utils/budgetUtils'
+import { useWeeklyFocus } from '@/hooks/useWeeklyFocus'
 
 export default function DashboardHomePage() {
   const navigate = useNavigate()
+  const { tasks } = useTasks()
+  const { jobs } = useJobs()
+  const { entries: budgetEntries } = useBudget()
+  const { text: weeklyFocus, updateFocus } = useWeeklyFocus()
 
-  // Placeholder state arrays — local state only. Cross-page aggregation wired in Phase 12 (Supabase).
-  const [tasks] = useState<Task[]>([])
-  const [jobs] = useState<JobApplication[]>([])
-  const [budgetEntries] = useState<BudgetEntry[]>([])
-  const [projects] = useState<Project[]>([])
-  const [weeklyFocus, setWeeklyFocus] = useState('')
-
-  // Derived stat values — all 0 in shell, will update as features are built
   const todaysTasks = tasks.filter(
     (t) => t.status !== 'done' && isOverdue(t.dueDate)
   ).length
@@ -30,11 +28,8 @@ export default function DashboardHomePage() {
   const currentMonthEntries = filterCurrentMonth(budgetEntries)
   const { balance } = calculateTotals(currentMonthEntries)
 
-  const activeProjects = projects.filter((p) => p.status === 'in_progress').length
-
   return (
     <div className="space-y-8">
-      {/* Page heading */}
       <div>
         <h1 className="text-2xl font-semibold text-text-primary">Dashboard</h1>
         <p className="mt-1 text-sm text-text-secondary">
@@ -42,7 +37,6 @@ export default function DashboardHomePage() {
         </p>
       </div>
 
-      {/* Stat cards */}
       <section aria-labelledby="stats-heading">
         <h2 id="stats-heading" className="sr-only">
           Summary statistics
@@ -68,22 +62,20 @@ export default function DashboardHomePage() {
           />
           <StatCard
             label="Active Projects"
-            value={activeProjects}
+            value={0}
             icon={FolderKanban}
             colour="text-purple-400"
           />
         </div>
       </section>
 
-      {/* Weekly Focus */}
-      <WeeklyFocusWidget value={weeklyFocus} onChange={setWeeklyFocus} />
+      <WeeklyFocusWidget value={weeklyFocus} onChange={updateFocus} />
 
-      {/* Quick Actions */}
       <section aria-labelledby="quick-actions-heading">
         <h2 id="quick-actions-heading" className="mb-3 text-sm font-semibold text-text-primary">
           Quick Actions
         </h2>
-<div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button
             variant="secondary"
             size="sm"

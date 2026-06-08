@@ -12,7 +12,7 @@ import Modal from '@/components/Modal'
 import ConfirmDialog from '@/components/ConfirmDialog'
 
 export default function TasksPage() {
-  const { tasks, addTask, updateTask, deleteTask, toggleDone } = useTasks()
+  const { tasks, loading, error, addTask, updateTask, deleteTask, toggleDone } = useTasks()
 
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all')
   const [priorityFilter, setPriorityFilter] = useState<TaskPriority | 'all'>('all')
@@ -67,7 +67,17 @@ export default function TasksPage() {
         }}
       />
 
-      {tasks.length > 0 && (
+      {loading && (
+        <div className="py-12 text-center text-sm text-text-muted">Loading tasks...</div>
+      )}
+
+      {error && (
+        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+          {error}
+        </div>
+      )}
+
+      {!loading && tasks.length > 0 && (
         <div className="mb-6">
           <TaskFilters
             statusFilter={statusFilter}
@@ -78,7 +88,7 @@ export default function TasksPage() {
         </div>
       )}
 
-      {tasks.length === 0 ? (
+      {!loading && tasks.length === 0 ? (
         <EmptyState
           title="No tasks yet"
           description="Add your first task to start tracking what needs to be done."

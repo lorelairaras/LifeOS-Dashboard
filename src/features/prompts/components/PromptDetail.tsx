@@ -1,4 +1,4 @@
-import { Pencil } from 'lucide-react'
+import { Pencil, Sparkles } from 'lucide-react'
 import type { Prompt } from '@/types'
 import Modal from '@/components/Modal'
 import Badge from '@/components/Badge'
@@ -8,6 +8,7 @@ import {
   CATEGORY_LABELS,
   CATEGORY_VARIANTS,
 } from '@/features/prompts/data/promptCategories'
+import { isAiConfigured } from '@/lib/ai/aiConfig'
 
 interface PromptDetailProps {
   prompt: Prompt | null
@@ -15,6 +16,7 @@ interface PromptDetailProps {
   onClose: () => void
   onEdit: (prompt: Prompt) => void
   onCopy: (id: string) => void
+  onImprove?: (prompt: Prompt) => void
 }
 
 export default function PromptDetail({
@@ -23,6 +25,7 @@ export default function PromptDetail({
   onClose,
   onEdit,
   onCopy,
+  onImprove,
 }: PromptDetailProps) {
   if (!prompt) return null
 
@@ -77,17 +80,34 @@ export default function PromptDetail({
             onCopy={() => onCopy(prompt.id)}
             size="md"
           />
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => {
-              onClose()
-              onEdit(prompt)
-            }}
-          >
-            <Pencil size={14} aria-hidden="true" />
-            Edit Prompt
-          </Button>
+          <div className="flex items-center gap-2">
+            {onImprove && (
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={!isAiConfigured}
+                title={isAiConfigured ? 'Improve with AI' : 'Add VITE_AI_API_KEY to enable'}
+                onClick={() => {
+                  onClose()
+                  onImprove(prompt)
+                }}
+              >
+                <Sparkles size={14} aria-hidden="true" />
+                Improve
+              </Button>
+            )}
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                onClose()
+                onEdit(prompt)
+              }}
+            >
+              <Pencil size={14} aria-hidden="true" />
+              Edit Prompt
+            </Button>
+          </div>
         </div>
       </div>
     </Modal>
