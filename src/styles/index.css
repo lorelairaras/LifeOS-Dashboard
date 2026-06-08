@@ -1,0 +1,28 @@
+/* @import must precede @tailwind directives (CSS spec) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface-900 text-text-primary font-sans antialiased;
+  }
+
+  /* Focus styles for keyboard navigation */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-surface-900;
+  }
+}
+
+@layer utilities {
+  /* Skip link — visually hidden until focused */
+  .skip-link {
+    @apply absolute -top-full left-4 z-50 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white focus:top-4;
+  }
+}
