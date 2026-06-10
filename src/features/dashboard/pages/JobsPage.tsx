@@ -56,7 +56,8 @@ export default function JobsPage() {
   return (
     <div>
       <PageHeader
-        title="Career Pipeline"
+        title="Job Tracker"
+        flavor="Career Pipeline"
         description="Track every application, status, and follow-up."
         action={{
           label: 'Add Application',

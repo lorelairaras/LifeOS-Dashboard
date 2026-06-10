@@ -54,8 +54,9 @@ export default function KnowledgeVaultPage() {
   return (
     <div>
       <PageHeader
-        title="Knowledge Vault"
-        description="Notes & resources · Your personal knowledge base."
+        title="Notes"
+        flavor="The Vault"
+        description="Your personal knowledge base — notes, ideas, and resources."
         action={{
           label: 'Add Note',
           onClick: handleOpenCreate,

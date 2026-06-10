@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Sun, Target, Battery, Moon, BookOpen } from 'lucide-react'
 import { useTasks } from '@/features/tasks/hooks/useTasks'
+import { useFlavorNames } from '@/hooks/useFlavorNames'
 
 const FOCUS_KEY = 'lifeos:today-focus'
 const ENERGY_KEY = 'lifeos:today-energy'
@@ -16,6 +17,7 @@ const ENERGY_LEVELS = [
 
 export default function TodayRitualPage() {
   const { tasks, toggleDone } = useTasks()
+  const { enabled: flavorOn } = useFlavorNames()
 
   const [focus, setFocus] = useState(() => localStorage.getItem(FOCUS_KEY) ?? '')
   const [energy, setEnergy] = useState<number>(() => Number(localStorage.getItem(ENERGY_KEY)) || 3)
@@ -41,21 +43,24 @@ export default function TodayRitualPage() {
       <div>
         <div className="flex items-center gap-2">
           <Sun size={16} className="text-ro-gold" aria-hidden="true" />
-          <h1 className="font-display text-2xl font-semibold text-ro-pri">Today Ritual</h1>
+          <h1 className="font-display text-2xl font-semibold text-ro-pri">Today</h1>
         </div>
+        {flavorOn && (
+          <p className="mt-0.5 font-display text-xs italic text-ro-pink/60">Today&rsquo;s Ritual</p>
+        )}
         <p className="mt-1 text-sm text-ro-muted">Plan your day</p>
       </div>
 
       {sealed ? (
         <div className="ro-card p-8 text-center">
-          <p className="font-display text-xl text-ro-pri">The ritual is sealed. ✦</p>
+          <p className="font-display text-xl text-ro-pri">Your day is saved. ✦</p>
           <p className="mt-2 text-sm text-ro-sec">Good work. See you tomorrow.</p>
           <button
             type="button"
             onClick={() => setSealed(false)}
             className="mt-6 font-mono text-xs text-ro-muted underline underline-offset-2 hover:text-ro-pink"
           >
-            Unseal and edit
+            Edit again
           </button>
         </div>
       ) : (
@@ -90,7 +95,7 @@ export default function TodayRitualPage() {
               </span>
             </div>
             {topTasks.length === 0 ? (
-              <p className="text-sm text-ro-muted">No open tasks. Add some in Ritual Tasks.</p>
+              <p className="text-sm text-ro-muted">No open tasks. Add some on the Tasks page.</p>
             ) : (
               <ul className="space-y-2" role="list">
                 {topTasks.map((task) => (
@@ -172,7 +177,7 @@ export default function TodayRitualPage() {
             onClick={handleSeal}
             className="w-full rounded-xl border border-ro-pink/25 bg-ro-pink/10 py-3 font-display text-sm font-semibold text-ro-pink transition-all hover:bg-ro-pink/20"
           >
-            ✦ Seal the Day
+            {flavorOn ? '✦ Seal the Day' : "Save today's plan"}
           </button>
         </>
       )}

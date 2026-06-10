@@ -12,7 +12,7 @@ export default function ProjectsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center gap-3">
           <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-ro-pink/50">
-            Project Reliquary
+            The Reliquary
           </span>
           <span className="h-px flex-1 bg-ro-pink/10" aria-hidden="true" />
         </div>

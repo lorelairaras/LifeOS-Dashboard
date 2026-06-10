@@ -117,7 +117,7 @@ test.describe('Dashboard shell', () => {
   // Stat cards increased from 4 to 5 (added Prompts This Week).
   test('TC-DB-001: dashboard home loads with stat cards', async ({ page }) => {
     // Check exact subtitle text — avoids matching hidden sidebar nav item
-    await expect(page.getByText('Command Chamber · Your daily overview')).toBeVisible()
+    await expect(page.getByText('Your daily overview', { exact: true })).toBeVisible()
     const statCards = page.locator('[data-testid="stat-card"]')
     await expect(statCards).toHaveCount(5)
   })
@@ -130,7 +130,7 @@ test.describe('Dashboard shell', () => {
     }
     // When mobile menu is open, the visible nav is the last one rendered
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' }).last()
-    for (const label of ['Ritual Tasks', 'Prompt Grimoire', 'Career Pipeline', 'Budget Pulse', 'Project Reliquary']) {
+    for (const label of ['Tasks', 'Prompts', 'Job Tracker', 'Budget', 'Projects']) {
       await expect(nav.getByRole('link', { name: label })).toBeVisible()
     }
   })
@@ -140,15 +140,15 @@ test.describe('Dashboard shell', () => {
   })
 
   // Phase 23A: On mobile the sidebar is hidden — open hamburger first.
-  test('TC-DB-003: Ritual Tasks link navigates to correct route', async ({ page }) => {
+  test('TC-DB-003: Tasks link navigates to correct route', async ({ page }) => {
     const hamburger = page.getByRole('button', { name: /open navigation menu/i })
     if (await hamburger.isVisible()) {
       await hamburger.click()
     }
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' }).last()
-    await nav.getByRole('link', { name: 'Ritual Tasks' }).click()
+    await nav.getByRole('link', { name: 'Tasks' }).click()
     await expect(page).toHaveURL('/dashboard/tasks')
-    await expect(page.getByRole('heading', { name: 'Ritual Tasks', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Tasks', exact: true })).toBeVisible()
   })
 })
 
@@ -165,7 +165,7 @@ test.describe('Job Application Tracker', () => {
   // Phase 23A: Demo data is loaded when Supabase is not configured.
   // Empty state is no longer shown — verify demo jobs are displayed instead.
   test('TC-JT-001: demo jobs are displayed on load', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Job Tracker' })).toBeVisible()
     await expect(page.getByText('Prism Studio')).toBeVisible()
     await expect(page.getByRole('button', { name: /add application/i }).first()).toBeVisible()
   })
@@ -229,7 +229,7 @@ test.describe('Job Application Tracker', () => {
 
   test('TC-JT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Job Tracker' })).toBeVisible()
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)
@@ -249,7 +249,7 @@ test.describe('Budget Tracker', () => {
   // Phase 23A: Demo data is loaded when Supabase is not configured.
   // Empty state is no longer shown — verify demo entries are displayed instead.
   test('TC-BT-001: demo budget entries are displayed on load', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Budget Pulse', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
     await expect(page.getByText('Monthly salary')).toBeVisible()
     await expect(page.getByRole('button', { name: /add entry/i }).first()).toBeVisible()
   })
@@ -312,7 +312,7 @@ test.describe('Budget Tracker', () => {
 
   test('TC-BT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('heading', { name: 'Budget Pulse', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)

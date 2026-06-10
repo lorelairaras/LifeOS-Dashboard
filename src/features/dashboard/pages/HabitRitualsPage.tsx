@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Flame, Plus, Trash2, Check } from 'lucide-react'
 import { useHabits } from '@/features/habits/hooks/useHabits'
 import { localIsoDate, dayLabel, dayLetter, currentStreak } from '@/features/habits/utils/dates'
+import { useFlavorNames } from '@/hooks/useFlavorNames'
 import ConfirmDialog from '@/components/ConfirmDialog'
 import type { Habit } from '@/types'
 
@@ -10,6 +11,7 @@ const LAST_7_DAYS = [6, 5, 4, 3, 2, 1, 0]
 
 export default function HabitRitualsPage() {
   const { habits, checks, loading, error, addHabit, deleteHabit, toggleCheck } = useHabits()
+  const { enabled: flavorOn } = useFlavorNames()
   const [newHabit, setNewHabit] = useState('')
   const [deletingHabit, setDeletingHabit] = useState<Habit | null>(null)
 
@@ -32,9 +34,12 @@ export default function HabitRitualsPage() {
       <div>
         <div className="flex items-center gap-2">
           <Flame size={16} className="text-ro-gold" aria-hidden="true" />
-          <h1 className="font-display text-2xl font-semibold text-ro-pri">Habit Rituals</h1>
+          <h1 className="font-display text-2xl font-semibold text-ro-pri">Habits</h1>
         </div>
-        <p className="mt-1 text-sm text-ro-muted">Daily habits · Build streaks one day at a time</p>
+        {flavorOn && (
+          <p className="mt-0.5 font-display text-xs italic text-ro-pink/60">Habit Rituals</p>
+        )}
+        <p className="mt-1 text-sm text-ro-muted">Build streaks one day at a time</p>
       </div>
 
       {error && (
