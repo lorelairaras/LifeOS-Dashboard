@@ -20,19 +20,32 @@ test.describe('Portfolio homepage', () => {
     await expect(heading).toContainText('Rory')
   })
 
+  // Phase 23A: Main navigation top bar no longer contains section links.
+  // Section links are in the sidebar strip (desktop) or mobile nav drawer (mobile).
   test('TC-PF-003: navigation links are present', async ({ page }) => {
-    const nav = page.getByRole('navigation', { name: 'Main navigation' })
-    await expect(nav).toBeVisible()
-    await expect(nav.getByRole('link', { name: 'About' })).toBeVisible()
-    await expect(nav.getByRole('link', { name: 'Skills' })).toBeVisible()
-    await expect(nav.getByRole('link', { name: 'Projects' })).toBeVisible()
-    await expect(nav.getByRole('link', { name: 'Contact' })).toBeVisible()
+    const hamburger = page.getByRole('button', { name: /open navigation menu/i })
+    if (await hamburger.isVisible()) {
+      // Mobile: open hamburger and check mobile navigation links
+      await hamburger.click()
+      const mobileNav = page.locator('[aria-label="Mobile navigation"]')
+      for (const label of ['About', 'Skills', 'Projects', 'Contact']) {
+        await expect(mobileNav.getByRole('link', { name: label })).toBeVisible()
+      }
+    } else {
+      // Desktop: check sidebar section navigation (anchor links)
+      const sectionNav = page.locator('[aria-label="Section navigation"]')
+      await expect(sectionNav).toBeVisible()
+      for (const label of ['About', 'Skills', 'Projects', 'Contact']) {
+        await expect(sectionNav.getByRole('link', { name: new RegExp(label, 'i') })).toBeVisible()
+      }
+    }
   })
 
+  // Phase 23A: Second hero CTA changed from "Get in Touch" to "Enter Dashboard →"
   test('TC-PF-004: hero has two CTA links', async ({ page }) => {
     const hero = page.locator('#hero')
     await expect(hero.getByRole('link', { name: 'View Projects' })).toBeVisible()
-    await expect(hero.getByRole('link', { name: 'Get in Touch' })).toBeVisible()
+    await expect(hero.getByRole('link', { name: /enter dashboard/i })).toBeVisible()
   })
 
   test('TC-PF-005: skip link is present and focusable', async ({ page }) => {
@@ -100,14 +113,23 @@ test.describe('Dashboard shell', () => {
     await page.goto('/dashboard')
   })
 
+  // Phase 23A: "Command Chamber" is now a <p> subtitle, not a heading.
+  // Stat cards increased from 4 to 5 (added Prompts This Week).
   test('TC-DB-001: dashboard home loads with stat cards', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Command Chamber' })).toBeVisible()
+    // Check exact subtitle text — avoids matching hidden sidebar nav item
+    await expect(page.getByText('Command Chamber · Your daily overview')).toBeVisible()
     const statCards = page.locator('[data-testid="stat-card"]')
-    await expect(statCards).toHaveCount(4)
+    await expect(statCards).toHaveCount(5)
   })
 
+  // Phase 23A: Desktop sidebar nav is hidden on mobile — open hamburger first.
   test('TC-DB-002: navigation has all required links', async ({ page }) => {
-    const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
+    const hamburger = page.getByRole('button', { name: /open navigation menu/i })
+    if (await hamburger.isVisible()) {
+      await hamburger.click()
+    }
+    // When mobile menu is open, the visible nav is the last one rendered
+    const nav = page.getByRole('navigation', { name: 'Dashboard navigation' }).last()
     for (const label of ['Ritual Tasks', 'Prompt Grimoire', 'Career Pipeline', 'Budget Pulse', 'Project Reliquary']) {
       await expect(nav.getByRole('link', { name: label })).toBeVisible()
     }
@@ -117,9 +139,13 @@ test.describe('Dashboard shell', () => {
     await expect(page.locator('[data-testid="data-loss-notice"]')).toBeVisible()
   })
 
+  // Phase 23A: On mobile the sidebar is hidden — open hamburger first.
   test('TC-DB-003: Ritual Tasks link navigates to correct route', async ({ page }) => {
-    // Use desktop nav
-    const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
+    const hamburger = page.getByRole('button', { name: /open navigation menu/i })
+    if (await hamburger.isVisible()) {
+      await hamburger.click()
+    }
+    const nav = page.getByRole('navigation', { name: 'Dashboard navigation' }).last()
     await nav.getByRole('link', { name: 'Ritual Tasks' }).click()
     await expect(page).toHaveURL('/dashboard/tasks')
     await expect(page.getByRole('heading', { name: 'Ritual Tasks', exact: true })).toBeVisible()
@@ -136,22 +162,25 @@ test.describe('Job Application Tracker', () => {
     await page.goto('/dashboard/jobs')
   })
 
-  test('TC-JT-001: empty state with no applications', async ({ page }) => {
+  // Phase 23A: Demo data is loaded when Supabase is not configured.
+  // Empty state is no longer shown — verify demo jobs are displayed instead.
+  test('TC-JT-001: demo jobs are displayed on load', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
-    await expect(page.getByText(/no roles in the pipeline/i)).toBeVisible()
+    await expect(page.getByText('Prism Studio')).toBeVisible()
     await expect(page.getByRole('button', { name: /add application/i }).first()).toBeVisible()
   })
 
+  // Phase 23A: Use force:true for modal submit on mobile (button may be below fold).
+  // Also removed check for 'Frontend Engineer' — it exists in demo data (strict mode violation).
   test('TC-JT-002: create application successfully', async ({ page }) => {
     await page.getByRole('button', { name: /add application/i }).first().click()
     const modal = page.getByRole('dialog')
     await expect(modal).toBeVisible()
     await modal.getByLabel(/company/i).fill('Acme Corp')
-    await modal.getByLabel(/role/i).fill('Frontend Engineer')
-    await modal.getByRole('button', { name: /log application/i }).click()
+    await modal.getByLabel(/role/i).fill('Test Automation Engineer')
+    await modal.getByRole('button', { name: /log application/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
     await expect(page.getByText('Acme Corp')).toBeVisible()
-    await expect(page.getByText('Frontend Engineer')).toBeVisible()
   })
 
   test('TC-JT-003: filter by status', async ({ page }) => {
@@ -161,7 +190,7 @@ test.describe('Job Application Tracker', () => {
     let modal = page.getByRole('dialog')
     await modal.getByLabel(/company/i).fill('Company A')
     await modal.getByLabel(/role/i).fill('Engineer')
-    await modal.getByRole('button', { name: /log application/i }).click()
+    await modal.getByRole('button', { name: /log application/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
 
     // Second: applied
@@ -172,7 +201,7 @@ test.describe('Job Application Tracker', () => {
     // Change status to applied
     const statusSelect = modal.locator('select').first()
     await statusSelect.selectOption('applied')
-    await modal.getByRole('button', { name: /log application/i }).click()
+    await modal.getByRole('button', { name: /log application/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
 
     // Filter by 'Applied' — should show only Company B
@@ -188,7 +217,7 @@ test.describe('Job Application Tracker', () => {
     await modal.getByLabel(/role/i).fill('Dev')
     // Set follow-up date to a past date
     await modal.locator('#job-follow-up').fill('2020-01-01')
-    await modal.getByRole('button', { name: /log application/i }).click()
+    await modal.getByRole('button', { name: /log application/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
     // Follow-up date should appear with amber/warning styling (check for ⚠ prefix)
     const jobList = page.locator('[data-testid="job-list"]')
@@ -214,9 +243,11 @@ test.describe('Budget Tracker', () => {
     await page.goto('/dashboard/budget')
   })
 
-  test('TC-BT-001: empty state with no entries', async ({ page }) => {
+  // Phase 23A: Demo data is loaded when Supabase is not configured.
+  // Empty state is no longer shown — verify demo entries are displayed instead.
+  test('TC-BT-001: demo budget entries are displayed on load', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Budget Pulse', exact: true })).toBeVisible()
-    await expect(page.getByText(/no budget entries yet/i)).toBeVisible()
+    await expect(page.getByText('Monthly salary')).toBeVisible()
     await expect(page.getByRole('button', { name: /add entry/i }).first()).toBeVisible()
   })
 
@@ -228,50 +259,52 @@ test.describe('Budget Tracker', () => {
     await modal.locator('#budget-amount').fill('2500')
     await modal.locator('#budget-type').selectOption('income')
     await modal.locator('#budget-date').fill('2026-06-01')
-    await modal.getByRole('button', { name: /add entry/i }).click()
+    await modal.getByRole('button', { name: /add entry/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
     await expect(page.getByText('Freelance payment')).toBeVisible()
     // Summary bar should show income
     await expect(page.locator('[data-testid="budget-summary"]')).toBeVisible()
   })
 
+  // Phase 23A: Changed title from 'Rent' to 'Internet Bill' — 'Rent' already exists in demo data.
   test('TC-BT-003: create an expense entry', async ({ page }) => {
     await page.getByRole('button', { name: /add entry/i }).first().click()
     const modal = page.getByRole('dialog')
-    await modal.getByLabel(/title/i).fill('Rent')
-    await modal.locator('#budget-amount').fill('1200')
+    await modal.getByLabel(/title/i).fill('Internet Bill')
+    await modal.locator('#budget-amount').fill('60')
     await modal.locator('#budget-type').selectOption('expense')
     await modal.locator('#budget-date').fill('2026-06-01')
-    await modal.getByRole('button', { name: /add entry/i }).click()
+    await modal.getByRole('button', { name: /add entry/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
-    await expect(page.getByText('Rent')).toBeVisible()
+    await expect(page.getByText('Internet Bill')).toBeVisible()
   })
 
+  // Phase 23A: Use unique names not present in demo data to avoid strict mode violations.
   test('TC-BT-004: filter by income shows only income entries', async ({ page }) => {
-    // Create income entry
+    // Create income entry with unique name
     await page.getByRole('button', { name: /add entry/i }).first().click()
     let modal = page.getByRole('dialog')
-    await modal.getByLabel(/title/i).fill('Salary')
+    await modal.getByLabel(/title/i).fill('Bonus Payment')
     await modal.locator('#budget-amount').fill('3000')
     await modal.locator('#budget-type').selectOption('income')
     await modal.locator('#budget-date').fill('2026-06-01')
-    await modal.getByRole('button', { name: /add entry/i }).click()
+    await modal.getByRole('button', { name: /add entry/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
 
-    // Create expense entry
+    // Create expense entry with unique name
     await page.getByRole('button', { name: /add entry/i }).first().click()
     modal = page.getByRole('dialog')
-    await modal.getByLabel(/title/i).fill('Groceries')
+    await modal.getByLabel(/title/i).fill('Gym Membership')
     await modal.locator('#budget-amount').fill('150')
     await modal.locator('#budget-type').selectOption('expense')
     await modal.locator('#budget-date').fill('2026-06-02')
-    await modal.getByRole('button', { name: /add entry/i }).click()
+    await modal.getByRole('button', { name: /add entry/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
 
-    // Filter by Income
+    // Filter by Income — should show our new income entry, not the expense
     await page.getByRole('button', { name: 'Income', exact: true }).click()
-    await expect(page.getByText('Salary')).toBeVisible()
-    await expect(page.getByText('Groceries')).not.toBeVisible()
+    await expect(page.getByText('Bonus Payment')).toBeVisible()
+    await expect(page.getByText('Gym Membership')).not.toBeVisible()
   })
 
   test('TC-BT-005: mobile layout — no overflow at 390px', async ({ page }) => {

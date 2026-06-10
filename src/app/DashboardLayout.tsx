@@ -12,16 +12,24 @@ import {
   X,
   ExternalLink,
   LogOut,
+  Sun,
+  CalendarCheck,
+  Flame,
+  BookMarked,
+  Brain,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { isSupabaseConfigured } from '@/lib/supabase'
+import DemoBadge from '@/components/DemoBadge'
 
 type NavItemConfig = {
   to: string
   label: string
+  sublabel: string
   icon: React.ElementType
   end: boolean
   activeClass: string
+  soon?: boolean
 }
 
 const navGroups: { label: string; items: NavItemConfig[] }[] = [
@@ -31,8 +39,17 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard',
         label: 'Command Chamber',
+        sublabel: 'Daily overview',
         icon: LayoutDashboard,
         end: true,
+        activeClass: 'bg-ro-pink/10 text-ro-pink',
+      },
+      {
+        to: '/dashboard/today',
+        label: 'Today Ritual',
+        sublabel: 'Plan your day',
+        icon: Sun,
+        end: false,
         activeClass: 'bg-ro-pink/10 text-ro-pink',
       },
     ],
@@ -43,6 +60,7 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard/tasks',
         label: 'Ritual Tasks',
+        sublabel: 'Task manager',
         icon: CheckSquare,
         end: false,
         activeClass: 'bg-ro-pink/10 text-ro-pink',
@@ -50,6 +68,7 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard/prompts',
         label: 'Prompt Grimoire',
+        sublabel: 'Prompt library',
         icon: Sparkles,
         end: false,
         activeClass: 'bg-ro-oracle/10 text-ro-oracle',
@@ -57,6 +76,7 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard/projects',
         label: 'Project Reliquary',
+        sublabel: 'Active projects',
         icon: FolderKanban,
         end: false,
         activeClass: 'bg-ro-success/10 text-ro-success',
@@ -69,6 +89,7 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard/budget',
         label: 'Budget Pulse',
+        sublabel: 'Expenses & income',
         icon: Wallet,
         end: false,
         activeClass: 'bg-ro-gold/10 text-ro-gold',
@@ -76,9 +97,55 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       {
         to: '/dashboard/jobs',
         label: 'Career Pipeline',
+        sublabel: 'Job tracker',
         icon: Briefcase,
         end: false,
         activeClass: 'bg-ro-bloom/10 text-ro-bloom',
+      },
+    ],
+  },
+  {
+    label: 'RITUALS',
+    items: [
+      {
+        to: '/dashboard/review',
+        label: 'Weekly Séance',
+        sublabel: 'Weekly review',
+        icon: CalendarCheck,
+        end: false,
+        activeClass: 'bg-ro-bloom/10 text-ro-bloom',
+      },
+      {
+        to: '/dashboard/habits',
+        label: 'Habit Rituals',
+        sublabel: 'Daily habits',
+        icon: Flame,
+        end: false,
+        activeClass: 'bg-ro-gold/10 text-ro-gold',
+        soon: true,
+      },
+    ],
+  },
+  {
+    label: 'ORACLE',
+    items: [
+      {
+        to: '/dashboard/oracle',
+        label: 'AI Oracle',
+        sublabel: 'AI assistant',
+        icon: Brain,
+        end: false,
+        activeClass: 'bg-ro-oracle/10 text-ro-oracle',
+        soon: true,
+      },
+      {
+        to: '/dashboard/vault',
+        label: 'Knowledge Vault',
+        sublabel: 'Notes & resources',
+        icon: BookMarked,
+        end: false,
+        activeClass: 'bg-ro-sec/10 text-ro-sec',
+        soon: true,
       },
     ],
   },
@@ -90,6 +157,7 @@ function NavItem({
   icon: Icon,
   end,
   activeClass,
+  soon,
   onClick,
 }: NavItemConfig & { onClick?: () => void }) {
   return (
@@ -106,7 +174,12 @@ function NavItem({
       }
     >
       <Icon size={14} aria-hidden="true" />
-      {label}
+      <span className="flex-1 truncate">{label}</span>
+      {soon && (
+        <span className="rounded-full border border-ro-pink/20 bg-ro-pink/8 px-1.5 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-ro-pink/60">
+          soon
+        </span>
+      )}
     </NavLink>
   )
 }
@@ -165,9 +238,14 @@ export default function DashboardLayout() {
             <Menu size={20} aria-hidden="true" />
           </button>
           <span className="font-display font-semibold text-ro-pri">LifeOS</span>
+          {!isSupabaseConfigured && (
+            <span className="ml-auto">
+              <DemoBadge />
+            </span>
+          )}
         </header>
 
-        {/* Data-loss notice */}
+        {/* Demo mode notice bar */}
         <DataLossNotice key={location.pathname} />
 
         {/* Page content */}
@@ -199,6 +277,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <span className="font-mono text-[10px] font-bold tracking-tighter">LO</span>
           </div>
           <span className="font-display text-base font-semibold text-ro-pri">LifeOS</span>
+          {!isSupabaseConfigured && <DemoBadge />}
         </div>
       </div>
 
@@ -293,7 +372,7 @@ function DataLossNotice() {
       role="status"
     >
       <p className="text-xs text-ro-gold">
-        <strong>Demo mode:</strong> Data is not saved between sessions. Refresh = data reset.
+        <strong>Demo mode:</strong> Showing example data. Connect Supabase to use your own data — changes won&rsquo;t persist.
       </p>
       <button
         type="button"

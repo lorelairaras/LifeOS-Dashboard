@@ -3,6 +3,7 @@ import type { Task, TaskStatus, TaskPriority, TaskCategory } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { fromDb, toDb } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
+import { DEMO_TASKS } from '@/data/mockData'
 
 export type TaskInput = {
   title: string
@@ -45,6 +46,7 @@ export function useTasks() {
 
   useEffect(() => {
     if (!isSupabaseConfigured || !user) {
+      dispatch({ type: 'SET', payload: DEMO_TASKS })
       setLoading(false)
       return
     }

@@ -12,6 +12,9 @@
     --glass-border:          rgba(255, 79, 163, 0.13);
     --glass-elevated-bg:     rgba(29, 20, 34, 0.88);
     --glass-elevated-border: rgba(255, 79, 163, 0.22);
+
+    /* Gothic grid background — subtle dark gridlines for portfolio OS feel */
+    --ro-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0v48' fill='none' stroke='rgba(255,79,163,0.05)' stroke-width='0.5'/%3E%3C/svg%3E");
   }
 
   html {
@@ -87,5 +90,24 @@
   .skip-link {
     @apply absolute -top-full left-4 z-50 rounded-md px-4 py-2 text-sm font-medium text-white focus:top-4;
     background-color: theme('colors.accent.DEFAULT');
+  }
+
+  /* Gothic grid overlay — applied to portfolio page container */
+  .ro-grid-bg {
+    background-image: var(--ro-grid);
+    background-size: 48px 48px;
+  }
+
+  /* Ambient pink glow — used behind hero panels */
+  .ro-glow {
+    position: relative;
+  }
+  .ro-glow::before {
+    content: '';
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(ellipse at center, rgba(255, 79, 163, 0.08) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
   }
 }

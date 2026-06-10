@@ -9,16 +9,26 @@ import {
   Wallet,
   FolderKanban,
   Settings,
+  Sun,
+  CalendarCheck,
+  Flame,
+  Brain,
+  BookMarked,
 } from 'lucide-react'
 
 const COMMANDS = [
-  { id: 'home',     label: 'Command Chamber',   icon: LayoutDashboard, path: '/dashboard' },
-  { id: 'tasks',    label: 'Ritual Tasks',       icon: CheckSquare,     path: '/dashboard/tasks' },
-  { id: 'prompts',  label: 'Prompt Grimoire',    icon: Sparkles,        path: '/dashboard/prompts' },
-  { id: 'jobs',     label: 'Career Pipeline',    icon: Briefcase,       path: '/dashboard/jobs' },
-  { id: 'budget',   label: 'Budget Pulse',       icon: Wallet,          path: '/dashboard/budget' },
-  { id: 'projects', label: 'Project Reliquary',  icon: FolderKanban,    path: '/dashboard/projects' },
-  { id: 'settings', label: 'Settings',           icon: Settings,        path: '/dashboard/settings' },
+  { id: 'home',     label: 'Command Chamber',    sublabel: 'Daily overview',    icon: LayoutDashboard, path: '/dashboard' },
+  { id: 'today',    label: 'Today Ritual',        sublabel: 'Plan your day',     icon: Sun,             path: '/dashboard/today' },
+  { id: 'tasks',    label: 'Ritual Tasks',        sublabel: 'Task manager',      icon: CheckSquare,     path: '/dashboard/tasks' },
+  { id: 'prompts',  label: 'Prompt Grimoire',     sublabel: 'Prompt library',    icon: Sparkles,        path: '/dashboard/prompts' },
+  { id: 'projects', label: 'Project Reliquary',   sublabel: 'Active projects',   icon: FolderKanban,    path: '/dashboard/projects' },
+  { id: 'budget',   label: 'Budget Pulse',        sublabel: 'Expenses & income', icon: Wallet,          path: '/dashboard/budget' },
+  { id: 'jobs',     label: 'Career Pipeline',     sublabel: 'Job tracker',       icon: Briefcase,       path: '/dashboard/jobs' },
+  { id: 'review',   label: 'Weekly Séance',       sublabel: 'Weekly review',     icon: CalendarCheck,   path: '/dashboard/review' },
+  { id: 'habits',   label: 'Habit Rituals',       sublabel: 'Daily habits',      icon: Flame,           path: '/dashboard/habits' },
+  { id: 'oracle',   label: 'AI Oracle',           sublabel: 'AI assistant',      icon: Brain,           path: '/dashboard/oracle' },
+  { id: 'vault',    label: 'Knowledge Vault',     sublabel: 'Notes & resources', icon: BookMarked,      path: '/dashboard/vault' },
+  { id: 'settings', label: 'Settings',            sublabel: '',                  icon: Settings,        path: '/dashboard/settings' },
 ]
 
 interface CommandPaletteProps {
@@ -30,7 +40,10 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
   const [query, setQuery] = useState('')
 
   const filtered = query.trim()
-    ? COMMANDS.filter((c) => c.label.toLowerCase().includes(query.toLowerCase()))
+    ? COMMANDS.filter((c) =>
+        c.label.toLowerCase().includes(query.toLowerCase()) ||
+        c.sublabel.toLowerCase().includes(query.toLowerCase()),
+      )
     : COMMANDS
 
   const go = useCallback(
@@ -91,10 +104,15 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
                   role="option"
                   aria-selected="false"
                   onClick={() => go(cmd.path)}
-                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ro-sec transition-colors hover:bg-ro-surface hover:text-ro-pri text-left"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-ro-surface"
                 >
                   <cmd.icon size={14} className="shrink-0 text-ro-pink/60" aria-hidden="true" />
-                  {cmd.label}
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-sm text-ro-sec group-hover:text-ro-pri">{cmd.label}</span>
+                    {cmd.sublabel && (
+                      <span className="block font-mono text-[9px] text-ro-muted">{cmd.sublabel}</span>
+                    )}
+                  </span>
                 </button>
               </li>
             ))

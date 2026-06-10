@@ -72,9 +72,9 @@ export default function Modal({
         aria-modal="true"
         aria-labelledby={titleId}
         onKeyDown={handleTabKey}
-        className={`relative w-full ${maxWidth} rounded-xl bg-surface-800 shadow-2xl`}
+        className={`relative flex max-h-[90dvh] w-full flex-col ${maxWidth} rounded-xl bg-surface-800 shadow-2xl`}
       >
-        <div className="flex items-center justify-between border-b border-surface-700/50 px-5 py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-surface-700/50 px-5 py-4">
           <h2 id={titleId} className="text-base font-semibold text-text-primary">
             {title}
           </h2>
@@ -87,7 +87,7 @@ export default function Modal({
             <X size={18} aria-hidden="true" />
           </button>
         </div>
-        <div className="p-5">{children}</div>
+        <div className="overflow-y-auto p-5">{children}</div>
       </div>
     </div>
   )
