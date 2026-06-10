@@ -1,28 +1,91 @@
 /* @import must precede @tailwind directives (CSS spec) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Rose Obsidian glass surfaces */
+    --glass-bg:              rgba(255, 79, 163, 0.055);
+    --glass-border:          rgba(255, 79, 163, 0.13);
+    --glass-elevated-bg:     rgba(29, 20, 34, 0.88);
+    --glass-elevated-border: rgba(255, 79, 163, 0.22);
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-surface-900 text-text-primary font-sans antialiased;
+    background-color: theme('colors.surface.900');
+    color: theme('colors.text.primary');
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Focus styles for keyboard navigation */
   *:focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-surface-900;
+    outline: none;
+    /* ring-2 ring-ro-pink ring-offset-2 ring-offset-ro-void */
+    box-shadow: 0 0 0 2px theme('colors.ro.void'), 0 0 0 4px theme('colors.ro.pink');
+  }
+}
+
+@layer components {
+  /* Rose-tinted frosted glass */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-elevated {
+    background: var(--glass-elevated-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-elevated-border);
+  }
+
+  /* Shared Rose Obsidian card — aliased so os-card still works */
+  .ro-card,
+  .os-card {
+    border-radius: theme('borderRadius.xl');
+    background-color: theme('colors.ro.card');
+    border: 1px solid rgba(255, 79, 163, 0.14);
+  }
+
+  /* Shared Rose Obsidian input — aliased so os-input still works */
+  .ro-input,
+  .os-input {
+    width: 100%;
+    border-radius: theme('borderRadius.lg');
+    background-color: theme('colors.ro.surface');
+    border: 1px solid rgba(255, 79, 163, 0.10);
+    padding: theme('spacing[2.5]') theme('spacing.4');
+    font-size: theme('fontSize.sm[0]');
+    line-height: theme('lineHeight.normal');
+    color: theme('colors.ro.pri');
+    outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .ro-input::placeholder,
+  .os-input::placeholder {
+    color: theme('colors.ro.muted');
+  }
+  .ro-input:focus,
+  .os-input:focus {
+    border-color: theme('colors.ro.pink');
+    box-shadow: 0 0 0 2px rgba(255, 79, 163, 0.30);
   }
 }
 
 @layer utilities {
   /* Skip link — visually hidden until focused */
   .skip-link {
-    @apply absolute -top-full left-4 z-50 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white focus:top-4;
+    @apply absolute -top-full left-4 z-50 rounded-md px-4 py-2 text-sm font-medium text-white focus:top-4;
+    background-color: theme('colors.accent.DEFAULT');
   }
 }

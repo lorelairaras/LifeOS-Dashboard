@@ -6,7 +6,7 @@ export default function ProjectsDashboardPage() {
   return (
     <div>
       <PageHeader
-        title="Projects"
+        title="Project Reliquary"
         description="Document your work. Public projects appear in your portfolio."
         action={{ label: 'Add Project', onClick: () => {} }}
       />

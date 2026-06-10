@@ -101,14 +101,14 @@ test.describe('Dashboard shell', () => {
   })
 
   test('TC-DB-001: dashboard home loads with stat cards', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Command Chamber' })).toBeVisible()
     const statCards = page.locator('[data-testid="stat-card"]')
     await expect(statCards).toHaveCount(4)
   })
 
   test('TC-DB-002: navigation has all required links', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
-    for (const label of ['Tasks', 'Prompts', 'Jobs', 'Budget', 'Projects']) {
+    for (const label of ['Ritual Tasks', 'Prompt Grimoire', 'Career Pipeline', 'Budget Pulse', 'Project Reliquary']) {
       await expect(nav.getByRole('link', { name: label })).toBeVisible()
     }
   })
@@ -117,12 +117,12 @@ test.describe('Dashboard shell', () => {
     await expect(page.locator('[data-testid="data-loss-notice"]')).toBeVisible()
   })
 
-  test('TC-DB-003: Tasks link navigates to correct route', async ({ page }) => {
+  test('TC-DB-003: Ritual Tasks link navigates to correct route', async ({ page }) => {
     // Use desktop nav
     const nav = page.getByRole('navigation', { name: 'Dashboard navigation' })
-    await nav.getByRole('link', { name: 'Tasks' }).click()
+    await nav.getByRole('link', { name: 'Ritual Tasks' }).click()
     await expect(page).toHaveURL('/dashboard/tasks')
-    await expect(page.getByRole('heading', { name: 'Tasks', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ritual Tasks', exact: true })).toBeVisible()
   })
 })
 
@@ -137,8 +137,8 @@ test.describe('Job Application Tracker', () => {
   })
 
   test('TC-JT-001: empty state with no applications', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Job Applications' })).toBeVisible()
-    await expect(page.getByText(/no applications tracked yet/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
+    await expect(page.getByText(/no roles in the pipeline/i)).toBeVisible()
     await expect(page.getByRole('button', { name: /add application/i }).first()).toBeVisible()
   })
 
@@ -197,7 +197,7 @@ test.describe('Job Application Tracker', () => {
 
   test('TC-JT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('heading', { name: 'Job Applications' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)
@@ -215,7 +215,7 @@ test.describe('Budget Tracker', () => {
   })
 
   test('TC-BT-001: empty state with no entries', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget Pulse', exact: true })).toBeVisible()
     await expect(page.getByText(/no budget entries yet/i)).toBeVisible()
     await expect(page.getByRole('button', { name: /add entry/i }).first()).toBeVisible()
   })
@@ -276,7 +276,7 @@ test.describe('Budget Tracker', () => {
 
   test('TC-BT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('heading', { name: 'Budget', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Budget Pulse', exact: true })).toBeVisible()
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)
