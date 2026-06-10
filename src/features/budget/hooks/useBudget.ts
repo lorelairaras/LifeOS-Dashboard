@@ -3,6 +3,7 @@ import type { BudgetEntry, EntryType } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { fromDb, toDb } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
+import { DEMO_BUDGET } from '@/data/mockData'
 
 export type BudgetInput = {
   title: string
@@ -44,6 +45,7 @@ export function useBudget() {
 
   useEffect(() => {
     if (!isSupabaseConfigured || !user) {
+      dispatch({ type: 'SET', payload: DEMO_BUDGET })
       setLoading(false)
       return
     }

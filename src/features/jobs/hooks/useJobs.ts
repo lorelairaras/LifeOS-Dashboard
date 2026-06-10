@@ -3,6 +3,7 @@ import type { JobApplication, ApplicationStatus, JobType } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { fromDb, toDb } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
+import { DEMO_JOBS } from '@/data/mockData'
 
 export type JobInput = {
   company: string
@@ -47,6 +48,7 @@ export function useJobs() {
 
   useEffect(() => {
     if (!isSupabaseConfigured || !user) {
+      dispatch({ type: 'SET', payload: DEMO_JOBS })
       setLoading(false)
       return
     }

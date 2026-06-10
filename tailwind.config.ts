@@ -8,26 +8,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Legacy tokens — portfolio still uses these
+        // Legacy tokens — remapped to ro.* for visual unification (Phase 23A)
+        // These aliases keep all portfolio components working without rewrites.
         surface: {
-          900: '#0f172a',
-          800: '#1e293b',
-          700: '#334155',
-          600: '#475569',
+          900: '#080509', // was #0f172a → now ro-void
+          800: '#141018', // was #1e293b → now ro-surface
+          700: '#1D1422', // was #334155 → now ro-card
+          600: '#241929', // was #475569 → elevated card
         },
-        // Accent updated to gothic pink — affects portfolio nav/buttons too
         accent: {
-          DEFAULT: '#FF4FA3',
+          DEFAULT: '#FF4FA3', // ro-pink — unchanged
           hover:   '#E83D92',
           light:   '#FFB3D6',
         },
-        success: '#22c55e',
-        warning: '#f59e0b',
-        danger:  '#ef4444',
+        success: '#7CE7AC', // was #22c55e → now ro-success
+        warning: '#F4B860', // was #f59e0b → now ro-gold
+        danger:  '#FF4D6D', // was #ef4444 → now ro-danger
         text: {
-          primary:   '#f8fafc',
-          secondary: '#94a3b8',
-          muted:     '#64748b',
+          primary:   '#FFF4FA', // was #f8fafc → now ro-pri
+          secondary: '#C8AFC0', // was #94a3b8 → now ro-sec
+          muted:     '#806979', // was #64748b → now ro-muted
         },
 
         // Phase 21 os.* tokens — kept for backward compat, unused after Phase 22

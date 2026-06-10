@@ -3,6 +3,7 @@ import type { Prompt, PromptCategory } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { fromDb, toDb } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
+import { DEMO_PROMPTS } from '@/data/mockData'
 
 export type PromptInput = {
   title: string
@@ -43,6 +44,7 @@ export function usePrompts() {
 
   useEffect(() => {
     if (!isSupabaseConfigured || !user) {
+      dispatch({ type: 'SET', payload: DEMO_PROMPTS })
       setLoading(false)
       return
     }

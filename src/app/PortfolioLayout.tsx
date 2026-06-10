@@ -1,18 +1,51 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, User, Layers, FolderKanban, FileText, Mail, BookOpen, Home } from 'lucide-react'
+import { buttonBaseClasses, buttonVariantClasses, buttonSizeClasses } from '@/components/button.utils'
 
-const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#case-studies', label: 'Case Studies' },
-  { href: '#resume', label: 'Resume' },
-  { href: '#contact', label: 'Contact' },
+const sidebarAnchors = [
+  { id: 'hero',        label: 'Home',         Icon: Home },
+  { id: 'about',       label: 'About',        Icon: User },
+  { id: 'skills',      label: 'Skills',       Icon: Layers },
+  { id: 'projects',    label: 'Projects',     Icon: FolderKanban },
+  { id: 'case-studies',label: 'Case Studies', Icon: BookOpen },
+  { id: 'resume',      label: 'Resume',       Icon: FileText },
+  { id: 'contact',     label: 'Contact',      Icon: Mail },
 ]
+
+const mobileNavLinks = sidebarAnchors.map((a) => ({ href: `#${a.id}`, label: a.label }))
+
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0])
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    observerRef.current?.disconnect()
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id)
+            break
+          }
+        }
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
+    )
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observerRef.current!.observe(el)
+    })
+    return () => observerRef.current?.disconnect()
+  }, [ids])
+
+  return active
+}
 
 export default function PortfolioLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const sectionIds = sidebarAnchors.map((a) => a.id)
+  const activeSection = useActiveSection(sectionIds)
 
   return (
     <>
@@ -21,68 +54,64 @@ export default function PortfolioLayout() {
         Skip to main content
       </a>
 
-      {/* Navigation */}
-      <header className="fixed inset-x-0 top-0 z-40 bg-surface-900/90 backdrop-blur-sm border-b border-surface-700/50">
+      {/* Top bar — OS command bar style */}
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-ro-pink/10 bg-ro-void/90 backdrop-blur-md">
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+          className="flex items-center justify-between px-4 py-3 sm:px-6"
           aria-label="Main navigation"
         >
-          {/* Logo */}
+          {/* Logo / system name */}
           <a
             href="/"
-            className="text-xl font-bold text-text-primary hover:text-accent transition-colors"
+            className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+            aria-label="LifeOS — go to home"
           >
-            Rory
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ro-pink/15 text-ro-pink">
+              <span className="font-mono text-[10px] font-bold tracking-tighter">LO</span>
+            </div>
+            <span className="font-display text-base font-semibold text-ro-pri">Rory</span>
+            <span className="hidden text-xs text-ro-muted sm:block">/ LifeOS</span>
           </a>
 
-          {/* Desktop nav links */}
-          <ul className="hidden items-center gap-6 md:flex" role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Dashboard CTA */}
-          <a
-            href="/dashboard"
-            className="hidden rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover md:inline-flex"
-          >
-            Dashboard
-          </a>
+          {/* Desktop — Enter Dashboard CTA */}
+          <div className="hidden items-center gap-4 md:flex">
+            <span className="font-mono text-[10px] text-ro-pink/40 tracking-widest uppercase">
+              System Online
+            </span>
+            <a
+              href="/dashboard"
+              className={[buttonBaseClasses, buttonVariantClasses.primary, buttonSizeClasses.sm].join(' ')}
+            >
+              Enter Dashboard →
+            </a>
+          </div>
 
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="rounded-md p-2 text-text-secondary hover:text-text-primary md:hidden"
+            className="rounded-md p-2 text-ro-sec transition-colors hover:text-ro-pri md:hidden"
             aria-label="Open navigation menu"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+            {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
         </nav>
 
-        {/* Mobile menu drawer */}
+        {/* Mobile menu */}
         {menuOpen && (
           <div
             id="mobile-menu"
-            className="border-t border-surface-700/50 bg-surface-900 md:hidden"
-            aria-label="Mobile menu"
+            className="border-t border-ro-pink/10 bg-ro-dark md:hidden"
+            aria-label="Mobile navigation"
           >
             <ul className="flex flex-col gap-1 px-4 py-4" role="list">
-              {navLinks.map((link) => (
+              {mobileNavLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface-800 hover:text-text-primary"
+                    className="block rounded-md px-3 py-2 text-sm font-medium text-ro-sec transition-colors hover:bg-ro-card hover:text-ro-pri"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
@@ -92,9 +121,9 @@ export default function PortfolioLayout() {
               <li className="pt-2">
                 <a
                   href="/dashboard"
-                  className="block rounded-lg bg-accent px-3 py-2 text-center text-sm font-medium text-white hover:bg-accent-hover"
+                  className="block rounded-lg bg-ro-pink px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-ro-deep"
                 >
-                  Dashboard
+                  Enter Dashboard →
                 </a>
               </li>
             </ul>
@@ -102,10 +131,53 @@ export default function PortfolioLayout() {
         )}
       </header>
 
-      {/* Main content */}
-      <main id="main-content" tabIndex={-1}>
-        <Outlet />
-      </main>
+      {/* Layout shell — sidebar strip + main content */}
+      <div className="flex min-h-screen pt-12">
+        {/* Decorative sidebar strip — scroll anchor nav */}
+        <aside
+          className="fixed left-0 top-12 bottom-0 z-30 hidden w-14 flex-col items-center gap-1 border-r border-ro-pink/10 bg-ro-void/95 py-6 md:flex"
+          aria-label="Section navigation"
+        >
+          {sidebarAnchors.map(({ id, label, Icon }) => {
+            const isActive = activeSection === id
+            return (
+              <a
+                key={id}
+                href={`#${id}`}
+                aria-label={`Jump to ${label} section`}
+                title={label}
+                className={`group relative flex h-10 w-10 flex-col items-center justify-center rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? 'bg-ro-pink/15 text-ro-pink shadow-[0_0_12px_rgba(255,79,163,0.2)]'
+                    : 'text-ro-muted hover:bg-ro-card hover:text-ro-sec'
+                }`}
+              >
+                <Icon size={14} aria-hidden="true" />
+                {/* Tooltip */}
+                <span className="pointer-events-none absolute left-full ml-2 whitespace-nowrap rounded-md border border-ro-pink/20 bg-ro-card px-2 py-1 font-mono text-[10px] text-ro-sec opacity-0 transition-opacity group-hover:opacity-100">
+                  {label}
+                </span>
+                {/* Active indicator dot */}
+                {isActive && (
+                  <span
+                    className="absolute right-1.5 top-1.5 h-1 w-1 rounded-full bg-ro-pink"
+                    aria-hidden="true"
+                  />
+                )}
+              </a>
+            )
+          })}
+        </aside>
+
+        {/* Main scrollable content */}
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="min-w-0 flex-1 md:ml-14"
+        >
+          <Outlet />
+        </main>
+      </div>
     </>
   )
 }
