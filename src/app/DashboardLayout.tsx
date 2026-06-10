@@ -3,7 +3,7 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard,
   CheckSquare,
-  BookOpen,
+  Sparkles,
   Briefcase,
   Wallet,
   FolderKanban,
@@ -16,17 +16,72 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { isSupabaseConfigured } from '@/lib/supabase'
 
-const navItems = [
-  { to: '/dashboard', label: 'Home', icon: LayoutDashboard, end: true },
-  { to: '/dashboard/tasks', label: 'Tasks', icon: CheckSquare, end: false },
-  { to: '/dashboard/prompts', label: 'Prompts', icon: BookOpen, end: false },
-  { to: '/dashboard/jobs', label: 'Jobs', icon: Briefcase, end: false },
-  { to: '/dashboard/budget', label: 'Budget', icon: Wallet, end: false },
-  { to: '/dashboard/projects', label: 'Projects', icon: FolderKanban, end: false },
-]
+type NavItemConfig = {
+  to: string
+  label: string
+  icon: React.ElementType
+  end: boolean
+  activeClass: string
+}
 
-const bottomItems = [
-  { to: '/dashboard/settings', label: 'Settings', icon: Settings, end: false },
+const navGroups: { label: string; items: NavItemConfig[] }[] = [
+  {
+    label: 'WORKSPACE',
+    items: [
+      {
+        to: '/dashboard',
+        label: 'Home',
+        icon: LayoutDashboard,
+        end: true,
+        activeClass: 'bg-os-cyan/10 text-os-cyan',
+      },
+    ],
+  },
+  {
+    label: 'PRODUCTIVITY',
+    items: [
+      {
+        to: '/dashboard/tasks',
+        label: 'Tasks',
+        icon: CheckSquare,
+        end: false,
+        activeClass: 'bg-os-rose/10 text-os-rose',
+      },
+      {
+        to: '/dashboard/prompts',
+        label: 'Prompts',
+        icon: Sparkles,
+        end: false,
+        activeClass: 'bg-os-violet/10 text-os-violet',
+      },
+      {
+        to: '/dashboard/projects',
+        label: 'Projects',
+        icon: FolderKanban,
+        end: false,
+        activeClass: 'bg-os-lime/10 text-os-lime',
+      },
+    ],
+  },
+  {
+    label: 'LIFE OS',
+    items: [
+      {
+        to: '/dashboard/budget',
+        label: 'Budget',
+        icon: Wallet,
+        end: false,
+        activeClass: 'bg-os-amber/10 text-os-amber',
+      },
+      {
+        to: '/dashboard/jobs',
+        label: 'Jobs',
+        icon: Briefcase,
+        end: false,
+        activeClass: 'bg-os-cyan/10 text-os-cyan',
+      },
+    ],
+  },
 ]
 
 function NavItem({
@@ -34,14 +89,9 @@ function NavItem({
   label,
   icon: Icon,
   end,
+  activeClass,
   onClick,
-}: {
-  to: string
-  label: string
-  icon: React.ElementType
-  end: boolean
-  onClick?: () => void
-}) {
+}: NavItemConfig & { onClick?: () => void }) {
   return (
     <NavLink
       to={to}
@@ -50,12 +100,12 @@ function NavItem({
       className={({ isActive }) =>
         `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
           isActive
-            ? 'bg-accent/10 text-accent'
-            : 'text-text-secondary hover:bg-surface-700 hover:text-text-primary'
+            ? activeClass
+            : 'text-os-sec hover:bg-os-card hover:text-os-pri'
         }`
       }
     >
-      <Icon size={18} aria-hidden="true" />
+      <Icon size={15} aria-hidden="true" />
       {label}
     </NavLink>
   )
@@ -65,15 +115,14 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
-  // Close mobile sidebar on route change — BUG-014 fix: was useState, now useEffect
   useEffect(() => {
     setSidebarOpen(false)
   }, [location.pathname])
 
   return (
-    <div className="flex min-h-screen bg-surface-900">
+    <div className="flex min-h-screen bg-os-bg">
       {/* Desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-surface-700/50 bg-surface-800 md:flex">
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-os-border bg-os-surface md:flex">
         <SidebarContent />
       </aside>
 
@@ -81,20 +130,20 @@ export default function DashboardLayout() {
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-black/70"
             aria-hidden="true"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="relative flex h-full w-60 flex-col bg-surface-800 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-surface-700/50 px-4 py-4">
-              <span className="font-semibold text-text-primary">LifeOS</span>
+          <aside className="relative flex h-full w-60 flex-col border-r border-os-border bg-os-surface shadow-2xl">
+            <div className="flex items-center justify-between border-b border-os-border px-4 py-4">
+              <span className="font-bold text-os-pri tracking-tight">LifeOS</span>
               <button
                 type="button"
                 aria-label="Close navigation menu"
                 onClick={() => setSidebarOpen(false)}
-                className="rounded-md p-1 text-text-secondary hover:text-text-primary"
+                className="rounded-md p-1 text-os-sec transition-colors hover:text-os-pri"
               >
-                <X size={20} aria-hidden="true" />
+                <X size={18} aria-hidden="true" />
               </button>
             </div>
             <SidebarContent onNavClick={() => setSidebarOpen(false)} />
@@ -105,28 +154,28 @@ export default function DashboardLayout() {
       {/* Main content */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile top bar */}
-        <header className="flex items-center gap-3 border-b border-surface-700/50 bg-surface-800 px-4 py-3 md:hidden">
+        <header className="flex items-center gap-3 border-b border-os-border bg-os-surface px-4 py-3 md:hidden">
           <button
             type="button"
             aria-label="Open navigation menu"
             aria-expanded={sidebarOpen}
             onClick={() => setSidebarOpen(true)}
-            className="rounded-md p-1 text-text-secondary hover:text-text-primary"
+            className="rounded-md p-1 text-os-sec transition-colors hover:text-os-pri"
           >
-            <Menu size={22} aria-hidden="true" />
+            <Menu size={20} aria-hidden="true" />
           </button>
-          <span className="font-semibold text-text-primary">LifeOS</span>
+          <span className="font-bold text-os-pri tracking-tight">LifeOS</span>
         </header>
 
         {/* Data-loss notice */}
         <DataLossNotice key={location.pathname} />
 
-        {/* Page content — Suspense required for lazy-loaded dashboard pages */}
+        {/* Page content */}
         <main id="main-content" tabIndex={-1} className="flex-1 p-4 sm:p-6 lg:p-8">
           <Suspense
             fallback={
               <div className="flex items-center justify-center py-20">
-                <span className="text-sm text-text-muted">Loading...</span>
+                <span className="text-sm text-os-sec">Loading…</span>
               </div>
             }
           >
@@ -142,35 +191,73 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
   const { signOut, user } = useAuth()
 
   return (
-    <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-      <div className="mb-4 border-b border-surface-700/50 px-3 pb-3">
-        <span className="text-lg font-bold text-text-primary">LifeOS</span>
-        <p className="mt-0.5 text-xs text-text-muted">Personal Dashboard</p>
+    <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+      {/* Logo */}
+      <div className="mb-3 px-3 pt-2">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-os-cyan/15 text-os-cyan">
+            <span className="font-mono text-xs font-bold">LO</span>
+          </div>
+          <span className="font-bold tracking-tight text-os-pri">LifeOS</span>
+        </div>
       </div>
 
+      {/* Profile card */}
+      <div className="mb-4 rounded-xl border border-os-border bg-os-card px-3 py-2.5 flex items-center gap-3">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-os-cyan/20 text-os-cyan">
+          <span className="font-mono text-xs font-semibold">RR</span>
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-os-pri">Rory</p>
+          <p className="truncate text-xs text-os-sec">Life OS · Dashboard</p>
+        </div>
+      </div>
+
+      {/* Grouped nav */}
       <nav aria-label="Dashboard navigation">
-        <ul className="flex flex-col gap-1" role="list">
-          {navItems.map((item) => (
-            <li key={item.to}>
-              <NavItem {...item} onClick={onNavClick} />
-            </li>
+        <div className="flex flex-col gap-4">
+          {navGroups.map((group) => (
+            <div key={group.label}>
+              <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-widest text-os-dim">
+                {group.label}
+              </p>
+              <ul className="flex flex-col gap-0.5" role="list">
+                {group.items.map((item) => (
+                  <li key={item.to}>
+                    <NavItem {...item} onClick={onNavClick} />
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </nav>
 
-      <div className="mt-auto border-t border-surface-700/50 pt-4">
-        <ul className="flex flex-col gap-1" role="list">
-          {bottomItems.map((item) => (
-            <li key={item.to}>
-              <NavItem {...item} onClick={onNavClick} />
-            </li>
-          ))}
+      {/* Bottom items */}
+      <div className="mt-auto border-t border-os-border pt-3">
+        <ul className="flex flex-col gap-0.5" role="list">
+          <li>
+            <NavLink
+              to="/dashboard/settings"
+              onClick={onNavClick}
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-os-card text-os-pri'
+                    : 'text-os-sec hover:bg-os-card hover:text-os-pri'
+                }`
+              }
+            >
+              <Settings size={15} aria-hidden="true" />
+              Settings
+            </NavLink>
+          </li>
           <li>
             <a
               href="/"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-700 hover:text-text-primary"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-os-sec transition-colors hover:bg-os-card hover:text-os-pri"
             >
-              <ExternalLink size={18} aria-hidden="true" />
+              <ExternalLink size={15} aria-hidden="true" />
               View Portfolio
             </a>
           </li>
@@ -179,9 +266,9 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               <button
                 type="button"
                 onClick={() => signOut()}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-700 hover:text-text-primary"
+                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-os-sec transition-colors hover:bg-os-card hover:text-os-rose"
               >
-                <LogOut size={18} aria-hidden="true" />
+                <LogOut size={15} aria-hidden="true" />
                 Sign out
               </button>
             </li>
@@ -198,19 +285,19 @@ function DataLossNotice() {
   return (
     <div
       data-testid="data-loss-notice"
-      className="flex items-center justify-between gap-3 border-b border-warning/20 bg-warning/10 px-4 py-2 sm:px-6"
+      className="flex items-center justify-between gap-3 border-b border-os-amber/20 bg-os-amber/5 px-4 py-2 sm:px-6"
       role="status"
     >
-      <p className="text-xs text-warning">
+      <p className="text-xs text-os-amber">
         <strong>Demo mode:</strong> Data is not saved between sessions. Refresh = data reset.
       </p>
       <button
         type="button"
         aria-label="Dismiss demo mode notice"
         onClick={() => setDismissed(true)}
-        className="shrink-0 text-warning/70 transition-colors hover:text-warning"
+        className="shrink-0 text-os-amber/60 transition-colors hover:text-os-amber"
       >
-        <X size={14} aria-hidden="true" />
+        <X size={13} aria-hidden="true" />
       </button>
     </div>
   )
