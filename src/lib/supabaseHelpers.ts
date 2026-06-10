@@ -26,3 +26,15 @@ export function toDb(data: Record<string, any>): Record<string, unknown> {
   }
   return result
 }
+
+// For UPDATE paths where the form submits every field: undefined means
+// "cleared", which must reach the DB as NULL. Plain toDb() would drop
+// the key and the stale value would silently survive.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function toDbUpdate(data: Record<string, any>): Record<string, unknown> {
+  const result: Record<string, unknown> = {}
+  for (const key of Object.keys(data)) {
+    result[camelToSnake(key)] = data[key] === undefined ? null : data[key]
+  }
+  return result
+}

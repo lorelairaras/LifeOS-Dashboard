@@ -10,13 +10,22 @@ import type {
   JobApplication,
   BudgetEntry,
   Project,
+  Habit,
+  HabitCheck,
+  Note,
 } from '@/types'
 
 const now = new Date().toISOString()
+// Local calendar date (NOT UTC) — must match the habit page's date keys,
+// which also use local dates. toISOString() would shift the day for
+// users ahead of UTC.
 const d = (daysAgo: number) => {
   const date = new Date()
   date.setDate(date.getDate() - daysAgo)
-  return date.toISOString().slice(0, 10)
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const dd = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${dd}`
 }
 
 // ── Tasks ────────────────────────────────────────────────────
@@ -266,8 +275,6 @@ export const DEMO_PROJECTS: Project[] = [
     problemSolved: 'Needed a unified command center for tasks, prompts, career, and finances — nothing existed that matched how I think.',
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Vite'],
     keyFeatures: 'Task tracker, Prompt Grimoire, Career Pipeline, Budget Pulse, Project Reliquary, Rose Obsidian design system',
-    githubUrl: '#',
-    liveDemoUrl: '#',
     lessonsLearned: 'Design system tokens first saves hours of rework later. Naming things well is product work.',
     createdAt: d(90),
     updatedAt: d(0),
@@ -294,5 +301,77 @@ export const DEMO_PROJECTS: Project[] = [
     keyFeatures: 'Requirements gap analysis, RACI matrix generator, meeting note templates',
     createdAt: d(14),
     updatedAt: d(14),
+  },
+]
+
+// ── Habits ────────────────────────────────────────────────────
+export const DEMO_HABITS: Habit[] = [
+  { id: 'demo-habit-1', name: 'Morning pages',     emoji: '📓', createdAt: d(30), updatedAt: d(30) },
+  { id: 'demo-habit-2', name: 'Exercise',          emoji: '🏃', createdAt: d(30), updatedAt: d(30) },
+  { id: 'demo-habit-3', name: 'Read 20 minutes',   emoji: '📖', createdAt: d(21), updatedAt: d(21) },
+  { id: 'demo-habit-4', name: 'No social media before noon', emoji: '🌙', createdAt: d(14), updatedAt: d(14) },
+]
+
+// Checks for the last 7 days — staggered so each habit shows a realistic streak
+export const DEMO_HABIT_CHECKS: HabitCheck[] = [
+  // Morning pages — 6/7 days
+  ...[0, 1, 2, 3, 5, 6].map((days, i) => ({
+    id: `demo-check-1-${i}`, habitId: 'demo-habit-1', date: d(days), createdAt: d(days),
+  })),
+  // Exercise — 4/7 days
+  ...[0, 2, 4, 6].map((days, i) => ({
+    id: `demo-check-2-${i}`, habitId: 'demo-habit-2', date: d(days), createdAt: d(days),
+  })),
+  // Read — 5/7 days
+  ...[0, 1, 3, 4, 5].map((days, i) => ({
+    id: `demo-check-3-${i}`, habitId: 'demo-habit-3', date: d(days), createdAt: d(days),
+  })),
+  // No social media — 3/7 days
+  ...[1, 2, 5].map((days, i) => ({
+    id: `demo-check-4-${i}`, habitId: 'demo-habit-4', date: d(days), createdAt: d(days),
+  })),
+]
+
+// ── Notes ─────────────────────────────────────────────────────
+export const DEMO_NOTES: Note[] = [
+  {
+    id: 'demo-note-1',
+    title: 'Product thinking frameworks',
+    content: 'Jobs-to-be-Done: people hire products to do a job. Opportunity Solution Trees: outcome → opportunities → solutions → experiments. North Star framework: one metric that matters, with input metrics underneath.',
+    tags: ['product', 'frameworks'],
+    createdAt: d(25),
+    updatedAt: d(3),
+  },
+  {
+    id: 'demo-note-2',
+    title: 'React patterns I always forget',
+    content: 'useCallback only matters when the function is a dependency or passed to memoized children. Key prop resets component state. Lazy initial state: useState(() => expensive()).',
+    tags: ['frontend', 'react'],
+    createdAt: d(20),
+    updatedAt: d(8),
+  },
+  {
+    id: 'demo-note-3',
+    title: 'Interview prep — BA questions',
+    content: 'How do you handle conflicting stakeholder requirements? Walk through a gap analysis you ran. How do you validate requirements before development starts?',
+    tags: ['career', 'interviews'],
+    createdAt: d(15),
+    updatedAt: d(15),
+  },
+  {
+    id: 'demo-note-4',
+    title: 'Books to read this year',
+    content: 'Continuous Discovery Habits — Teresa Torres. Shape Up — Ryan Singer. The Mom Test — Rob Fitzpatrick. Inspired — Marty Cagan.',
+    tags: ['personal', 'reading'],
+    createdAt: d(10),
+    updatedAt: d(10),
+  },
+  {
+    id: 'demo-note-5',
+    title: 'System design notes',
+    content: 'Start with requirements and scale estimates. Load balancer → app servers → cache → DB. Cache invalidation is the hard part. Prefer boring technology.',
+    tags: ['technical', 'architecture'],
+    createdAt: d(5),
+    updatedAt: d(1),
   },
 ]
