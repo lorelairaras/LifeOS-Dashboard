@@ -1,18 +1,19 @@
-type AccentKey = 'cyan' | 'rose' | 'amber' | 'lime' | 'violet'
+type AccentKey = 'pink' | 'bloom' | 'oracle' | 'gold' | 'success' | 'danger'
 
 const accentStyles: Record<AccentKey, { border: string; bg: string; text: string }> = {
-  cyan:   { border: 'border-l-os-cyan',   bg: 'bg-os-cyan/10',   text: 'text-os-cyan' },
-  rose:   { border: 'border-l-os-rose',   bg: 'bg-os-rose/10',   text: 'text-os-rose' },
-  amber:  { border: 'border-l-os-amber',  bg: 'bg-os-amber/10',  text: 'text-os-amber' },
-  lime:   { border: 'border-l-os-lime',   bg: 'bg-os-lime/10',   text: 'text-os-lime' },
-  violet: { border: 'border-l-os-violet', bg: 'bg-os-violet/10', text: 'text-os-violet' },
+  pink:    { border: 'border-l-ro-pink',    bg: 'bg-ro-pink/10',    text: 'text-ro-pink' },
+  bloom:   { border: 'border-l-ro-bloom',   bg: 'bg-ro-bloom/10',   text: 'text-ro-bloom' },
+  oracle:  { border: 'border-l-ro-oracle',  bg: 'bg-ro-oracle/10',  text: 'text-ro-oracle' },
+  gold:    { border: 'border-l-ro-gold',    bg: 'bg-ro-gold/10',    text: 'text-ro-gold' },
+  success: { border: 'border-l-ro-success', bg: 'bg-ro-success/10', text: 'text-ro-success' },
+  danger:  { border: 'border-l-ro-danger',  bg: 'bg-ro-danger/10',  text: 'text-ro-danger' },
 }
 
 interface StatCardProps {
   label: string
   value: string | number
   icon: React.ElementType
-  colour?: string      // legacy prop — kept for backward compat
+  colour?: string     // legacy prop — kept for backward compat
   accent?: AccentKey
 }
 
@@ -30,21 +31,21 @@ export default function StatCard({
       data-testid="stat-card"
       aria-label={`${label}: ${value}`}
       className={[
-        'os-card flex items-center gap-4 p-5 border-l-2 transition-colors hover:border-os-bright',
-        a ? a.border : 'border-l-os-border',
+        'ro-card flex items-center gap-4 p-5 border-l-2 transition-colors hover:border-ro-pink/30',
+        a ? a.border : 'border-l-ro-pink/20',
       ].join(' ')}
     >
       <div
         className={[
           'rounded-lg p-2.5 shrink-0',
-          a ? `${a.bg} ${a.text}` : `bg-os-surface ${colour ?? 'text-os-sec'}`,
+          a ? `${a.bg} ${a.text}` : `bg-ro-surface ${colour ?? 'text-ro-sec'}`,
         ].join(' ')}
       >
         <Icon size={18} aria-hidden="true" />
       </div>
       <div className="min-w-0">
-        <p className="text-2xl font-bold text-os-pri leading-none">{value}</p>
-        <p className="mt-1 text-xs text-os-sec leading-snug">{label}</p>
+        <p className="font-mono text-2xl font-bold text-ro-pri leading-none">{value}</p>
+        <p className="mt-1 text-xs text-ro-sec leading-snug">{label}</p>
       </div>
     </article>
   )

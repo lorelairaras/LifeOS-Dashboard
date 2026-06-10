@@ -25,16 +25,16 @@ export default function HeroSection() {
         {/* Name */}
         <h1
           id="hero-heading"
-          className="text-5xl font-bold tracking-tight text-text-primary sm:text-6xl lg:text-7xl"
+          className="font-display text-5xl font-bold tracking-tight text-text-primary sm:text-6xl lg:text-7xl"
         >
           Hi, I&rsquo;m{' '}
-          <span className="text-accent">Rory</span>
+          <span className="text-accent italic">Rory</span>
         </h1>
 
         {/* Tagline */}
         <p className="mx-auto mt-6 max-w-2xl text-lg text-text-secondary sm:text-xl">
-          I build well-documented, tested web applications and translate complex requirements into
-          clean, maintainable code.
+          I design systems, build tools, and ship things that actually work — for myself and for
+          users. This is my command center.
         </p>
 
         {/* CTA Buttons — use <a> directly with shared button classes */}

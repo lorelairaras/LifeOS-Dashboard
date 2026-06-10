@@ -26,59 +26,59 @@ type NavItemConfig = {
 
 const navGroups: { label: string; items: NavItemConfig[] }[] = [
   {
-    label: 'WORKSPACE',
+    label: 'COMMAND',
     items: [
       {
         to: '/dashboard',
-        label: 'Home',
+        label: 'Command Chamber',
         icon: LayoutDashboard,
         end: true,
-        activeClass: 'bg-os-cyan/10 text-os-cyan',
+        activeClass: 'bg-ro-pink/10 text-ro-pink',
       },
     ],
   },
   {
-    label: 'PRODUCTIVITY',
+    label: 'PRACTICE',
     items: [
       {
         to: '/dashboard/tasks',
-        label: 'Tasks',
+        label: 'Ritual Tasks',
         icon: CheckSquare,
         end: false,
-        activeClass: 'bg-os-rose/10 text-os-rose',
+        activeClass: 'bg-ro-pink/10 text-ro-pink',
       },
       {
         to: '/dashboard/prompts',
-        label: 'Prompts',
+        label: 'Prompt Grimoire',
         icon: Sparkles,
         end: false,
-        activeClass: 'bg-os-violet/10 text-os-violet',
+        activeClass: 'bg-ro-oracle/10 text-ro-oracle',
       },
       {
         to: '/dashboard/projects',
-        label: 'Projects',
+        label: 'Project Reliquary',
         icon: FolderKanban,
         end: false,
-        activeClass: 'bg-os-lime/10 text-os-lime',
+        activeClass: 'bg-ro-success/10 text-ro-success',
       },
     ],
   },
   {
-    label: 'LIFE OS',
+    label: 'LIFE SYSTEMS',
     items: [
       {
         to: '/dashboard/budget',
-        label: 'Budget',
+        label: 'Budget Pulse',
         icon: Wallet,
         end: false,
-        activeClass: 'bg-os-amber/10 text-os-amber',
+        activeClass: 'bg-ro-gold/10 text-ro-gold',
       },
       {
         to: '/dashboard/jobs',
-        label: 'Jobs',
+        label: 'Career Pipeline',
         icon: Briefcase,
         end: false,
-        activeClass: 'bg-os-cyan/10 text-os-cyan',
+        activeClass: 'bg-ro-bloom/10 text-ro-bloom',
       },
     ],
   },
@@ -101,11 +101,11 @@ function NavItem({
         `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
           isActive
             ? activeClass
-            : 'text-os-sec hover:bg-os-card hover:text-os-pri'
+            : 'text-ro-sec hover:bg-ro-card hover:text-ro-pri'
         }`
       }
     >
-      <Icon size={15} aria-hidden="true" />
+      <Icon size={14} aria-hidden="true" />
       {label}
     </NavLink>
   )
@@ -120,9 +120,9 @@ export default function DashboardLayout() {
   }, [location.pathname])
 
   return (
-    <div className="flex min-h-screen bg-os-bg">
+    <div className="flex min-h-screen bg-ro-void">
       {/* Desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-os-border bg-os-surface md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-ro-pink/10 bg-ro-surface md:flex">
         <SidebarContent />
       </aside>
 
@@ -130,20 +130,20 @@ export default function DashboardLayout() {
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div
-            className="absolute inset-0 bg-black/70"
+            className="absolute inset-0 bg-ro-void/80 backdrop-blur-sm"
             aria-hidden="true"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="relative flex h-full w-60 flex-col border-r border-os-border bg-os-surface shadow-2xl">
-            <div className="flex items-center justify-between border-b border-os-border px-4 py-4">
-              <span className="font-bold text-os-pri tracking-tight">LifeOS</span>
+          <aside className="relative flex h-full w-64 flex-col border-r border-ro-pink/10 bg-ro-surface shadow-2xl">
+            <div className="flex items-center justify-between border-b border-ro-pink/10 px-4 py-4">
+              <span className="font-display text-base font-semibold text-ro-pri">LifeOS</span>
               <button
                 type="button"
                 aria-label="Close navigation menu"
                 onClick={() => setSidebarOpen(false)}
-                className="rounded-md p-1 text-os-sec transition-colors hover:text-os-pri"
+                className="rounded-md p-1 text-ro-sec transition-colors hover:text-ro-pri"
               >
-                <X size={18} aria-hidden="true" />
+                <X size={17} aria-hidden="true" />
               </button>
             </div>
             <SidebarContent onNavClick={() => setSidebarOpen(false)} />
@@ -154,17 +154,17 @@ export default function DashboardLayout() {
       {/* Main content */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile top bar */}
-        <header className="flex items-center gap-3 border-b border-os-border bg-os-surface px-4 py-3 md:hidden">
+        <header className="flex items-center gap-3 border-b border-ro-pink/10 bg-ro-surface px-4 py-3 md:hidden">
           <button
             type="button"
             aria-label="Open navigation menu"
             aria-expanded={sidebarOpen}
             onClick={() => setSidebarOpen(true)}
-            className="rounded-md p-1 text-os-sec transition-colors hover:text-os-pri"
+            className="rounded-md p-1 text-ro-sec transition-colors hover:text-ro-pri"
           >
             <Menu size={20} aria-hidden="true" />
           </button>
-          <span className="font-bold text-os-pri tracking-tight">LifeOS</span>
+          <span className="font-display font-semibold text-ro-pri">LifeOS</span>
         </header>
 
         {/* Data-loss notice */}
@@ -175,7 +175,7 @@ export default function DashboardLayout() {
           <Suspense
             fallback={
               <div className="flex items-center justify-center py-20">
-                <span className="text-sm text-os-sec">Loading…</span>
+                <span className="text-sm text-ro-sec">Loading…</span>
               </div>
             }
           >
@@ -191,34 +191,36 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
   const { signOut, user } = useAuth()
 
   return (
-    <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
-      {/* Logo */}
-      <div className="mb-3 px-3 pt-2">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-os-cyan/15 text-os-cyan">
-            <span className="font-mono text-xs font-bold">LO</span>
+    <div className="flex flex-1 flex-col overflow-y-auto p-3">
+      {/* Brand */}
+      <div className="mb-4 px-3 pt-2">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ro-pink/15 text-ro-pink">
+            <span className="font-mono text-[10px] font-bold tracking-tighter">LO</span>
           </div>
-          <span className="font-bold tracking-tight text-os-pri">LifeOS</span>
+          <span className="font-display text-base font-semibold text-ro-pri">LifeOS</span>
         </div>
       </div>
 
       {/* Profile card */}
-      <div className="mb-4 rounded-xl border border-os-border bg-os-card px-3 py-2.5 flex items-center gap-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-os-cyan/20 text-os-cyan">
+      <div className="mb-5 rounded-xl border border-ro-pink/15 bg-ro-card px-3 py-3 flex items-center gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ro-pink/15 text-ro-pink ring-1 ring-ro-pink/30">
           <span className="font-mono text-xs font-semibold">RR</span>
         </div>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-os-pri">Rory</p>
-          <p className="truncate text-xs text-os-sec">Life OS · Dashboard</p>
+          <p className="font-display truncate text-sm font-semibold text-ro-pri">Rory</p>
+          <p className="truncate text-[11px] text-ro-sec">
+            <span className="text-ro-pink/70">✦</span> Rose Obsidian LifeOS
+          </p>
         </div>
       </div>
 
-      {/* Grouped nav */}
+      {/* Grouped navigation */}
       <nav aria-label="Dashboard navigation">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           {navGroups.map((group) => (
             <div key={group.label}>
-              <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-widest text-os-dim">
+              <p className="mb-1.5 px-3 text-[9px] font-bold uppercase tracking-[0.12em] text-ro-pink/40">
                 {group.label}
               </p>
               <ul className="flex flex-col gap-0.5" role="list">
@@ -234,46 +236,48 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
       </nav>
 
       {/* Bottom items */}
-      <div className="mt-auto border-t border-os-border pt-3">
-        <ul className="flex flex-col gap-0.5" role="list">
-          <li>
-            <NavLink
-              to="/dashboard/settings"
-              onClick={onNavClick}
-              className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-os-card text-os-pri'
-                    : 'text-os-sec hover:bg-os-card hover:text-os-pri'
-                }`
-              }
-            >
-              <Settings size={15} aria-hidden="true" />
-              Settings
-            </NavLink>
-          </li>
-          <li>
-            <a
-              href="/"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-os-sec transition-colors hover:bg-os-card hover:text-os-pri"
-            >
-              <ExternalLink size={15} aria-hidden="true" />
-              View Portfolio
-            </a>
-          </li>
-          {isSupabaseConfigured && user && (
+      <div className="mt-auto pt-4">
+        <div className="border-t border-ro-pink/10 pt-3">
+          <ul className="flex flex-col gap-0.5" role="list">
             <li>
-              <button
-                type="button"
-                onClick={() => signOut()}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-os-sec transition-colors hover:bg-os-card hover:text-os-rose"
+              <NavLink
+                to="/dashboard/settings"
+                onClick={onNavClick}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-ro-card text-ro-pri'
+                      : 'text-ro-sec hover:bg-ro-card hover:text-ro-pri'
+                  }`
+                }
               >
-                <LogOut size={15} aria-hidden="true" />
-                Sign out
-              </button>
+                <Settings size={14} aria-hidden="true" />
+                Settings
+              </NavLink>
             </li>
-          )}
-        </ul>
+            <li>
+              <a
+                href="/"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-ro-sec transition-colors hover:bg-ro-card hover:text-ro-pri"
+              >
+                <ExternalLink size={14} aria-hidden="true" />
+                View Portfolio
+              </a>
+            </li>
+            {isSupabaseConfigured && user && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => signOut()}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-ro-sec transition-colors hover:bg-ro-card hover:text-ro-danger"
+                >
+                  <LogOut size={14} aria-hidden="true" />
+                  Sign out
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   )
@@ -285,19 +289,19 @@ function DataLossNotice() {
   return (
     <div
       data-testid="data-loss-notice"
-      className="flex items-center justify-between gap-3 border-b border-os-amber/20 bg-os-amber/5 px-4 py-2 sm:px-6"
+      className="flex items-center justify-between gap-3 border-b border-ro-gold/20 bg-ro-gold/5 px-4 py-2 sm:px-6"
       role="status"
     >
-      <p className="text-xs text-os-amber">
+      <p className="text-xs text-ro-gold">
         <strong>Demo mode:</strong> Data is not saved between sessions. Refresh = data reset.
       </p>
       <button
         type="button"
         aria-label="Dismiss demo mode notice"
         onClick={() => setDismissed(true)}
-        className="shrink-0 text-os-amber/60 transition-colors hover:text-os-amber"
+        className="shrink-0 text-ro-gold/60 transition-colors hover:text-ro-gold"
       >
-        <X size={13} aria-hidden="true" />
+        <X size={12} aria-hidden="true" />
       </button>
     </div>
   )

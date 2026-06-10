@@ -56,7 +56,7 @@ export default function JobsPage() {
   return (
     <div>
       <PageHeader
-        title="Job Applications"
+        title="Career Pipeline"
         description="Track every application, status, and follow-up."
         action={{
           label: 'Add Application',
@@ -83,7 +83,7 @@ export default function JobsPage() {
 
       {!loading && jobs.length === 0 ? (
         <EmptyState
-          title="No applications tracked yet"
+          title="No roles in the pipeline"
           description="Start logging your job search to never lose track of where you've applied."
           action={{ label: 'Add Application', onClick: handleOpenCreate }}
           icon={<Briefcase size={40} />}

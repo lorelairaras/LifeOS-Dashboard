@@ -14,9 +14,9 @@ export default function PageHeader({ title, description, action }: PageHeaderPro
   return (
     <div className="mb-6 flex items-start justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary">{title}</h1>
+        <h1 className="font-display text-2xl font-semibold text-ro-pri">{title}</h1>
         {description && (
-          <p className="mt-1 text-sm text-text-secondary">{description}</p>
+          <p className="mt-1 text-sm text-ro-sec">{description}</p>
         )}
       </div>
       {action && (

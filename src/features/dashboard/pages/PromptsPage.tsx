@@ -82,7 +82,7 @@ export default function PromptsPage() {
   return (
     <div>
       <PageHeader
-        title="Prompt Library"
+        title="Prompt Grimoire"
         description="Save and reuse your best AI prompts."
         action={{
           label: 'Add Prompt',

@@ -4,7 +4,7 @@ import {
   Search,
   LayoutDashboard,
   CheckSquare,
-  BookOpen,
+  Sparkles,
   Briefcase,
   Wallet,
   FolderKanban,
@@ -12,13 +12,13 @@ import {
 } from 'lucide-react'
 
 const COMMANDS = [
-  { id: 'home',     label: 'Dashboard Home',  icon: LayoutDashboard, path: '/dashboard' },
-  { id: 'tasks',    label: 'Tasks',            icon: CheckSquare,     path: '/dashboard/tasks' },
-  { id: 'prompts',  label: 'Prompt Library',   icon: BookOpen,        path: '/dashboard/prompts' },
-  { id: 'jobs',     label: 'Job Tracker',      icon: Briefcase,       path: '/dashboard/jobs' },
-  { id: 'budget',   label: 'Budget',           icon: Wallet,          path: '/dashboard/budget' },
-  { id: 'projects', label: 'Projects',         icon: FolderKanban,    path: '/dashboard/projects' },
-  { id: 'settings', label: 'Settings',         icon: Settings,        path: '/dashboard/settings' },
+  { id: 'home',     label: 'Command Chamber',   icon: LayoutDashboard, path: '/dashboard' },
+  { id: 'tasks',    label: 'Ritual Tasks',       icon: CheckSquare,     path: '/dashboard/tasks' },
+  { id: 'prompts',  label: 'Prompt Grimoire',    icon: Sparkles,        path: '/dashboard/prompts' },
+  { id: 'jobs',     label: 'Career Pipeline',    icon: Briefcase,       path: '/dashboard/jobs' },
+  { id: 'budget',   label: 'Budget Pulse',       icon: Wallet,          path: '/dashboard/budget' },
+  { id: 'projects', label: 'Project Reliquary',  icon: FolderKanban,    path: '/dashboard/projects' },
+  { id: 'settings', label: 'Settings',           icon: Settings,        path: '/dashboard/settings' },
 ]
 
 interface CommandPaletteProps {
@@ -57,32 +57,32 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       aria-label="Command palette"
     >
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-ro-void/75 backdrop-blur-sm"
         aria-hidden="true"
         onClick={onClose}
       />
       <div className="glass-elevated relative w-full max-w-lg rounded-xl shadow-2xl overflow-hidden animate-fade-in">
-        {/* Search input */}
-        <div className="flex items-center gap-3 border-b border-os-border px-4 py-3">
-          <Search size={15} className="shrink-0 text-os-sec" aria-hidden="true" />
+        <div className="flex items-center gap-3 border-b border-ro-pink/15 px-4 py-3">
+          <Search size={14} className="shrink-0 text-ro-pink/60" aria-hidden="true" />
           <input
             type="text"
             autoFocus
-            placeholder="Go to page..."
+            placeholder="Navigate to…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent text-sm text-os-pri placeholder-os-sec outline-none"
+            className="flex-1 bg-transparent text-sm text-ro-pri placeholder-ro-muted outline-none"
             aria-label="Search commands"
           />
-          <kbd className="shrink-0 rounded border border-os-border px-1.5 py-0.5 font-mono text-[10px] text-os-dim">
+          <kbd className="shrink-0 rounded border border-ro-pink/20 px-1.5 py-0.5 font-mono text-[10px] text-ro-muted">
             ESC
           </kbd>
         </div>
 
-        {/* Results */}
         <ul role="listbox" className="max-h-72 overflow-y-auto p-2">
           {filtered.length === 0 ? (
-            <li className="px-3 py-6 text-center text-sm text-os-sec">No results</li>
+            <li className="px-3 py-6 text-center text-sm text-ro-sec italic">
+              No results found
+            </li>
           ) : (
             filtered.map((cmd) => (
               <li key={cmd.id}>
@@ -91,9 +91,9 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
                   role="option"
                   aria-selected="false"
                   onClick={() => go(cmd.path)}
-                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-os-pri transition-colors hover:bg-os-surface text-left"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ro-sec transition-colors hover:bg-ro-surface hover:text-ro-pri text-left"
                 >
-                  <cmd.icon size={15} className="shrink-0 text-os-sec" aria-hidden="true" />
+                  <cmd.icon size={14} className="shrink-0 text-ro-pink/60" aria-hidden="true" />
                   {cmd.label}
                 </button>
               </li>
@@ -101,9 +101,11 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
           )}
         </ul>
 
-        <div className="border-t border-os-border px-4 py-2">
-          <p className="text-[10px] text-os-dim">
-            Navigate with <kbd className="font-mono">↑↓</kbd> · Select with <kbd className="font-mono">↵</kbd>
+        <div className="border-t border-ro-pink/10 px-4 py-2">
+          <p className="text-[10px] text-ro-muted">
+            Navigate · <kbd className="font-mono">↑↓</kbd> ·
+            Select · <kbd className="font-mono">↵</kbd> ·
+            Close · <kbd className="font-mono">ESC</kbd>
           </p>
         </div>
       </div>

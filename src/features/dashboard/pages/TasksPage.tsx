@@ -58,7 +58,7 @@ export default function TasksPage() {
   return (
     <div>
       <PageHeader
-        title="Tasks"
+        title="Ritual Tasks"
         description="Track your daily, project, and career tasks."
         action={{
           label: 'Add Task',
@@ -90,7 +90,7 @@ export default function TasksPage() {
 
       {!loading && tasks.length === 0 ? (
         <EmptyState
-          title="No tasks yet"
+          title="No rituals scheduled yet"
           description="Add your first task to start tracking what needs to be done."
           action={{ label: 'Add Task', onClick: handleOpenCreate }}
           icon={<CheckSquare size={40} />}
