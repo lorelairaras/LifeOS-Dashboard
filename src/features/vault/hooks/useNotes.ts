@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useState, useCallback } from 'react'
 import type { Note } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
-import { fromDb, toDb } from '@/lib/supabaseHelpers'
+import { fromDb, toDb, toDbUpdate } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
 import { DEMO_NOTES } from '@/data/mockData'
 
@@ -94,7 +94,9 @@ export function useNotes() {
       dispatch({ type: 'UPDATE', payload: { id, changes: { ...changes, updatedAt: now } } })
       return
     }
-    const row = toDb(changes)
+    // toDbUpdate: equivalent to toDb while NoteInput has no optional fields,
+    // but keeps cleared-field persistence if one is ever added
+    const row = toDbUpdate(changes)
     const { data, error: err } = await supabase
       .from('notes')
       .update(row)

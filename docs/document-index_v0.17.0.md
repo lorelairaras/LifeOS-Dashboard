@@ -6,6 +6,10 @@
 **Status:** Active
 **Supersedes:** document-index_v0.16.0.md
 
+> Reconciliation note: rebuilt on the main-reconciled lineage (v0.16.0). Registers the
+> design meta prompts #48 (Fluid Design) and #49 (Ashen Orchid, now v0.2.0 — bat-flock
+> cursor + fluid ink). Naming-conventions #47 and QA→v0.20.0 / bug→v0.3.0 carried from v0.16.0.
+
 ---
 
 ## Root Documents
@@ -30,7 +34,7 @@
 | 9 | Session Checkpoint | `docs/product/session-checkpoint_v0.1.0.md` | Active | v0.1.0 |
 | 46 | Improvement Meta Prompt | `docs/product/improvement-meta-prompt_v0.1.0.md` | Active | v0.1.0 |
 | 48 | Fluid Design Meta Prompt | `docs/product/fluid-design-meta-prompt_v0.1.0.md` | Active | v0.1.0 |
-| 49 | Ashen Orchid Design Meta Prompt | `docs/product/ashen-orchid-design-meta-prompt_v0.2.0.md` | Active | **v0.2.0 UPDATED** |
+| 49 | Ashen Orchid Design Meta Prompt | `docs/product/ashen-orchid-design-meta-prompt_v0.2.0.md` | Active | **v0.2.0** |
 
 ---
 
@@ -110,8 +114,8 @@
 | 36 | Test Plan | `docs/qa/test-plan_v0.1.0.md` | Draft | v0.1.0 |
 | 37 | Test Cases | `docs/qa/test-cases_v0.3.0.md` | Active | v0.3.0 |
 | 38 | Playwright Plan | `docs/qa/playwright-plan_v0.1.0.md` | Draft | v0.1.0 |
-| 39 | QA Execution Log | `docs/qa/qa-execution-log_v0.18.0.md` | Active | **v0.18.0 UPDATED** |
-| 40 | Bug Fix Log | `docs/qa/bug-fix-log_v0.1.0.md` | Active | v0.1.0 |
+| 39 | QA Execution Log | `docs/qa/qa-execution-log_v0.20.0.md` | Active | **v0.20.0 UPDATED** |
+| 40 | Bug Fix Log | `docs/qa/bug-fix-log_v0.3.0.md` | Active | **v0.3.0 UPDATED** |
 
 ---
 
@@ -121,7 +125,7 @@
 |---|---|---|---|---|
 | 41 | Deployment Plan | `docs/deployment/deployment-plan_v0.2.0.md` | Active | v0.2.0 |
 | 42 | Vercel Guide | `docs/deployment/vercel-deployment-guide_v0.2.0.md` | Active | v0.2.0 |
-| 45 | Personal Setup Guide | `docs/deployment/personal-setup-guide_v0.1.0.md` | Active | **v0.1.0 NEW** |
+| 45 | Personal Setup Guide | `docs/deployment/personal-setup-guide_v0.1.0.md` | Active | v0.1.0 |
 
 ---
 
@@ -145,10 +149,10 @@
 
 | Version | Date | Change |
 |---|---|---|
-| v0.17.0 | 2026-06-12 | Ashen Orchid meta prompt → v0.2.0: cursor pivots to bat-flock-as-cursor over a fluid orchid-ink trail; orchid upgraded to dimensional phalaenopsis. |
-| v0.16.0 | 2026-06-12 | Added Ashen Orchid Design Meta Prompt (#49) — muted palette preset, orchid/bat motifs, fluid splash cursor (2 tiers), SpaceHey×Notion flexible blocks, daily-life modules D1–D10. |
-| v0.15.0 | 2026-06-11 | Added Fluid Design Meta Prompt (#48) — Phase 23E cursor-reactive motion + feature wave F1–F8. |
-| v0.14.0 | 2026-06-11 | Phase 23C: naming flip (plain primary, flavor optional). Naming Conventions (#47) added. QA log to v0.18.0. |
+| v0.17.0 | 2026-06-12 | Design meta prompts registered on the reconciled lineage — #48 Fluid Design, #49 Ashen Orchid (v0.2.0: bat-flock cursor + fluid ink, phalaenopsis orchid). |
+| v0.16.0 | 2026-06-12 | 23C wording branch reconciled with main — Naming Conventions (#47) registered; QA round re-homed to v0.20.0. 90/90 E2E on merged tree. |
+| v0.15.0 | 2026-06-12 | Cleared-fields fix merge — QA log re-homed to v0.19.0, bug fix log to v0.3.0 (cumulative, both BUG-A11Y-01 + BUG-23C-01) after a parallel-branch v0.18.0/v0.2.0 collision. |
+| v0.14.0 | 2026-06-11 | A11y fix round (fix/dialog-focus-a11y): dialog focus trap + focus restore, persistent loading live regions. QA log to v0.18.0; bug fix log to v0.2.0 (BUG-A11Y-01); 4 new E2E test IDs (TC-A11Y-001..004). |
 | v0.13.0 | 2026-06-11 | Independent review fix round logged — QA log to v0.17.0. |
 | v0.12.0 | 2026-06-11 | Added Improvement Meta Prompt (#46) — Phases 23C/23D/24 plan: wording simplification, design polish, feature roadmap. |
 | v0.11.0 | 2026-06-11 | Phase 23B: Projects CRUD, Habit Rituals, Knowledge Vault functional. Migration 002 added. Personal Setup Guide (#45) added. QA log updated to v0.16.0. |
