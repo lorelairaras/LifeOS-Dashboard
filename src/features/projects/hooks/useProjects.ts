@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useState, useCallback } from 'react'
 import type { Project, ProjectStatus, ProjectVisibility } from '@/types'
-import { isSupabaseConfigured } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { fromDb, toDb, toDbUpdate } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
 import { DEMO_PROJECTS } from '@/data/mockData'
 
@@ -44,33 +45,90 @@ export function useProjects() {
   const { user } = useAuth()
   const [projects, dispatch] = useReducer(projectsReducer, [])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Supabase projects table not yet wired — always use demo data for now
-    void user
-    dispatch({ type: 'SET', payload: isSupabaseConfigured ? [] : DEMO_PROJECTS })
-    setLoading(false)
+    if (!isSupabaseConfigured || !user) {
+      dispatch({ type: 'SET', payload: DEMO_PROJECTS })
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    supabase
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .then(({ data, error: err }) => {
+        if (err) {
+          setError('Failed to load projects')
+        } else {
+          dispatch({ type: 'SET', payload: (data ?? []).map((r) => fromDb<Project>(r)) })
+        }
+        setLoading(false)
+      })
   }, [user])
 
   const addProject = useCallback(
-    (input: ProjectInput) => {
+    async (input: ProjectInput) => {
+      setError(null)
       const now = new Date().toISOString()
-      dispatch({
-        type: 'ADD',
-        payload: { id: crypto.randomUUID(), ...input, createdAt: now, updatedAt: now },
-      })
+      if (!isSupabaseConfigured || !user) {
+        dispatch({
+          type: 'ADD',
+          payload: { id: crypto.randomUUID(), ...input, createdAt: now, updatedAt: now },
+        })
+        return
+      }
+      const row = toDb({ ...input, userId: user.id })
+      const { data, error: err } = await supabase
+        .from('projects')
+        .insert(row)
+        .select()
+        .single()
+      if (err) {
+        setError('Failed to create project')
+      } else if (data) {
+        dispatch({ type: 'ADD', payload: fromDb<Project>(data) })
+      }
     },
-    [],
+    [user],
   )
 
-  const updateProject = useCallback((id: string, changes: Partial<ProjectInput>) => {
-    const now = new Date().toISOString()
-    dispatch({ type: 'UPDATE', payload: { id, changes: { ...changes, updatedAt: now } } })
+  const updateProject = useCallback(async (id: string, changes: Partial<ProjectInput>) => {
+    setError(null)
+    if (!isSupabaseConfigured) {
+      const now = new Date().toISOString()
+      dispatch({ type: 'UPDATE', payload: { id, changes: { ...changes, updatedAt: now } } })
+      return
+    }
+    // toDbUpdate: cleared optional fields (undefined) must persist as NULL
+    const row = toDbUpdate(changes)
+    const { data, error: err } = await supabase
+      .from('projects')
+      .update(row)
+      .eq('id', id)
+      .select()
+      .single()
+    if (err) {
+      setError('Failed to update project')
+    } else if (data) {
+      dispatch({ type: 'UPDATE', payload: { id, changes: fromDb<Partial<Project>>(data) } })
+    }
   }, [])
 
-  const deleteProject = useCallback((id: string) => {
-    dispatch({ type: 'DELETE', payload: id })
+  const deleteProject = useCallback(async (id: string) => {
+    setError(null)
+    if (!isSupabaseConfigured) {
+      dispatch({ type: 'DELETE', payload: id })
+      return
+    }
+    const { error: err } = await supabase.from('projects').delete().eq('id', id)
+    if (err) {
+      setError('Failed to delete project')
+    } else {
+      dispatch({ type: 'DELETE', payload: id })
+    }
   }, [])
 
-  return { projects, loading, addProject, updateProject, deleteProject }
+  return { projects, loading, error, addProject, updateProject, deleteProject }
 }

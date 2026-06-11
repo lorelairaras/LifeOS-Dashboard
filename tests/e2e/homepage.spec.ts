@@ -219,9 +219,12 @@ test.describe('Job Application Tracker', () => {
     await modal.locator('#job-follow-up').fill('2020-01-01')
     await modal.getByRole('button', { name: /log application/i }).click({ force: true })
     await expect(modal).not.toBeVisible()
-    // Follow-up date should appear with amber/warning styling (check for ⚠ prefix)
-    const jobList = page.locator('[data-testid="job-list"]')
-    await expect(jobList.getByText(/⚠/)).toBeVisible()
+    // Follow-up date should appear with amber/warning styling (check for ⚠ prefix).
+    // Scope to the card we created — demo data may also contain overdue follow-ups.
+    const ourCard = page
+      .locator('[data-testid="job-list"] li')
+      .filter({ hasText: 'OverdueInc' })
+    await expect(ourCard.getByText(/⚠/)).toBeVisible()
   })
 
   test('TC-JT-005: mobile layout — no overflow at 390px', async ({ page }) => {

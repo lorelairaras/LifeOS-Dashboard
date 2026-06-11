@@ -111,6 +111,34 @@ export interface Project {
   updatedAt: string
 }
 
+// --- Habit Rituals ---
+
+export interface Habit {
+  id: string
+  name: string
+  emoji?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface HabitCheck {
+  id: string
+  habitId: string
+  date: string // YYYY-MM-DD
+  createdAt: string
+}
+
+// --- Knowledge Vault ---
+
+export interface Note {
+  id: string
+  title: string
+  content: string
+  tags: string[]
+  createdAt: string
+  updatedAt: string
+}
+
 // --- Portfolio Static Data ---
 
 export interface SkillTag {

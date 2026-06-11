@@ -17,8 +17,13 @@ import ConfirmDialog from '@/components/ConfirmDialog'
 export default function PromptsPage() {
   const { prompts, loading, error, addPrompt, updatePrompt, deletePrompt, updateLastUsed } =
     usePrompts()
-  const { result: improvedText, loading: improving, error: improveError, improve, clear: clearImprove } =
-    usePromptImprover()
+  const {
+    result: improvedText,
+    loading: improving,
+    error: improveError,
+    improve,
+    clear: clearImprove,
+  } = usePromptImprover()
 
   const [categoryFilter, setCategoryFilter] = useState<PromptCategory | 'all'>('all')
   const [formOpen, setFormOpen] = useState(false)
@@ -28,9 +33,7 @@ export default function PromptsPage() {
   const [improvingPrompt, setImprovingPrompt] = useState<Prompt | null>(null)
 
   const filtered =
-    categoryFilter === 'all'
-      ? prompts
-      : prompts.filter((p) => p.category === categoryFilter)
+    categoryFilter === 'all' ? prompts : prompts.filter((p) => p.category === categoryFilter)
 
   const handleOpenCreate = () => {
     setEditingPrompt(null)
@@ -91,22 +94,26 @@ export default function PromptsPage() {
         }}
       />
 
-      {loading && (
-        <div className="py-12 text-center text-sm text-text-muted">Loading prompts...</div>
-      )}
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-text-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading prompts...' : ''}
+      </div>
 
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error"
+        >
           {error}
         </div>
       )}
 
       {!loading && prompts.length > 0 && (
         <div className="mb-6">
-          <PromptFilters
-            categoryFilter={categoryFilter}
-            onCategoryChange={setCategoryFilter}
-          />
+          <PromptFilters categoryFilter={categoryFilter} onCategoryChange={setCategoryFilter} />
         </div>
       )}
 
