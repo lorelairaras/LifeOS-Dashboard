@@ -66,12 +66,19 @@ export default function JobsPage() {
         }}
       />
 
-      {loading && (
-        <div className="py-12 text-center text-sm text-text-muted">Loading applications...</div>
-      )}
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-text-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading applications...' : ''}
+      </div>
 
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error"
+        >
           {error}
         </div>
       )}
@@ -103,12 +110,7 @@ export default function JobsPage() {
       ) : (
         <ul className="space-y-2" aria-label="Job application list" data-testid="job-list">
           {filtered.map((job) => (
-            <JobCard
-              key={job.id}
-              job={job}
-              onEdit={handleOpenEdit}
-              onDelete={setDeletingJob}
-            />
+            <JobCard key={job.id} job={job} onEdit={handleOpenEdit} onDelete={setDeletingJob} />
           ))}
         </ul>
       )}

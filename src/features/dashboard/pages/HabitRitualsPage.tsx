@@ -43,7 +43,10 @@ export default function HabitRitualsPage() {
       </div>
 
       {error && (
-        <div role="alert" className="rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger">
+        <div
+          role="alert"
+          className="rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger"
+        >
           {error}
         </div>
       )}
@@ -69,13 +72,21 @@ export default function HabitRitualsPage() {
         </button>
       </form>
 
-      {loading ? (
-        <div className="py-12 text-center text-sm text-ro-muted">Loading habits...</div>
-      ) : habits.length === 0 ? (
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-ro-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading habits...' : ''}
+      </div>
+
+      {loading ? null : habits.length === 0 ? (
         <div className="ro-card flex flex-col items-center justify-center gap-3 py-16 text-center">
           <Flame size={36} className="text-ro-muted/40" aria-hidden="true" />
           <p className="text-sm font-medium text-ro-sec">No habits yet</p>
-          <p className="text-xs text-ro-muted">Add your first habit above to start building streaks.</p>
+          <p className="text-xs text-ro-muted">
+            Add your first habit above to start building streaks.
+          </p>
         </div>
       ) : (
         <div className="space-y-3" data-testid="habit-list">
@@ -102,14 +113,21 @@ export default function HabitRitualsPage() {
             const checkedDates = checksByHabit.get(habit.id) ?? new Set<string>()
             const streak = currentStreak(checkedDates)
             return (
-              <div key={habit.id} className="ro-card flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:px-5">
+              <div
+                key={habit.id}
+                className="ro-card flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:px-5"
+              >
                 <span className="flex flex-1 items-center gap-2 text-sm text-ro-pri">
                   {habit.emoji && <span aria-hidden="true">{habit.emoji}</span>}
                   {habit.name}
                 </span>
 
                 {/* 7-day toggle grid */}
-                <div className="flex gap-1.5" role="group" aria-label={`${habit.name} — last 7 days`}>
+                <div
+                  className="flex gap-1.5"
+                  role="group"
+                  aria-label={`${habit.name} — last 7 days`}
+                >
                   {LAST_7_DAYS.map((daysAgo) => {
                     const date = localIsoDate(daysAgo)
                     const checked = checkedDates.has(date)

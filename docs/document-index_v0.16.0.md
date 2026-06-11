@@ -1,10 +1,14 @@
 # Document Index — LifeOS Portfolio Dashboard
 
-**Version:** v0.14.0
-**Date:** 2026-06-11
+**Version:** v0.16.0
+**Date:** 2026-06-12
 **Author:** Rory
 **Status:** Active
-**Supersedes:** document-index_v0.13.0.md
+**Supersedes:** document-index_v0.15.0.md
+
+> Reconciliation note: the 23C wording branch was merged with main (a11y + cleared-fields).
+> Its naming-conventions doc is registered as #47; its QA round was re-homed to
+> `qa-execution-log_v0.20.0.md` (main's `v0.18.0`/`v0.19.0` preserved unchanged).
 
 ---
 
@@ -97,6 +101,7 @@
 | 33 | Screen Inventory | `docs/uiux/screen-inventory_v0.2.0.md` | Draft | v0.2.0 |
 | 34 | Design System | `docs/uiux/design-system_v0.2.0.md` | Active | v0.2.0 |
 | 35 | Responsive Design | `docs/uiux/responsive-design_v0.1.0.md` | Draft | v0.1.0 |
+| 47 | Naming Conventions | `docs/uiux/naming-conventions_v0.1.0.md` | Active | **v0.1.0 NEW** |
 
 ---
 
@@ -107,8 +112,8 @@
 | 36 | Test Plan | `docs/qa/test-plan_v0.1.0.md` | Draft | v0.1.0 |
 | 37 | Test Cases | `docs/qa/test-cases_v0.3.0.md` | Active | v0.3.0 |
 | 38 | Playwright Plan | `docs/qa/playwright-plan_v0.1.0.md` | Draft | v0.1.0 |
-| 39 | QA Execution Log | `docs/qa/qa-execution-log_v0.18.0.md` | Active | **v0.18.0 UPDATED** |
-| 40 | Bug Fix Log | `docs/qa/bug-fix-log_v0.2.0.md` | Active | **v0.2.0 UPDATED** |
+| 39 | QA Execution Log | `docs/qa/qa-execution-log_v0.20.0.md` | Active | **v0.20.0 UPDATED** |
+| 40 | Bug Fix Log | `docs/qa/bug-fix-log_v0.3.0.md` | Active | **v0.3.0 UPDATED** |
 
 ---
 
@@ -142,6 +147,8 @@
 
 | Version | Date | Change |
 |---|---|---|
+| v0.16.0 | 2026-06-12 | 23C wording branch reconciled with main — Naming Conventions (#47) registered; QA round re-homed to v0.20.0. 90/90 E2E on merged tree. |
+| v0.15.0 | 2026-06-12 | Cleared-fields fix merge — QA log re-homed to v0.19.0, bug fix log to v0.3.0 (cumulative, both BUG-A11Y-01 + BUG-23C-01) after a parallel-branch v0.18.0/v0.2.0 collision. |
 | v0.14.0 | 2026-06-11 | A11y fix round (fix/dialog-focus-a11y): dialog focus trap + focus restore, persistent loading live regions. QA log to v0.18.0; bug fix log to v0.2.0 (BUG-A11Y-01); 4 new E2E test IDs (TC-A11Y-001..004). |
 | v0.13.0 | 2026-06-11 | Independent review fix round logged — QA log to v0.17.0. |
 | v0.12.0 | 2026-06-11 | Added Improvement Meta Prompt (#46) — Phases 23C/23D/24 plan: wording simplification, design polish, feature roadmap. |

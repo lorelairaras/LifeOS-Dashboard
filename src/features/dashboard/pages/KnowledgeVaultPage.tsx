@@ -65,7 +65,10 @@ export default function KnowledgeVaultPage() {
       />
 
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger">
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger"
+        >
           {error}
         </div>
       )}
@@ -122,13 +125,21 @@ export default function KnowledgeVaultPage() {
         </div>
       )}
 
-      {loading ? (
-        <div className="py-12 text-center text-sm text-ro-muted">Loading notes...</div>
-      ) : notes.length === 0 ? (
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-ro-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading notes...' : ''}
+      </div>
+
+      {loading ? null : notes.length === 0 ? (
         <div className="ro-card flex flex-col items-center justify-center gap-3 py-16 text-center">
           <BookMarked size={36} className="text-ro-muted/40" aria-hidden="true" />
           <p className="text-sm font-medium text-ro-sec">The vault is empty</p>
-          <p className="text-xs text-ro-muted">Capture your first note — ideas, snippets, things worth keeping.</p>
+          <p className="text-xs text-ro-muted">
+            Capture your first note — ideas, snippets, things worth keeping.
+          </p>
           <button
             type="button"
             onClick={handleOpenCreate}
@@ -153,7 +164,11 @@ export default function KnowledgeVaultPage() {
           </button>
         </div>
       ) : (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list" data-testid="note-list">
+        <ul
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          role="list"
+          data-testid="note-list"
+        >
           {filtered.map((note) => (
             <li key={note.id}>
               <article className="ro-card flex h-full flex-col p-5">
