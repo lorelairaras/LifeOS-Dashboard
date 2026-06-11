@@ -65,12 +65,19 @@ export default function BudgetPage() {
         }}
       />
 
-      {loading && (
-        <div className="py-12 text-center text-sm text-text-muted">Loading budget...</div>
-      )}
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-text-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading budget...' : ''}
+      </div>
 
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error"
+        >
           {error}
         </div>
       )}
