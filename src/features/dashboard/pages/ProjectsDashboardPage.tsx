@@ -9,17 +9,17 @@ import Modal from '@/components/Modal'
 import ConfirmDialog from '@/components/ConfirmDialog'
 
 const STATUS_LABEL: Record<string, string> = {
-  idea:        'Idea',
+  idea: 'Idea',
   in_progress: 'In Progress',
-  complete:    'Complete',
-  archived:    'Archived',
+  complete: 'Complete',
+  archived: 'Archived',
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  idea:        'border-ro-oracle/20 bg-ro-oracle/10 text-ro-oracle',
+  idea: 'border-ro-oracle/20 bg-ro-oracle/10 text-ro-oracle',
   in_progress: 'border-ro-pink/25 bg-ro-pink/10 text-ro-pink',
-  complete:    'border-ro-success/25 bg-ro-success/10 text-ro-success',
-  archived:    'border-ro-muted/20 bg-ro-surface text-ro-muted',
+  complete: 'border-ro-success/25 bg-ro-success/10 text-ro-success',
+  archived: 'border-ro-muted/20 bg-ro-surface text-ro-muted',
 }
 
 export default function ProjectsDashboardPage() {
@@ -71,18 +71,29 @@ export default function ProjectsDashboardPage() {
       />
 
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger">
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-ro-danger/30 bg-ro-danger/10 px-3 py-2 text-sm text-ro-danger"
+        >
           {error}
         </div>
       )}
 
-      {loading ? (
-        <div className="py-12 text-center text-sm text-ro-muted">Loading projects...</div>
-      ) : projects.length === 0 ? (
+      <div
+        role="status"
+        aria-live="polite"
+        className={loading ? 'py-12 text-center text-sm text-ro-muted' : 'sr-only'}
+      >
+        {loading ? 'Loading projects...' : ''}
+      </div>
+
+      {loading ? null : projects.length === 0 ? (
         <div className="ro-card flex flex-col items-center justify-center gap-3 py-16 text-center">
           <FolderKanban size={36} className="text-ro-muted/40" aria-hidden="true" />
           <p className="text-sm font-medium text-ro-sec">No projects yet</p>
-          <p className="text-xs text-ro-muted">Add your first project to track progress and build your portfolio.</p>
+          <p className="text-xs text-ro-muted">
+            Add your first project to track progress and build your portfolio.
+          </p>
           <button
             type="button"
             onClick={handleOpenCreate}
@@ -93,7 +104,11 @@ export default function ProjectsDashboardPage() {
           </button>
         </div>
       ) : (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list" data-testid="project-list">
+        <ul
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          role="list"
+          data-testid="project-list"
+        >
           {projects.map((project) => (
             <li key={project.id}>
               <div className="ro-card group flex h-full flex-col p-5">
