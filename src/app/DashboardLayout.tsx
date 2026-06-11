@@ -21,6 +21,8 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { isSupabaseConfigured } from '@/lib/supabase'
 import DemoBadge from '@/components/DemoBadge'
+import AmbientBats from '@/components/AmbientBats'
+import { useMotionEffects } from '@/hooks/useMotionEffects'
 
 type NavItemConfig = {
   to: string
@@ -183,6 +185,7 @@ function NavItem({
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
+  const { enabled: motionOn } = useMotionEffects()
 
   useEffect(() => {
     setSidebarOpen(false)
@@ -221,7 +224,11 @@ export default function DashboardLayout() {
       )}
 
       {/* Main content */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="relative flex min-w-0 flex-1 flex-col overflow-hidden">
+        {/* Ambient bat flock — decorative background layer, behind all content */}
+        {motionOn && <AmbientBats className="z-0 opacity-80" />}
+
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col">
         {/* Mobile top bar */}
         <header className="flex items-center gap-3 border-b border-ro-pink/10 bg-ro-surface px-4 py-3 md:hidden">
           <button
@@ -260,6 +267,7 @@ export default function DashboardLayout() {
             <Outlet />
           </Suspense>
         </main>
+        </div>
       </div>
     </div>
   )

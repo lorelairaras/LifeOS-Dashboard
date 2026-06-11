@@ -11,6 +11,10 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    // Emulate reduced motion so decorative animation (the ambient bat flock,
+    // cursor effects) stays inert during tests — removes animation-induced flake
+    // and exercises the accessibility fallback path.
+    reducedMotion: 'reduce',
   },
 
   projects: [
