@@ -98,7 +98,12 @@ export default function AmbientBats({ count = 22, className = '' }: AmbientBatsP
     let running = true
 
     function step() {
-      if (!running) return
+      // Self-enforcing pause invariant: never draw on a hidden tab, regardless of
+      // how `running` got set.
+      if (!running || document.hidden) {
+        running = false
+        return
+      }
       ctx.clearRect(0, 0, W, H)
 
       for (const b of bats) {
@@ -151,6 +156,8 @@ export default function AmbientBats({ count = 22, className = '' }: AmbientBatsP
         ctx.scale(s * flap, s) // flap squeezes wingspan
         ctx.translate(-50, -28) // centre the path box
         // Near bats are warmer/pinker and more present; far bats are dim plum silhouettes.
+        // These rgba values intentionally mirror the ro.* palette (plum→ro-pink); the
+        // tokens aren't exposed as CSS vars, so a canvas can't read them directly today.
         const alpha = 0.24 + b.depth * 0.5
         ctx.fillStyle = `rgba(${56 + b.depth * 70}, ${36 + b.depth * 22}, ${56 + b.depth * 48}, ${alpha})`
         ctx.fill(path)

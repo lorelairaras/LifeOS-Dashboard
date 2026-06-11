@@ -69,9 +69,30 @@ Add a decorative **ambient bat flock** that flies around the whole dashboard bac
 | ISO 9001 | ✅ | typecheck/lint/E2E gates run; flake investigated (one-off) and de-risked via robust tests |
 | Free Tools Rule | ✅ | No new dependencies; hand-written canvas |
 
-## Recommended next gate
+## Independent Review (reviewer ≠ author) — APPROVE WITH MINOR FIXES
 
-Independent review (reviewer ≠ author) before merge, per org policy — not yet run for this branch.
+A separate agent with no knowledge of the implementation reviewed the branch. It verified
+(high confidence) the rAF/listener teardown, the reduced-motion JS gate, decorative semantics,
+the Settings toggle, steering math (div-by-zero guarded), dpr cap, and cross-tab sync are all
+correct. Findings and resolutions:
+
+| # | Severity | Finding | Resolution |
+|---|---|---|---|
+| 1 | Minor | rAF pause relied on the visibility handler, not self-enforcing | **FIXED** — `step()` now bails `if (!running \|\| document.hidden)` at the top |
+| 2 | Minor | Bat count/seeding fixed at mount, not re-derived on resize | **NO CHANGE** — conscious decision for a decorative layer (no memory growth); noted |
+| 3 | Minor | `coarse` pointer sampled once at mount | **NO CHANGE** — desirable (saves battery on touch); noted |
+| 4 | Minor | Playwright `reducedMotion` not reaching matchMedia → a11y fallback path unverified locally | **ACKNOWLEDGED** — confirmed reproducible (TC-BAT-004 does not skip on a fresh server); config kept + annotated; see coverage note below |
+| 5 | Minor | Tests could bleed via localStorage if context reuse is enabled | **ADDRESSED** — added a note; an init-script reset was tried and reverted because it broke TC-BAT-004 (wipes the pref between navigations). Default context isolation already covers this. |
+| 6 | Minor | Hardcoded rgba bat colors disconnected from ro.* tokens | **NOTED in code** — comment added; tokens aren't exposed as CSS vars, so a canvas can't read them today |
+
+### Coverage note (honest reconciliation)
+
+The 98/98 run exercised the **non-reduced** path (flock active) — Playwright's `reducedMotion`
+emulation did not take effect in this environment. The reduced-motion fallback (flock does not
+mount) is therefore **asserted-correct-if-reached but not exercised by the local suite**. The JS
+gate in `useMotionEffects` is the single source of truth and was verified by the reviewer to
+unmount the flock under reduced motion. Recommended follow-up: confirm the reduced branch runs in
+CI (headless honours `setEmulatedMedia`), or add an explicit context with `reducedMotion` forced.
 
 ---
 

@@ -6,6 +6,9 @@ import { test, expect } from '@playwright/test'
 // so they pass whether or not the runner emulates reduced motion.
 // ============================================================
 
+// Note: Playwright gives each test an isolated browser context (fresh localStorage),
+// so no per-test reset of `lifeos:motion-effects` is needed — and an init-script reset
+// would wrongly wipe the pref TC-BAT-004 sets between navigations.
 test.describe('Ambient bat flock', () => {
   test('TC-BAT-001: flock mounts only when motion is allowed', async ({ page }) => {
     await page.goto('/dashboard')
