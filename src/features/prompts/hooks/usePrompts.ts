@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useState, useCallback } from 'react'
 import type { Prompt, PromptCategory } from '@/types'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
-import { fromDb, toDb } from '@/lib/supabaseHelpers'
+import { fromDb, toDb, toDbUpdate } from '@/lib/supabaseHelpers'
 import { useAuth } from '@/hooks/useAuth'
 import { DEMO_PROMPTS } from '@/data/mockData'
 
@@ -95,7 +95,8 @@ export function usePrompts() {
         dispatch({ type: 'UPDATE', payload: { id, changes: { ...changes, updatedAt: now } } })
         return
       }
-      const row = toDb(changes)
+      // toDbUpdate: cleared optional fields (undefined) must persist as NULL
+      const row = toDbUpdate(changes)
       const { data, error: err } = await supabase
         .from('prompts')
         .update(row)

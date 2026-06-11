@@ -227,6 +227,35 @@ test.describe('Job Application Tracker', () => {
     await expect(ourCard.getByText(/⚠/)).toBeVisible()
   })
 
+  // BUG-23C-01 regression test: cleared optional fields must persist after edit.
+  test('TC-JT-006: clearing an optional field on edit persists', async ({ page }) => {
+    await page.getByRole('button', { name: /add application/i }).first().click()
+    let modal = page.getByRole('dialog')
+    await modal.getByLabel(/company/i).fill('ClearField Co')
+    await modal.getByLabel(/role/i).fill('QA Engineer')
+    await modal.locator('#job-location').fill('Remote (Mars)')
+    await modal.getByRole('button', { name: /log application/i }).click({ force: true })
+    await expect(modal).not.toBeVisible()
+
+    const card = page.locator('[data-testid="job-list"] li').filter({ hasText: 'ClearField Co' })
+    await expect(card.getByText('Remote (Mars)')).toBeVisible()
+
+    // Edit the application and clear the location field
+    await card.getByRole('button', { name: 'Edit application: ClearField Co' }).click()
+    modal = page.getByRole('dialog')
+    await modal.locator('#job-location').fill('')
+    await modal.getByRole('button', { name: /save changes/i }).click({ force: true })
+    await expect(modal).not.toBeVisible()
+    await expect(card.getByText('Remote (Mars)')).not.toBeVisible()
+
+    // Reopen the form — the cleared value must be gone from the store, not just hidden
+    await card.getByRole('button', { name: 'Edit application: ClearField Co' }).click()
+    modal = page.getByRole('dialog')
+    await expect(modal.locator('#job-location')).toHaveValue('')
+    await modal.getByRole('button', { name: /cancel/i }).click()
+    await expect(modal).not.toBeVisible()
+  })
+
   test('TC-JT-005: mobile layout — no overflow at 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await expect(page.getByRole('heading', { name: 'Career Pipeline' })).toBeVisible()
