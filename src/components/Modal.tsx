@@ -20,6 +20,19 @@ export default function Modal({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
 
+  // Children may use autoFocus, which moves focus during React's commit phase —
+  // before any effect runs. The opener must therefore be captured at the moment
+  // the dialog transitions to open, during render.
+  const openerRef = useRef<HTMLElement | null>(null)
+  const wasOpenRef = useRef(false)
+  if (isOpen !== wasOpenRef.current) {
+    wasOpenRef.current = isOpen
+    if (isOpen) {
+      openerRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null
+    }
+  }
+
   useEffect(() => {
     if (!isOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,6 +48,9 @@ export default function Modal({
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     )
     focusable[0]?.focus()
+    return () => {
+      if (openerRef.current?.isConnected) openerRef.current.focus()
+    }
   }, [isOpen])
 
   if (!isOpen) return null

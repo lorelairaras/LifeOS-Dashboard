@@ -165,9 +165,7 @@ function NavItem({
       onClick={onClick}
       className={({ isActive }) =>
         `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-          isActive
-            ? activeClass
-            : 'text-ro-sec hover:bg-ro-card hover:text-ro-pri'
+          isActive ? activeClass : 'text-ro-sec hover:bg-ro-card hover:text-ro-pri'
         }`
       }
     >
@@ -250,7 +248,11 @@ export default function DashboardLayout() {
         <main id="main-content" tabIndex={-1} className="flex-1 p-4 sm:p-6 lg:p-8">
           <Suspense
             fallback={
-              <div className="flex items-center justify-center py-20">
+              <div
+                role="status"
+                aria-live="polite"
+                className="flex items-center justify-center py-20"
+              >
                 <span className="text-sm text-ro-sec">Loading…</span>
               </div>
             }
@@ -370,7 +372,8 @@ function DataLossNotice() {
       role="status"
     >
       <p className="text-xs text-ro-gold">
-        <strong>Demo mode:</strong> Showing example data. Connect Supabase to use your own data — changes won&rsquo;t persist.
+        <strong>Demo mode:</strong> Showing example data. Connect Supabase to use your own data —
+        changes won&rsquo;t persist.
       </p>
       <button
         type="button"
