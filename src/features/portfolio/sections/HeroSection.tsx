@@ -64,7 +64,7 @@ export default function HeroSection() {
                 View Projects
               </a>
               <a
-                href="/dashboard"
+                href={`${import.meta.env.BASE_URL}dashboard`}
                 className={[buttonBaseClasses, buttonVariantClasses.ghost, buttonSizeClasses.lg, 'border border-ro-pink/25'].join(' ')}
               >
                 Enter Dashboard →

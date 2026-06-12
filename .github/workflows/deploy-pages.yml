@@ -1,0 +1,70 @@
+# Builds the Vite app and publishes it to GitHub Pages on every push to main.
+#
+# ONE-TIME SETUP (manual, in the GitHub UI):
+#   Repo Settings → Pages → "Build and deployment" → Source → "GitHub Actions"
+#   (The current "Deploy from a branch: main /(root)" setting serves the RAW,
+#   unbuilt repo, which a browser cannot run — that is why the Pages URL was blank.)
+#
+# Notes:
+# - Builds with `--mode ghpages` so vite.config.ts sets base '/LifeOS-Dashboard/'.
+#   Vercel keeps building with the default mode (base '/') — the two deploys coexist.
+# - No Supabase env vars are provided on purpose: the public Pages site always
+#   runs in Demo Mode with the fictional "Lyra M." data. Personal data never
+#   reaches the public deployment.
+# - dist/index.html is copied to dist/404.html so deep links (e.g. /dashboard)
+#   load the SPA instead of GitHub's 404 page — Pages has no rewrite rules
+#   (this is the Pages equivalent of the SPA rewrite in vercel.json).
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two Pages deployments at once. Per GitHub's official starter,
+# in-progress production deployments are allowed to finish (not cancelled).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (base /LifeOS-Dashboard/)
+        run: npm run build:ghpages
+
+      - name: SPA fallback for client-side routes
+        run: cp dist/index.html dist/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

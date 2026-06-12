@@ -62,7 +62,7 @@ export default function PortfolioLayout() {
         >
           {/* Logo / system name */}
           <a
-            href="/"
+            href={import.meta.env.BASE_URL}
             className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
             aria-label="LifeOS — go to home"
           >
@@ -79,7 +79,7 @@ export default function PortfolioLayout() {
               System Online
             </span>
             <a
-              href="/dashboard"
+              href={`${import.meta.env.BASE_URL}dashboard`}
               className={[buttonBaseClasses, buttonVariantClasses.primary, buttonSizeClasses.sm].join(' ')}
             >
               Enter Dashboard →
@@ -120,7 +120,7 @@ export default function PortfolioLayout() {
               ))}
               <li className="pt-2">
                 <a
-                  href="/dashboard"
+                  href={`${import.meta.env.BASE_URL}dashboard`}
                   className="block rounded-lg bg-ro-pink px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-ro-deep"
                 >
                   Enter Dashboard →

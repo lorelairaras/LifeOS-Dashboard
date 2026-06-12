@@ -23,7 +23,8 @@ const AIOraclePage         = lazy(() => import('@/features/dashboard/pages/AIOra
 const HabitRitualsPage     = lazy(() => import('@/features/dashboard/pages/HabitRitualsPage'))
 const KnowledgeVaultPage   = lazy(() => import('@/features/dashboard/pages/KnowledgeVaultPage'))
 
-// basename = '/LifeOS-Dashboard/' in production (GitHub Pages), '/' in dev
+// basename follows Vite's base: '/LifeOS-Dashboard/' under --mode ghpages (GitHub Pages),
+// '/' everywhere else (dev + Vercel). See vite.config.ts.
 export const router = createBrowserRouter(
   [
     {
