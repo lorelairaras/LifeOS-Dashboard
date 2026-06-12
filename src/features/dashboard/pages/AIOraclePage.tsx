@@ -1,4 +1,5 @@
 import { Brain, FileText, Sparkles, Wallet, FolderOpen, ListTodo, Zap } from 'lucide-react'
+import { useFlavorNames } from '@/hooks/useFlavorNames'
 
 const oracleActions = [
   {
@@ -25,14 +26,14 @@ const oracleActions = [
   {
     icon: Wallet,
     title: 'Analyse Expenses',
-    description: 'Review your Budget Pulse data and surface spending patterns, warnings, and suggestions.',
+    description: 'Review your budget data and find spending patterns, warnings, and suggestions.',
     color: 'text-ro-gold',
     bg: 'bg-ro-gold/10 border-ro-gold/20',
   },
   {
     icon: FolderOpen,
     title: 'Draft Case Study',
-    description: 'Turn a Project Reliquary entry into a structured portfolio case study draft.',
+    description: 'Turn one of your projects into a structured portfolio case study draft.',
     color: 'text-ro-success',
     bg: 'bg-ro-success/10 border-ro-success/20',
   },
@@ -46,32 +47,38 @@ const oracleActions = [
 ]
 
 export default function AIOraclePage() {
+  const { enabled: flavorOn } = useFlavorNames()
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
           <Brain size={16} className="text-ro-oracle" aria-hidden="true" />
-          <h1 className="font-display text-2xl font-semibold text-ro-pri">AI Oracle</h1>
+          <h1 className="font-display text-2xl font-semibold text-ro-pri">AI Assistant</h1>
         </div>
-        <p className="mt-1 text-sm text-ro-muted">AI assistant · coming soon</p>
+        {flavorOn && (
+          <p className="mt-0.5 font-display text-xs italic text-ro-pink/60">The Oracle</p>
+        )}
+        <p className="mt-1 text-sm text-ro-muted">Coming soon</p>
       </div>
 
-      {/* Flavour header card */}
+      {/* Status card */}
       <div className="ro-card overflow-hidden">
         <div className="flex items-center justify-between border-b border-ro-pink/10 bg-ro-surface px-5 py-3">
-          <span className="font-mono text-[10px] text-ro-muted">oracle.lifeos — summoning</span>
+          <span className="font-mono text-[10px] text-ro-muted">assistant.lifeos</span>
           <span className="flex items-center gap-1.5 rounded-full border border-ro-oracle/30 bg-ro-oracle/10 px-2.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-ro-oracle">
             <Zap size={8} aria-hidden="true" />
-            Dormant
+            Not active yet
           </span>
         </div>
         <div className="px-6 py-5">
           <p className="font-display text-lg italic text-ro-sec">
-            &ldquo;The Oracle is being summoned. It will answer in a future version.&rdquo;
+            {flavorOn
+              ? '“The Oracle is being summoned. It will answer in a future version.”'
+              : 'The AI assistant is not ready yet. It will arrive in a future version.'}
           </p>
           <p className="mt-2 text-xs text-ro-muted">
-            AI features require an Anthropic API key. Coming in Phase 24.
+            AI features need an API key and are planned for a later phase.
           </p>
         </div>
       </div>
@@ -84,7 +91,7 @@ export default function AIOraclePage() {
         <ul
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           role="list"
-          aria-label="AI Oracle planned features"
+          aria-label="AI Assistant planned features"
         >
           {oracleActions.map((action) => (
             <li key={action.title}>

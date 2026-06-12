@@ -61,8 +61,9 @@ export default function ProjectsDashboardPage() {
   return (
     <div>
       <PageHeader
-        title="Project Reliquary"
-        description="Active projects · Document your work and ship case studies."
+        title="Projects"
+        flavor="The Reliquary"
+        description="Document your work and turn it into case studies."
         action={{
           label: 'Add Project',
           onClick: handleOpenCreate,
