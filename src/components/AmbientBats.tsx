@@ -35,10 +35,15 @@ export default function AmbientBats({ count = 22, className = '' }: AmbientBatsP
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const canvasEl = canvasRef.current
+    if (!canvasEl) return
+    const ctxMaybe = canvasEl.getContext('2d')
+    if (!ctxMaybe) return
+    // Bind to non-null-typed locals: control-flow narrowing isn't retained inside the
+    // nested rAF/resize closures, so without explicit types strict mode flags these as
+    // possibly-null (which fails the production `tsc -b` build).
+    const canvas: HTMLCanvasElement = canvasEl
+    const ctx: CanvasRenderingContext2D = ctxMaybe
 
     const coarse = window.matchMedia('(pointer: coarse)').matches
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
