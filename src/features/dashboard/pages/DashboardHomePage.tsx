@@ -25,6 +25,7 @@ import Button from '@/components/Button'
 import { isOverdue } from '@/utils/dateUtils'
 import { calculateTotals, formatCurrency, filterCurrentMonth } from '@/utils/budgetUtils'
 import { useWeeklyFocus } from '@/hooks/useWeeklyFocus'
+import { useFlavorNames } from '@/hooks/useFlavorNames'
 
 function computeMomentumScore(
   tasksCompleted: number,
@@ -43,10 +44,10 @@ function computeMomentumScore(
 }
 
 function getMomentumLabel(score: number): string {
-  if (score >= 80) return 'Peak ritual achieved'
+  if (score >= 80) return 'On fire'
   if (score >= 60) return 'Strong momentum'
-  if (score >= 40) return 'Building the practice'
-  if (score >= 20) return 'Awakening'
+  if (score >= 40) return 'Building momentum'
+  if (score >= 20) return 'Getting started'
   return 'Ready to begin'
 }
 
@@ -91,6 +92,7 @@ export default function DashboardHomePage() {
   const { prompts } = usePrompts()
   const { projects } = useProjects()
   const { text: weeklyFocus } = useWeeklyFocus()
+  const { enabled: flavorOn } = useFlavorNames()
 
   const openPalette  = useCallback(() => setPaletteOpen(true), [])
   const closePalette = useCallback(() => setPaletteOpen(false), [])
@@ -163,7 +165,10 @@ export default function DashboardHomePage() {
             <h1 className="font-display mt-1 text-2xl font-semibold text-ro-pri">
               {getGreeting()}, Rory
             </h1>
-            <p className="mt-0.5 text-sm text-ro-muted">Command Chamber · Your daily overview</p>
+            {flavorOn && (
+              <p className="mt-0.5 font-display text-xs italic text-ro-pink/60">The Command Chamber</p>
+            )}
+            <p className="mt-0.5 text-sm text-ro-muted">Your daily overview</p>
           </div>
           <button
             type="button"
@@ -186,13 +191,13 @@ export default function DashboardHomePage() {
           role="link"
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && navigate('/dashboard/today')}
-          aria-label="Open Today Ritual"
+          aria-label="Open Today page"
         >
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sun size={12} className="text-ro-gold" aria-hidden="true" />
               <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-ro-gold/60">
-                Today Ritual
+                Today
               </span>
             </div>
             <ArrowRight size={12} className="text-ro-muted" aria-hidden="true" />
@@ -204,7 +209,7 @@ export default function DashboardHomePage() {
               What matters most today?
             </p>
           )}
-          <p className="mt-2 text-xs text-ro-muted">Click to open Today Ritual →</p>
+          <p className="mt-2 text-xs text-ro-muted">Open Today to plan your day →</p>
         </div>
 
         {/* Momentum ring + stat cards */}
@@ -236,7 +241,7 @@ export default function DashboardHomePage() {
             </div>
 
             <StatCard label="Tasks Due" value={todaysTasks} icon={CheckSquare} accent="pink" />
-            <StatCard label="Career Pipeline" value={openApplications} icon={Briefcase} accent="bloom" />
+            <StatCard label="Open Applications" value={openApplications} icon={Briefcase} accent="bloom" />
             <StatCard label="Monthly Balance" value={formatCurrency(balance)} icon={Wallet} accent="gold" />
             <StatCard label="Active Projects" value={activeProjects} icon={FolderKanban} accent="success" />
             <StatCard label="Prompts This Week" value={thisWeekPrompts} icon={Sparkles} accent="oracle" />
@@ -320,7 +325,7 @@ export default function DashboardHomePage() {
           <section aria-labelledby="recent-prompts-heading">
             <div className="mb-3 flex items-center justify-between">
               <h2 id="recent-prompts-heading" className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-ro-pink/40">
-                Prompt Grimoire
+                Recent Prompts
               </h2>
               <button
                 type="button"
@@ -374,7 +379,7 @@ export default function DashboardHomePage() {
             </Button>
             <Button variant="secondary" size="sm" onClick={() => navigate('/dashboard/today')}>
               <Target size={12} aria-hidden="true" />
-              Open Today Ritual
+              Plan Today
             </Button>
           </div>
         </section>

@@ -16,19 +16,20 @@ import {
   BookMarked,
 } from 'lucide-react'
 
+// sublabel doubles as the searchable flavor name — typing "grimoire" still finds Prompts
 const COMMANDS = [
-  { id: 'home',     label: 'Command Chamber',    sublabel: 'Daily overview',    icon: LayoutDashboard, path: '/dashboard' },
-  { id: 'today',    label: 'Today Ritual',        sublabel: 'Plan your day',     icon: Sun,             path: '/dashboard/today' },
-  { id: 'tasks',    label: 'Ritual Tasks',        sublabel: 'Task manager',      icon: CheckSquare,     path: '/dashboard/tasks' },
-  { id: 'prompts',  label: 'Prompt Grimoire',     sublabel: 'Prompt library',    icon: Sparkles,        path: '/dashboard/prompts' },
-  { id: 'projects', label: 'Project Reliquary',   sublabel: 'Active projects',   icon: FolderKanban,    path: '/dashboard/projects' },
-  { id: 'budget',   label: 'Budget Pulse',        sublabel: 'Expenses & income', icon: Wallet,          path: '/dashboard/budget' },
-  { id: 'jobs',     label: 'Career Pipeline',     sublabel: 'Job tracker',       icon: Briefcase,       path: '/dashboard/jobs' },
-  { id: 'review',   label: 'Weekly Séance',       sublabel: 'Weekly review',     icon: CalendarCheck,   path: '/dashboard/review' },
-  { id: 'habits',   label: 'Habit Rituals',       sublabel: 'Daily habits',      icon: Flame,           path: '/dashboard/habits' },
-  { id: 'oracle',   label: 'AI Oracle',           sublabel: 'AI assistant',      icon: Brain,           path: '/dashboard/oracle' },
-  { id: 'vault',    label: 'Knowledge Vault',     sublabel: 'Notes & resources', icon: BookMarked,      path: '/dashboard/vault' },
-  { id: 'settings', label: 'Settings',            sublabel: '',                  icon: Settings,        path: '/dashboard/settings' },
+  { id: 'home',     label: 'Home',          sublabel: 'The Command Chamber',        icon: LayoutDashboard, path: '/dashboard' },
+  { id: 'today',    label: 'Today',         sublabel: 'Plan your day · ritual',     icon: Sun,             path: '/dashboard/today' },
+  { id: 'tasks',    label: 'Tasks',         sublabel: 'Ritual Tasks',               icon: CheckSquare,     path: '/dashboard/tasks' },
+  { id: 'prompts',  label: 'Prompts',       sublabel: 'The Grimoire · AI prompts',  icon: Sparkles,        path: '/dashboard/prompts' },
+  { id: 'projects', label: 'Projects',      sublabel: 'The Reliquary',              icon: FolderKanban,    path: '/dashboard/projects' },
+  { id: 'budget',   label: 'Budget',        sublabel: 'Budget Pulse · money',       icon: Wallet,          path: '/dashboard/budget' },
+  { id: 'jobs',     label: 'Job Tracker',   sublabel: 'Career Pipeline',            icon: Briefcase,       path: '/dashboard/jobs' },
+  { id: 'review',   label: 'Weekly Review', sublabel: 'The Séance',                 icon: CalendarCheck,   path: '/dashboard/review' },
+  { id: 'habits',   label: 'Habits',        sublabel: 'Habit Rituals · streaks',    icon: Flame,           path: '/dashboard/habits' },
+  { id: 'oracle',   label: 'AI Assistant',  sublabel: 'The Oracle · coming soon',   icon: Brain,           path: '/dashboard/oracle' },
+  { id: 'vault',    label: 'Notes',         sublabel: 'The Vault · knowledge base', icon: BookMarked,      path: '/dashboard/vault' },
+  { id: 'settings', label: 'Settings',      sublabel: '',                           icon: Settings,        path: '/dashboard/settings' },
 ]
 
 interface CommandPaletteProps {

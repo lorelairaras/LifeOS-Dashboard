@@ -5,6 +5,7 @@ import { usePrompts } from '@/features/prompts/hooks/usePrompts'
 import { useJobs } from '@/features/jobs/hooks/useJobs'
 import { useBudget } from '@/features/budget/hooks/useBudget'
 import { useProjects } from '@/features/projects/hooks/useProjects'
+import { useFlavorNames } from '@/hooks/useFlavorNames'
 import { calculateTotals, formatCurrency, filterCurrentMonth } from '@/utils/budgetUtils'
 
 const NEXT_FOCUS_KEY = 'lifeos:next-week-focus'
@@ -23,6 +24,7 @@ export default function WeeklySeancePage() {
   const { jobs } = useJobs()
   const { entries: budgetEntries } = useBudget()
   const { projects } = useProjects()
+  const { enabled: flavorOn } = useFlavorNames()
 
   const [nextFocus, setNextFocus] = useState(() => localStorage.getItem(NEXT_FOCUS_KEY) ?? '')
   const [whatWorked, setWhatWorked] = useState(() => localStorage.getItem(WORKED_KEY) ?? '')
@@ -71,15 +73,18 @@ export default function WeeklySeancePage() {
       <div>
         <div className="flex items-center gap-2">
           <CalendarCheck size={16} className="text-ro-bloom" aria-hidden="true" />
-          <h1 className="font-display text-2xl font-semibold text-ro-pri">Weekly Séance</h1>
+          <h1 className="font-display text-2xl font-semibold text-ro-pri">Weekly Review</h1>
         </div>
-        <p className="mt-1 text-sm text-ro-muted">Weekly review · last 7 days</p>
+        {flavorOn && (
+          <p className="mt-0.5 font-display text-xs italic text-ro-pink/60">The Séance</p>
+        )}
+        <p className="mt-1 text-sm text-ro-muted">Look back at the last 7 days, plan the next</p>
       </div>
 
       {closed ? (
         <div className="ro-card p-8 text-center">
-          <p className="font-display text-xl text-ro-pri">The séance is closed. ✦</p>
-          <p className="mt-2 text-sm text-ro-sec">Until next week.</p>
+          <p className="font-display text-xl text-ro-pri">Your weekly review is saved. ✦</p>
+          <p className="mt-2 text-sm text-ro-sec">See you next week.</p>
           <button
             type="button"
             onClick={() => setClosed(false)}
@@ -162,7 +167,7 @@ export default function WeeklySeancePage() {
             onClick={handleClose}
             className="w-full rounded-xl border border-ro-bloom/25 bg-ro-bloom/10 py-3 font-display text-sm font-semibold text-ro-bloom transition-all hover:bg-ro-bloom/20"
           >
-            ✦ Close the Séance
+            {flavorOn ? '✦ Close the Séance' : 'Save weekly review'}
           </button>
         </>
       )}

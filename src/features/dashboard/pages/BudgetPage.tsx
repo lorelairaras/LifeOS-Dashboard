@@ -56,7 +56,8 @@ export default function BudgetPage() {
   return (
     <div>
       <PageHeader
-        title="Budget Pulse"
+        title="Budget"
+        flavor="Budget Pulse"
         description="Track income and expenses. See where your money goes."
         action={{
           label: 'Add Entry',

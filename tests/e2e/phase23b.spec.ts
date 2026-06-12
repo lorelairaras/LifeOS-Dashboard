@@ -4,13 +4,13 @@ import { test, expect } from '@playwright/test'
 // TC-PR — Project Reliquary CRUD tests (Phase 23B)
 // ============================================================
 
-test.describe('Project Reliquary', () => {
+test.describe('Projects page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/dashboard/projects')
   })
 
   test('TC-PR-001: demo projects are displayed on load', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Project Reliquary' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible()
     await expect(page.getByText('LifeOS Dashboard')).toBeVisible()
     await expect(page.getByRole('button', { name: /add project/i }).first()).toBeVisible()
   })
@@ -51,13 +51,13 @@ test.describe('Project Reliquary', () => {
 // TC-HB — Habit Rituals tests (Phase 23B)
 // ============================================================
 
-test.describe('Habit Rituals', () => {
+test.describe('Habits page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/dashboard/habits')
   })
 
   test('TC-HB-001: demo habits are displayed on load', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Habit Rituals' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Habits', exact: true })).toBeVisible()
     await expect(page.getByText('Morning pages')).toBeVisible()
     await expect(page.locator('[data-testid="habit-list"]')).toBeVisible()
   })
@@ -92,13 +92,13 @@ test.describe('Habit Rituals', () => {
 // TC-KV — Knowledge Vault tests (Phase 23B)
 // ============================================================
 
-test.describe('Knowledge Vault', () => {
+test.describe('Notes page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/dashboard/vault')
   })
 
   test('TC-KV-001: demo notes are displayed on load', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Knowledge Vault' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Notes', exact: true })).toBeVisible()
     await expect(page.getByText('Product thinking frameworks')).toBeVisible()
     await expect(page.locator('[data-testid="note-list"]')).toBeVisible()
   })

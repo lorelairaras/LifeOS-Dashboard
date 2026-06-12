@@ -53,7 +53,7 @@ export const DEMO_TASKS: Task[] = [
   },
   {
     id: 'demo-task-3',
-    title: 'Refactor Budget Pulse filters',
+    title: 'Refactor Budget page filters',
     status: 'todo',
     priority: 'medium',
     category: 'work',
@@ -92,7 +92,7 @@ export const DEMO_TASKS: Task[] = [
   },
   {
     id: 'demo-task-7',
-    title: 'Log this month\'s subscriptions in Budget Pulse',
+    title: 'Log this month\'s subscriptions in Budget',
     status: 'done',
     priority: 'low',
     category: 'personal',
@@ -250,19 +250,21 @@ export const DEMO_JOBS: JobApplication[] = [
 ]
 
 // ── Budget Entries ────────────────────────────────────────────
+// Dates stay within the last 10 days so the "current month" summary on the
+// Home page usually has data regardless of when the demo is viewed.
 export const DEMO_BUDGET: BudgetEntry[] = [
-  { id: 'demo-b-1',  title: 'Monthly salary',      amount: 4800, type: 'income',  category: 'Income',        date: d(28), notes: '', createdAt: d(28) },
-  { id: 'demo-b-2',  title: 'Freelance — BA audit', amount: 900,  type: 'income',  category: 'Freelance',     date: d(20), notes: 'Invoice #009', createdAt: d(20) },
-  { id: 'demo-b-3',  title: 'Rent',                amount: 1350, type: 'expense', category: 'Housing',       date: d(28), notes: '', createdAt: d(28) },
-  { id: 'demo-b-4',  title: 'Groceries — week 1',  amount: 87,   type: 'expense', category: 'Food',          date: d(26), notes: '', createdAt: d(26) },
-  { id: 'demo-b-5',  title: 'Groceries — week 2',  amount: 94,   type: 'expense', category: 'Food',          date: d(19), notes: '', createdAt: d(19) },
-  { id: 'demo-b-6',  title: 'Transport pass',       amount: 55,   type: 'expense', category: 'Transport',    date: d(25), notes: '', createdAt: d(25) },
-  { id: 'demo-b-7',  title: 'Figma Pro',            amount: 15,   type: 'expense', category: 'Utilities',     date: d(22), notes: 'Monthly subscription', createdAt: d(22) },
-  { id: 'demo-b-8',  title: 'GitHub Copilot',       amount: 10,   type: 'expense', category: 'Utilities',     date: d(22), notes: 'Monthly subscription', createdAt: d(22) },
-  { id: 'demo-b-9',  title: 'Coffee & co-working',  amount: 42,   type: 'expense', category: 'Entertainment', date: d(18), notes: '', createdAt: d(18) },
-  { id: 'demo-b-10', title: 'Health insurance',      amount: 120,  type: 'expense', category: 'Health',        date: d(28), notes: '', createdAt: d(28) },
-  { id: 'demo-b-11', title: 'Online course — React', amount: 35,   type: 'expense', category: 'Education',     date: d(15), notes: 'Udemy sale price', createdAt: d(15) },
-  { id: 'demo-b-12', title: 'Dinner — team outing',  amount: 68,   type: 'expense', category: 'Food',          date: d(12), notes: '', createdAt: d(12) },
+  { id: 'demo-b-1',  title: 'Monthly salary',      amount: 4800, type: 'income',  category: 'Income',        date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-2',  title: 'Freelance — BA audit', amount: 900,  type: 'income',  category: 'Freelance',     date: d(5),  notes: 'Invoice #009', createdAt: d(5) },
+  { id: 'demo-b-3',  title: 'Rent',                amount: 1350, type: 'expense', category: 'Housing',       date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-4',  title: 'Groceries — week 1',  amount: 87,   type: 'expense', category: 'Food',          date: d(9),  notes: '', createdAt: d(9) },
+  { id: 'demo-b-5',  title: 'Groceries — week 2',  amount: 94,   type: 'expense', category: 'Food',          date: d(2),  notes: '', createdAt: d(2) },
+  { id: 'demo-b-6',  title: 'Transport pass',       amount: 55,   type: 'expense', category: 'Transport',    date: d(8),  notes: '', createdAt: d(8) },
+  { id: 'demo-b-7',  title: 'Figma Pro',            amount: 15,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
+  { id: 'demo-b-8',  title: 'GitHub Copilot',       amount: 10,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
+  { id: 'demo-b-9',  title: 'Coffee & co-working',  amount: 42,   type: 'expense', category: 'Entertainment', date: d(6),  notes: '', createdAt: d(6) },
+  { id: 'demo-b-10', title: 'Health insurance',      amount: 120,  type: 'expense', category: 'Health',        date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-11', title: 'Online course — React', amount: 35,   type: 'expense', category: 'Education',     date: d(4),  notes: 'Udemy sale price', createdAt: d(4) },
+  { id: 'demo-b-12', title: 'Dinner — team outing',  amount: 68,   type: 'expense', category: 'Food',          date: d(1),  notes: '', createdAt: d(1) },
 ]
 
 // ── Projects ──────────────────────────────────────────────────
@@ -274,7 +276,7 @@ export const DEMO_PROJECTS: Project[] = [
     visibility: 'public',
     problemSolved: 'Needed a unified command center for tasks, prompts, career, and finances — nothing existed that matched how I think.',
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Vite'],
-    keyFeatures: 'Task tracker, Prompt Grimoire, Career Pipeline, Budget Pulse, Project Reliquary, Rose Obsidian design system',
+    keyFeatures: 'Task tracker, prompt library, job tracker, budget, projects, Rose Obsidian design system',
     lessonsLearned: 'Design system tokens first saves hours of rework later. Naming things well is product work.',
     createdAt: d(90),
     updatedAt: d(0),

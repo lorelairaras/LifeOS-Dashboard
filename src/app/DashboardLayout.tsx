@@ -34,11 +34,11 @@ type NavItemConfig = {
 
 const navGroups: { label: string; items: NavItemConfig[] }[] = [
   {
-    label: 'COMMAND',
+    label: 'OVERVIEW',
     items: [
       {
         to: '/dashboard',
-        label: 'Command Chamber',
+        label: 'Home',
         sublabel: 'Daily overview',
         icon: LayoutDashboard,
         end: true,
@@ -46,7 +46,7 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       },
       {
         to: '/dashboard/today',
-        label: 'Today Ritual',
+        label: 'Today',
         sublabel: 'Plan your day',
         icon: Sun,
         end: false,
@@ -55,28 +55,28 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
     ],
   },
   {
-    label: 'PRACTICE',
+    label: 'WORK',
     items: [
       {
         to: '/dashboard/tasks',
-        label: 'Ritual Tasks',
-        sublabel: 'Task manager',
+        label: 'Tasks',
+        sublabel: 'Track what needs doing',
         icon: CheckSquare,
         end: false,
         activeClass: 'bg-ro-pink/10 text-ro-pink',
       },
       {
         to: '/dashboard/prompts',
-        label: 'Prompt Grimoire',
-        sublabel: 'Prompt library',
+        label: 'Prompts',
+        sublabel: 'Your AI prompt library',
         icon: Sparkles,
         end: false,
         activeClass: 'bg-ro-oracle/10 text-ro-oracle',
       },
       {
         to: '/dashboard/projects',
-        label: 'Project Reliquary',
-        sublabel: 'Active projects',
+        label: 'Projects',
+        sublabel: 'Document your work',
         icon: FolderKanban,
         end: false,
         activeClass: 'bg-ro-success/10 text-ro-success',
@@ -84,20 +84,20 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
     ],
   },
   {
-    label: 'LIFE SYSTEMS',
+    label: 'LIFE',
     items: [
       {
         to: '/dashboard/budget',
-        label: 'Budget Pulse',
-        sublabel: 'Expenses & income',
+        label: 'Budget',
+        sublabel: 'Income & expenses',
         icon: Wallet,
         end: false,
         activeClass: 'bg-ro-gold/10 text-ro-gold',
       },
       {
         to: '/dashboard/jobs',
-        label: 'Career Pipeline',
-        sublabel: 'Job tracker',
+        label: 'Job Tracker',
+        sublabel: 'Applications & follow-ups',
         icon: Briefcase,
         end: false,
         activeClass: 'bg-ro-bloom/10 text-ro-bloom',
@@ -105,20 +105,20 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
     ],
   },
   {
-    label: 'RITUALS',
+    label: 'REFLECT',
     items: [
       {
         to: '/dashboard/review',
-        label: 'Weekly Séance',
-        sublabel: 'Weekly review',
+        label: 'Weekly Review',
+        sublabel: 'Look back, plan ahead',
         icon: CalendarCheck,
         end: false,
         activeClass: 'bg-ro-bloom/10 text-ro-bloom',
       },
       {
         to: '/dashboard/habits',
-        label: 'Habit Rituals',
-        sublabel: 'Daily habits',
+        label: 'Habits',
+        sublabel: 'Daily streaks',
         icon: Flame,
         end: false,
         activeClass: 'bg-ro-gold/10 text-ro-gold',
@@ -126,12 +126,12 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
     ],
   },
   {
-    label: 'ORACLE',
+    label: 'MORE',
     items: [
       {
         to: '/dashboard/oracle',
-        label: 'AI Oracle',
-        sublabel: 'AI assistant',
+        label: 'AI Assistant',
+        sublabel: 'Coming soon',
         icon: Brain,
         end: false,
         activeClass: 'bg-ro-oracle/10 text-ro-oracle',
@@ -139,8 +139,8 @@ const navGroups: { label: string; items: NavItemConfig[] }[] = [
       },
       {
         to: '/dashboard/vault',
-        label: 'Knowledge Vault',
-        sublabel: 'Notes & resources',
+        label: 'Notes',
+        sublabel: 'Your knowledge base',
         icon: BookMarked,
         end: false,
         activeClass: 'bg-ro-sec/10 text-ro-sec',
@@ -372,8 +372,15 @@ function DataLossNotice() {
       role="status"
     >
       <p className="text-xs text-ro-gold">
-        <strong>Demo mode:</strong> Showing example data. Connect Supabase to use your own data —
-        changes won&rsquo;t persist.
+        <strong>Demo:</strong> This is a demo with example data. Changes are not saved.{' '}
+        <a
+          href="https://github.com/lorelairaras/LifeOS-Dashboard/blob/main/docs/deployment/personal-setup-guide_v0.1.0.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-ro-pri"
+        >
+          Set up your own dashboard
+        </a>
       </p>
       <button
         type="button"
