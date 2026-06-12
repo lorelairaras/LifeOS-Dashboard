@@ -344,7 +344,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             </li>
             <li>
               <a
-                href="/"
+                href={import.meta.env.BASE_URL}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-ro-sec transition-colors hover:bg-ro-card hover:text-ro-pri"
               >
                 <ExternalLink size={14} aria-hidden="true" />
