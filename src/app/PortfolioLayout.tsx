@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Menu, X, User, Layers, FolderKanban, FileText, Mail, BookOpen, Home } from 'lucide-react'
+import { Menu, X, Layers, Sparkles, Briefcase, Mail, BookOpen, Home, Info } from 'lucide-react'
 import { buttonBaseClasses, buttonVariantClasses, buttonSizeClasses } from '@/components/button.utils'
 
 const sidebarAnchors = [
-  { id: 'hero',        label: 'Home',         Icon: Home },
-  { id: 'about',       label: 'About',        Icon: User },
-  { id: 'skills',      label: 'Skills',       Icon: Layers },
-  { id: 'projects',    label: 'Projects',     Icon: FolderKanban },
-  { id: 'case-studies',label: 'Case Studies', Icon: BookOpen },
-  { id: 'resume',      label: 'Resume',       Icon: FileText },
-  { id: 'contact',     label: 'Contact',      Icon: Mail },
+  { id: 'hero',         label: 'Home',          Icon: Home },
+  { id: 'what',         label: 'What it does',  Icon: Layers },
+  { id: 'how',          label: 'How it helps',  Icon: Sparkles },
+  { id: 'services',     label: 'Services',      Icon: Briefcase },
+  { id: 'case-studies', label: 'Case Studies',  Icon: BookOpen },
+  { id: 'about',        label: 'About',         Icon: Info },
+  { id: 'contact',      label: 'Contact',       Icon: Mail },
 ]
 
 const mobileNavLinks = sidebarAnchors.map((a) => ({ href: `#${a.id}`, label: a.label }))
@@ -49,12 +49,12 @@ export default function PortfolioLayout() {
 
   return (
     <>
-      {/* Skip to main content — WCAG 2.4.1 */}
+      {/* Skip to main content - WCAG 2.4.1 */}
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
 
-      {/* Top bar — OS command bar style */}
+      {/* Top bar - OS command bar style */}
       <header className="fixed inset-x-0 top-0 z-40 border-b border-ro-pink/10 bg-ro-void/90 backdrop-blur-md">
         <nav
           className="flex items-center justify-between px-4 py-3 sm:px-6"
@@ -64,16 +64,16 @@ export default function PortfolioLayout() {
           <a
             href={import.meta.env.BASE_URL}
             className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
-            aria-label="LifeOS — go to home"
+            aria-label="LifeOS - go to home"
           >
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ro-pink/15 text-ro-pink">
               <span className="font-mono text-[10px] font-bold tracking-tighter">LO</span>
             </div>
-            <span className="font-display text-base font-semibold text-ro-pri">Rory</span>
-            <span className="hidden text-xs text-ro-muted sm:block">/ LifeOS</span>
+            <span className="font-display text-base font-semibold text-ro-pri">LifeOS</span>
+            <span className="hidden text-xs text-ro-muted sm:block">/ by Rory</span>
           </a>
 
-          {/* Desktop — Enter Dashboard CTA */}
+          {/* Desktop - Enter Dashboard CTA */}
           <div className="hidden items-center gap-4 md:flex">
             <span className="font-mono text-[10px] text-ro-pink/40 tracking-widest uppercase">
               System Online
@@ -82,7 +82,7 @@ export default function PortfolioLayout() {
               href={`${import.meta.env.BASE_URL}dashboard`}
               className={[buttonBaseClasses, buttonVariantClasses.primary, buttonSizeClasses.sm].join(' ')}
             >
-              Enter Dashboard →
+              Enter Dashboard &rarr;
             </a>
           </div>
 
@@ -123,7 +123,7 @@ export default function PortfolioLayout() {
                   href={`${import.meta.env.BASE_URL}dashboard`}
                   className="block rounded-lg bg-ro-pink px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-ro-deep"
                 >
-                  Enter Dashboard →
+                  Enter Dashboard &rarr;
                 </a>
               </li>
             </ul>
@@ -131,9 +131,9 @@ export default function PortfolioLayout() {
         )}
       </header>
 
-      {/* Layout shell — sidebar strip + main content */}
+      {/* Layout shell - sidebar strip + main content */}
       <div className="flex min-h-screen pt-12">
-        {/* Decorative sidebar strip — scroll anchor nav */}
+        {/* Decorative sidebar strip - scroll anchor nav */}
         <aside
           className="fixed left-0 top-12 bottom-0 z-30 hidden w-14 flex-col items-center gap-1 border-r border-ro-pink/10 bg-ro-void/95 py-6 md:flex"
           aria-label="Section navigation"

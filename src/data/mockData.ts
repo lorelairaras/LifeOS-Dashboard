@@ -1,5 +1,5 @@
 // ============================================================
-// Demo data — used when Supabase is not configured.
+// Demo data - used when Supabase is not configured.
 // All data attributed to fictional persona "Lyra M." so it is
 // clearly distinct from any real user's private information.
 // ============================================================
@@ -16,7 +16,7 @@ import type {
 } from '@/types'
 
 const now = new Date().toISOString()
-// Local calendar date (NOT UTC) — must match the habit page's date keys,
+// Local calendar date (NOT UTC) - must match the habit page's date keys,
 // which also use local dates. toISOString() would shift the day for
 // users ahead of UTC.
 const d = (daysAgo: number) => {
@@ -28,7 +28,7 @@ const d = (daysAgo: number) => {
   return `${y}-${m}-${dd}`
 }
 
-// ── Tasks ────────────────────────────────────────────────────
+// -- Tasks --
 export const DEMO_TASKS: Task[] = [
   {
     id: 'demo-task-1',
@@ -109,9 +109,51 @@ export const DEMO_TASKS: Task[] = [
     createdAt: d(1),
     updatedAt: now,
   },
+  {
+    id: 'demo-task-9',
+    title: 'Ship chatbot FAQ demo for client pitch',
+    description: 'Small RAG bot over the docs folder. Free-tier model first; confirm scope before any paid API.',
+    status: 'blocked',
+    priority: 'high',
+    category: 'work',
+    notes: 'Blocked: waiting on client to confirm which docs are in scope.',
+    dueDate: d(-2),
+    createdAt: d(4),
+    updatedAt: now,
+  },
+  {
+    id: 'demo-task-10',
+    title: 'Wireframe Services section in Figma',
+    status: 'in_progress',
+    priority: 'medium',
+    category: 'project',
+    dueDate: d(-1),
+    createdAt: d(2),
+    updatedAt: now,
+  },
+  {
+    id: 'demo-task-11',
+    title: 'Deploy preview to Vercel and share link',
+    status: 'todo',
+    priority: 'medium',
+    category: 'work',
+    dueDate: d(-1),
+    createdAt: d(1),
+    updatedAt: now,
+  },
+  {
+    id: 'demo-task-12',
+    title: 'Read one chapter of "Continuous Discovery Habits"',
+    status: 'done',
+    priority: 'low',
+    category: 'general',
+    dueDate: d(4),
+    createdAt: d(9),
+    updatedAt: d(4),
+  },
 ]
 
-// ── Prompts ───────────────────────────────────────────────────
+// -- Prompts --
 export const DEMO_PROMPTS: Prompt[] = [
   {
     id: 'demo-prompt-1',
@@ -126,7 +168,7 @@ export const DEMO_PROMPTS: Prompt[] = [
   },
   {
     id: 'demo-prompt-2',
-    title: 'Cover letter — senior product role',
+    title: 'Cover letter - senior product role',
     body: 'Write a concise, confident cover letter for a Senior Product Manager role at [COMPANY]. I am applying from a background in business analysis and frontend development. Highlight: systems thinking, cross-functional communication, and shipping products from zero to one. Keep it under 250 words. Tone: direct, not flowery.',
     category: 'resume_cover_letter',
     useCase: 'Job applications',
@@ -148,8 +190,8 @@ export const DEMO_PROMPTS: Prompt[] = [
   },
   {
     id: 'demo-prompt-4',
-    title: 'Weekly planning — daily prioritisation',
-    body: 'I have the following tasks for the week:\n[PASTE TASK LIST]\n\nGroup them by day (Mon–Fri) based on energy level and dependencies. Assume mornings are for deep work, afternoons for meetings and admin. Return a simple day-by-day plan with 3 tasks per day maximum.',
+    title: 'Weekly planning - daily prioritisation',
+    body: 'I have the following tasks for the week:\n[PASTE TASK LIST]\n\nGroup them by day (Mon-Fri) based on energy level and dependencies. Assume mornings are for deep work, afternoons for meetings and admin. Return a simple day-by-day plan with 3 tasks per day maximum.',
     category: 'daily_planning',
     useCase: 'Weekly planning ritual',
     tags: ['planning', 'productivity', 'daily-ritual'],
@@ -170,7 +212,7 @@ export const DEMO_PROMPTS: Prompt[] = [
   },
   {
     id: 'demo-prompt-6',
-    title: 'Technical documentation — feature spec',
+    title: 'Technical documentation - feature spec',
     body: 'Write a technical specification for the following feature:\n[FEATURE DESCRIPTION]\n\nInclude sections: Overview, Goals, Non-Goals, Technical Approach, API Changes, Data Model Changes, Testing Plan. Keep each section to a short paragraph. Audience: mid-level engineers.',
     category: 'documentation',
     useCase: 'Feature documentation',
@@ -179,9 +221,42 @@ export const DEMO_PROMPTS: Prompt[] = [
     createdAt: d(25),
     updatedAt: d(9),
   },
+  {
+    id: 'demo-prompt-7',
+    title: 'Feature prioritisation - RICE',
+    body: 'Given the following backlog items, score each using RICE (Reach, Impact, Confidence, Effort) and rank them. Show your assumptions for each score. Flag any item where Confidence is below 50%.\n\n[PASTE BACKLOG HERE]',
+    category: 'product_planning',
+    useCase: 'Roadmap planning',
+    tags: ['product', 'prioritisation', 'rice'],
+    lastUsedAt: d(4),
+    createdAt: d(22),
+    updatedAt: d(4),
+  },
+  {
+    id: 'demo-prompt-8',
+    title: 'Chatbot system prompt - support deflection',
+    body: 'You are a support assistant for [PRODUCT]. Answer only from the provided knowledge base. If the answer is not in the knowledge base, say so and offer to hand off to a human. Keep replies under 80 words, friendly and plain. Never invent policies, prices, or dates.\n\nKnowledge base:\n[PASTE KB HERE]',
+    category: 'business_analysis',
+    useCase: 'Chatbot service delivery',
+    tags: ['chatbot', 'ai', 'support', 'rag'],
+    lastUsedAt: d(1),
+    createdAt: d(11),
+    updatedAt: d(1),
+  },
+  {
+    id: 'demo-prompt-9',
+    title: 'Explain this error like I have 5 minutes',
+    body: 'Explain the following error message in plain language: what it means, the most likely cause, and the single most probable fix to try first. Then list two less-likely causes. Keep it short.\n\n[PASTE ERROR HERE]',
+    category: 'other',
+    useCase: 'Quick debugging',
+    tags: ['debugging', 'errors'],
+    lastUsedAt: d(0),
+    createdAt: d(6),
+    updatedAt: d(0),
+  },
 ]
 
-// ── Job Applications ──────────────────────────────────────────
+// -- Job Applications --
 export const DEMO_JOBS: JobApplication[] = [
   {
     id: 'demo-job-1',
@@ -201,7 +276,7 @@ export const DEMO_JOBS: JobApplication[] = [
     id: 'demo-job-2',
     company: 'Obsidian Labs',
     role: 'Frontend Engineer',
-    location: 'Hybrid — Singapore',
+    location: 'Hybrid - Singapore',
     jobType: 'hybrid',
     status: 'applied',
     jobUrl: '#',
@@ -215,7 +290,7 @@ export const DEMO_JOBS: JobApplication[] = [
     id: 'demo-job-3',
     company: 'Veilworks',
     role: 'Business Analyst',
-    location: 'On-site — KL',
+    location: 'On-site - KL',
     jobType: 'on_site',
     status: 'phone_screen',
     notes: 'Phone screen this Thursday at 3pm.',
@@ -247,34 +322,79 @@ export const DEMO_JOBS: JobApplication[] = [
     createdAt: d(21),
     updatedAt: d(8),
   },
+  {
+    id: 'demo-job-6',
+    company: 'Lumen Systems',
+    role: 'Senior Frontend Engineer',
+    location: 'Remote',
+    jobType: 'remote',
+    status: 'offer',
+    jobUrl: '#',
+    notes: 'Offer received. Reviewing comp and equity before responding.',
+    dateApplied: d(28),
+    followUpDate: d(-2),
+    createdAt: d(28),
+    updatedAt: d(1),
+  },
+  {
+    id: 'demo-job-7',
+    company: 'Hollowpoint Tech',
+    role: 'Product Analyst',
+    location: 'Hybrid - Manila',
+    jobType: 'hybrid',
+    status: 'assessment',
+    jobUrl: '#',
+    notes: 'Take-home due in 3 days: SQL + dashboard mock-up.',
+    dateApplied: d(9),
+    followUpDate: d(-3),
+    createdAt: d(9),
+    updatedAt: d(2),
+  },
+  {
+    id: 'demo-job-8',
+    company: 'Cinder & Co.',
+    role: 'UX Engineer',
+    location: 'Remote',
+    jobType: 'flexible',
+    status: 'closed',
+    notes: 'Role closed by company - backfill paused. Keep contact for future.',
+    dateApplied: d(35),
+    createdAt: d(35),
+    updatedAt: d(12),
+  },
 ]
 
-// ── Budget Entries ────────────────────────────────────────────
+// -- Budget Entries --
 // Dates stay within the last 10 days so the "current month" summary on the
 // Home page usually has data regardless of when the demo is viewed.
 export const DEMO_BUDGET: BudgetEntry[] = [
-  { id: 'demo-b-1',  title: 'Monthly salary',      amount: 4800, type: 'income',  category: 'Income',        date: d(10), notes: '', createdAt: d(10) },
-  { id: 'demo-b-2',  title: 'Freelance — BA audit', amount: 900,  type: 'income',  category: 'Freelance',     date: d(5),  notes: 'Invoice #009', createdAt: d(5) },
-  { id: 'demo-b-3',  title: 'Rent',                amount: 1350, type: 'expense', category: 'Housing',       date: d(10), notes: '', createdAt: d(10) },
-  { id: 'demo-b-4',  title: 'Groceries — week 1',  amount: 87,   type: 'expense', category: 'Food',          date: d(9),  notes: '', createdAt: d(9) },
-  { id: 'demo-b-5',  title: 'Groceries — week 2',  amount: 94,   type: 'expense', category: 'Food',          date: d(2),  notes: '', createdAt: d(2) },
-  { id: 'demo-b-6',  title: 'Transport pass',       amount: 55,   type: 'expense', category: 'Transport',    date: d(8),  notes: '', createdAt: d(8) },
-  { id: 'demo-b-7',  title: 'Figma Pro',            amount: 15,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
-  { id: 'demo-b-8',  title: 'GitHub Copilot',       amount: 10,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
-  { id: 'demo-b-9',  title: 'Coffee & co-working',  amount: 42,   type: 'expense', category: 'Entertainment', date: d(6),  notes: '', createdAt: d(6) },
-  { id: 'demo-b-10', title: 'Health insurance',      amount: 120,  type: 'expense', category: 'Health',        date: d(10), notes: '', createdAt: d(10) },
-  { id: 'demo-b-11', title: 'Online course — React', amount: 35,   type: 'expense', category: 'Education',     date: d(4),  notes: 'Udemy sale price', createdAt: d(4) },
-  { id: 'demo-b-12', title: 'Dinner — team outing',  amount: 68,   type: 'expense', category: 'Food',          date: d(1),  notes: '', createdAt: d(1) },
+  { id: 'demo-b-1',  title: 'Monthly salary',          amount: 4800, type: 'income',  category: 'Income',        date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-2',  title: 'Freelance - BA audit',    amount: 900,  type: 'income',  category: 'Freelance',     date: d(5),  notes: 'Invoice #009', createdAt: d(5) },
+  { id: 'demo-b-3',  title: 'Rent',                    amount: 1350, type: 'expense', category: 'Housing',       date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-4',  title: 'Groceries - week 1',      amount: 87,   type: 'expense', category: 'Food',          date: d(9),  notes: '', createdAt: d(9) },
+  { id: 'demo-b-5',  title: 'Groceries - week 2',      amount: 94,   type: 'expense', category: 'Food',          date: d(2),  notes: '', createdAt: d(2) },
+  { id: 'demo-b-6',  title: 'Transport pass',          amount: 55,   type: 'expense', category: 'Transport',     date: d(8),  notes: '', createdAt: d(8) },
+  { id: 'demo-b-7',  title: 'Figma Pro',               amount: 15,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
+  { id: 'demo-b-8',  title: 'GitHub Copilot',          amount: 10,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
+  { id: 'demo-b-9',  title: 'Coffee & co-working',     amount: 42,   type: 'expense', category: 'Entertainment', date: d(6),  notes: '', createdAt: d(6) },
+  { id: 'demo-b-10', title: 'Health insurance',         amount: 120,  type: 'expense', category: 'Health',        date: d(10), notes: '', createdAt: d(10) },
+  { id: 'demo-b-11', title: 'Online course - React',   amount: 35,   type: 'expense', category: 'Education',     date: d(4),  notes: 'Udemy sale price', createdAt: d(4) },
+  { id: 'demo-b-12', title: 'Dinner - team outing',    amount: 68,   type: 'expense', category: 'Food',          date: d(1),  notes: '', createdAt: d(1) },
+  { id: 'demo-b-13', title: 'Freelance - chatbot build', amount: 650, type: 'income', category: 'Freelance',     date: d(3),  notes: 'Invoice #010 (deposit)', createdAt: d(3) },
+  { id: 'demo-b-14', title: 'Vercel Pro',              amount: 20,   type: 'expense', category: 'Utilities',     date: d(7),  notes: 'Monthly subscription', createdAt: d(7) },
+  { id: 'demo-b-15', title: 'Domain renewal',           amount: 14,   type: 'expense', category: 'Utilities',     date: d(3),  notes: 'lifeos.dev - annual', createdAt: d(3) },
+  { id: 'demo-b-16', title: 'Phone bill',              amount: 30,   type: 'expense', category: 'Utilities',     date: d(6),  notes: '', createdAt: d(6) },
+  { id: 'demo-b-17', title: 'Savings transfer',         amount: 400,  type: 'expense', category: 'Other',         date: d(9),  notes: 'Auto-transfer to emergency fund', createdAt: d(9) },
 ]
 
-// ── Projects ──────────────────────────────────────────────────
+// -- Projects --
 export const DEMO_PROJECTS: Project[] = [
   {
     id: 'demo-proj-1',
     name: 'LifeOS Dashboard',
     status: 'in_progress',
     visibility: 'public',
-    problemSolved: 'Needed a unified command center for tasks, prompts, career, and finances — nothing existed that matched how I think.',
+    problemSolved: 'Needed a unified command center for tasks, prompts, career, and finances - nothing existed that matched how I think.',
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Vite'],
     keyFeatures: 'Task tracker, prompt library, job tracker, budget, projects, Rose Obsidian design system',
     lessonsLearned: 'Design system tokens first saves hours of rework later. Naming things well is product work.',
@@ -304,42 +424,73 @@ export const DEMO_PROJECTS: Project[] = [
     createdAt: d(14),
     updatedAt: d(14),
   },
+  {
+    id: 'demo-proj-4',
+    name: 'Support Chatbot Starter',
+    status: 'complete',
+    visibility: 'public',
+    problemSolved: 'Small businesses kept asking for a cheap FAQ bot. Built a reusable starter that answers from their own docs without a paid platform.',
+    techStack: ['React', 'TypeScript', 'Vercel', 'Open-source LLM'],
+    keyFeatures: 'RAG over uploaded docs, embeddable widget, human-handoff fallback, free-tier model by default',
+    liveDemoUrl: '#',
+    lessonsLearned: 'Honest scoping beats over-promising. A clear "I do not know, let me hand you to a human" answer builds more trust than a confident wrong one.',
+    futureImprovements: 'Multi-language replies; analytics on deflected vs escalated questions.',
+    createdAt: d(45),
+    updatedAt: d(6),
+  },
+  {
+    id: 'demo-proj-5',
+    name: 'Portfolio v1 (Static)',
+    status: 'archived',
+    visibility: 'public',
+    problemSolved: 'First portfolio - a single static HTML page. Served its purpose but went stale because it had no daily use.',
+    techStack: ['HTML', 'CSS', 'GitHub Pages'],
+    keyFeatures: 'Single-page resume, project list, contact links',
+    lessonsLearned: 'A portfolio with no daily utility gets no daily maintenance. That insight became LifeOS.',
+    createdAt: d(220),
+    updatedAt: d(120),
+  },
 ]
 
-// ── Habits ────────────────────────────────────────────────────
+// -- Habits --
 export const DEMO_HABITS: Habit[] = [
   { id: 'demo-habit-1', name: 'Morning pages',     emoji: '📓', createdAt: d(30), updatedAt: d(30) },
   { id: 'demo-habit-2', name: 'Exercise',          emoji: '🏃', createdAt: d(30), updatedAt: d(30) },
   { id: 'demo-habit-3', name: 'Read 20 minutes',   emoji: '📖', createdAt: d(21), updatedAt: d(21) },
   { id: 'demo-habit-4', name: 'No social media before noon', emoji: '🌙', createdAt: d(14), updatedAt: d(14) },
+  { id: 'demo-habit-5', name: 'Ship one small thing',  emoji: '🚀', createdAt: d(21), updatedAt: d(21) },
 ]
 
-// Checks for the last 7 days — staggered so each habit shows a realistic streak
+// Checks for the last 7 days - staggered so each habit shows a realistic streak
 export const DEMO_HABIT_CHECKS: HabitCheck[] = [
-  // Morning pages — 6/7 days
+  // Morning pages - 6/7 days
   ...[0, 1, 2, 3, 5, 6].map((days, i) => ({
     id: `demo-check-1-${i}`, habitId: 'demo-habit-1', date: d(days), createdAt: d(days),
   })),
-  // Exercise — 4/7 days
+  // Exercise - 4/7 days
   ...[0, 2, 4, 6].map((days, i) => ({
     id: `demo-check-2-${i}`, habitId: 'demo-habit-2', date: d(days), createdAt: d(days),
   })),
-  // Read — 5/7 days
+  // Read - 5/7 days
   ...[0, 1, 3, 4, 5].map((days, i) => ({
     id: `demo-check-3-${i}`, habitId: 'demo-habit-3', date: d(days), createdAt: d(days),
   })),
-  // No social media — 3/7 days
+  // No social media - 3/7 days
   ...[1, 2, 5].map((days, i) => ({
     id: `demo-check-4-${i}`, habitId: 'demo-habit-4', date: d(days), createdAt: d(days),
   })),
+  // Ship one small thing - 5/7 days
+  ...[0, 1, 2, 4, 6].map((days, i) => ({
+    id: `demo-check-5-${i}`, habitId: 'demo-habit-5', date: d(days), createdAt: d(days),
+  })),
 ]
 
-// ── Notes ─────────────────────────────────────────────────────
+// -- Notes --
 export const DEMO_NOTES: Note[] = [
   {
     id: 'demo-note-1',
     title: 'Product thinking frameworks',
-    content: 'Jobs-to-be-Done: people hire products to do a job. Opportunity Solution Trees: outcome → opportunities → solutions → experiments. North Star framework: one metric that matters, with input metrics underneath.',
+    content: 'Jobs-to-be-Done: people hire products to do a job. Opportunity Solution Trees: outcome -> opportunities -> solutions -> experiments. North Star framework: one metric that matters, with input metrics underneath.',
     tags: ['product', 'frameworks'],
     createdAt: d(25),
     updatedAt: d(3),
@@ -354,7 +505,7 @@ export const DEMO_NOTES: Note[] = [
   },
   {
     id: 'demo-note-3',
-    title: 'Interview prep — BA questions',
+    title: 'Interview prep - BA questions',
     content: 'How do you handle conflicting stakeholder requirements? Walk through a gap analysis you ran. How do you validate requirements before development starts?',
     tags: ['career', 'interviews'],
     createdAt: d(15),
@@ -363,7 +514,7 @@ export const DEMO_NOTES: Note[] = [
   {
     id: 'demo-note-4',
     title: 'Books to read this year',
-    content: 'Continuous Discovery Habits — Teresa Torres. Shape Up — Ryan Singer. The Mom Test — Rob Fitzpatrick. Inspired — Marty Cagan.',
+    content: 'Continuous Discovery Habits - Teresa Torres. Shape Up - Ryan Singer. The Mom Test - Rob Fitzpatrick. Inspired - Marty Cagan.',
     tags: ['personal', 'reading'],
     createdAt: d(10),
     updatedAt: d(10),
@@ -371,9 +522,25 @@ export const DEMO_NOTES: Note[] = [
   {
     id: 'demo-note-5',
     title: 'System design notes',
-    content: 'Start with requirements and scale estimates. Load balancer → app servers → cache → DB. Cache invalidation is the hard part. Prefer boring technology.',
+    content: 'Start with requirements and scale estimates. Load balancer -> app servers -> cache -> DB. Cache invalidation is the hard part. Prefer boring technology.',
     tags: ['technical', 'architecture'],
     createdAt: d(5),
     updatedAt: d(1),
+  },
+  {
+    id: 'demo-note-6',
+    title: 'Chatbot delivery checklist',
+    content: 'Scope the knowledge base first. Default to a free/open model; price paid APIs before agreeing. Always include a human-handoff fallback. Test refusal cases ("I do not know") as hard as happy paths. Log deflected vs escalated to prove value.',
+    tags: ['ai', 'chatbot', 'delivery'],
+    createdAt: d(7),
+    updatedAt: d(2),
+  },
+  {
+    id: 'demo-note-7',
+    title: 'Vercel deploy notes',
+    content: 'Every branch gets a preview URL automatically. main -> production. Set env vars in the dashboard, not in the repo. SPA needs a catch-all rewrite (see vercel.json). Check the build log if a route 404s in prod.',
+    tags: ['deployment', 'vercel'],
+    createdAt: d(4),
+    updatedAt: d(0),
   },
 ]

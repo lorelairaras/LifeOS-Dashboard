@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Get-Content .env.example)"
+      "Bash(Get-Content .env.example)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "Bash(cd /c/Users/Work/Documents/Programming/odysseus && find . -maxdepth 2 -type d | grep -v \"\\\\.git\\\\|__pycache__\\\\|node_modules\\\\|\\\\.pytest\\\\|venv\" | sort)",
+      "Bash(npx vitest *)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist)"
     ]
   }
 }

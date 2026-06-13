@@ -1,25 +1,27 @@
 import HeroSection from '@/features/portfolio/sections/HeroSection'
-import AboutSection from '@/features/portfolio/sections/AboutSection'
-import SkillsSection from '@/features/portfolio/sections/SkillsSection'
-import ProjectsSection from '@/features/portfolio/sections/ProjectsSection'
+import WhatItDoesSection from '@/features/portfolio/sections/WhatItDoesSection'
+import HowItHelpsSection from '@/features/portfolio/sections/HowItHelpsSection'
+import ServicesSection from '@/features/portfolio/sections/ServicesSection'
 import CaseStudiesSection from '@/features/portfolio/sections/CaseStudiesSection'
-import ResumeSection from '@/features/portfolio/sections/ResumeSection'
+import AboutSection from '@/features/portfolio/sections/AboutSection'
 import ContactSection from '@/features/portfolio/sections/ContactSection'
 
 export default function PortfolioPage() {
   return (
     <>
+      {/* Product-led landing: what LifeOS is, what it does, how it helps,
+          services, flagship case study, why it exists, contact. */}
       <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ProjectsSection />
+      <WhatItDoesSection />
+      <HowItHelpsSection />
+      <ServicesSection />
       <CaseStudiesSection />
-      <ResumeSection />
+      <AboutSection />
       <ContactSection />
 
       <footer className="border-t border-ro-pink/10 py-8 text-center">
         <p className="font-mono text-xs text-ro-muted">
-          Built with React, Vite, TypeScript &amp; Tailwind CSS &mdash;{' '}
+          LifeOS &mdash; built with React, Vite, TypeScript &amp; Tailwind CSS &mdash;{' '}
           <a
             href="https://github.com/lorelairaras/LifeOS-Dashboard"
             target="_blank"
