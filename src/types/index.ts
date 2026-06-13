@@ -3,6 +3,8 @@
 // Source of truth: docs/architecture/data-model_v0.2.0.md
 // ============================================================
 
+import type { LucideIcon } from 'lucide-react'
+
 // --- Task Tracker ---
 
 export type TaskStatus = 'todo' | 'in_progress' | 'done' | 'blocked'
@@ -175,4 +177,43 @@ export interface ExperienceItem {
   startDate: string
   endDate: string | 'Present'
   bullets: string[]
+}
+
+// --- LifeOS Product Landing ---
+
+/** A LifeOS module described on the public "What it does" tour. */
+export interface ProductModule {
+  id: string
+  name: string
+  /** One-line, outcome-focused summary in product language. */
+  summary: string
+  /** In-app route the module lives at (under /dashboard). */
+  route: string
+  icon: LucideIcon
+}
+
+/** A feature-to-outcome mapping shown in the "How it helps" block. */
+export interface ProductBenefit {
+  id: string
+  /** Visitor-facing outcome headline. */
+  outcome: string
+  /** Short supporting explanation. */
+  detail: string
+  icon: LucideIcon
+}
+
+/** A service offered to clients, rendered from data (no hardcoded JSX copy). */
+export interface Service {
+  id: string
+  title: string
+  /** Single benefit line - what the client gets, not what the tool is. */
+  benefit: string
+  /** Three to four concrete capability points. */
+  capabilities: string[]
+  icon: LucideIcon
+  /** Short tag/eyebrow (e.g. "Build", "Design", "AI", "Analysis"). */
+  tag: string
+  /** Honest scoping note shown where expectations must be set. Optional. */
+  note?: string
+  featured?: boolean
 }

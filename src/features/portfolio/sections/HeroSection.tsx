@@ -1,5 +1,6 @@
-import { Github, Linkedin, Mail, ArrowDown } from 'lucide-react'
+import { Github, Mail, ArrowDown } from 'lucide-react'
 import { buttonBaseClasses, buttonVariantClasses, buttonSizeClasses } from '@/components/button.utils'
+import { valueProposition, modules } from '@/features/portfolio/data/lifeosProduct'
 
 export default function HeroSection() {
   return (
@@ -9,10 +10,7 @@ export default function HeroSection() {
       className="relative flex min-h-screen items-center justify-center overflow-hidden ro-grid-bg"
     >
       {/* Ambient glow behind the panel */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-      >
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ro-pink/6 blur-[80px]" />
         <div className="absolute right-[15%] top-[25%] h-48 w-48 rounded-full bg-ro-oracle/5 blur-[60px]" />
       </div>
@@ -28,7 +26,7 @@ export default function HeroSection() {
                 <span className="h-2.5 w-2.5 rounded-full bg-ro-gold/60" aria-hidden="true" />
                 <span className="h-2.5 w-2.5 rounded-full bg-ro-success/60" aria-hidden="true" />
               </div>
-              <span className="ml-2 font-mono text-[10px] text-ro-muted">lifeos.portfolio — command</span>
+              <span className="ml-2 font-mono text-[10px] text-ro-muted">lifeos &mdash; command</span>
             </div>
             <span className="flex items-center gap-1.5 rounded-full border border-ro-success/30 bg-ro-success/10 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-ro-success">
               <span className="h-1.5 w-1.5 rounded-full bg-ro-success animate-glow-pulse" aria-hidden="true" />
@@ -40,63 +38,69 @@ export default function HeroSection() {
           <div className="px-8 py-12 sm:px-12">
             {/* Eyebrow */}
             <p className="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ro-pink/70">
-              Frontend Developer · Business Analyst · Product Thinker
+              A personal operating system
             </p>
 
-            {/* Name */}
+            {/* Product name */}
             <h1 id="hero-heading" className="font-display text-5xl font-bold tracking-tight text-ro-pri sm:text-6xl lg:text-7xl">
-              Hi, I&rsquo;m{' '}
-              <span className="italic text-ro-pink">Rory</span>
+              Life<span className="italic text-ro-pink">OS</span>
             </h1>
 
-            {/* Tagline */}
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ro-sec sm:text-lg">
-              I design systems, build tools, and ship things that work — for myself and for users.
-              This is my operating system. You&rsquo;re looking at the public interface.
+            {/* Value proposition */}
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-ro-sec sm:text-lg">
+              {valueProposition}
             </p>
 
+            {/* Module chips */}
+            <ul className="mt-7 flex flex-wrap gap-2" role="list" aria-label="LifeOS modules">
+              {modules.map((m) => (
+                <li
+                  key={m.id}
+                  className="flex items-center gap-1.5 rounded-full border border-ro-pink/14 bg-ro-surface px-2.5 py-1 text-[11px] text-ro-sec"
+                >
+                  <m.icon size={12} className="text-ro-pink/70" aria-hidden="true" />
+                  {m.name}
+                </li>
+              ))}
+            </ul>
+
             {/* CTA Buttons */}
-            <div className="mt-10 flex flex-wrap gap-3">
-              <a
-                href="#projects"
-                className={[buttonBaseClasses, buttonVariantClasses.primary, buttonSizeClasses.lg].join(' ')}
-              >
-                View Projects
-              </a>
+            <div className="mt-9 flex flex-wrap gap-3">
               <a
                 href={`${import.meta.env.BASE_URL}dashboard`}
+                className={[buttonBaseClasses, buttonVariantClasses.primary, buttonSizeClasses.lg].join(' ')}
+              >
+                Enter the Dashboard &rarr;
+              </a>
+              <a
+                href="#what"
                 className={[buttonBaseClasses, buttonVariantClasses.ghost, buttonSizeClasses.lg, 'border border-ro-pink/25'].join(' ')}
               >
-                Enter Dashboard →
+                See what it does
               </a>
             </div>
 
-            {/* Social links */}
-            <div className="mt-8 flex items-center gap-1">
+            {/* Builder credit + links */}
+            <div className="mt-8 flex items-center gap-3 border-t border-ro-pink/10 pt-6">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-ro-muted">
+                Designed &amp; built by Rory
+              </span>
+              <span className="h-3 w-px bg-ro-pink/15" aria-hidden="true" />
               <a
                 href="https://github.com/lorelairaras"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-ro-muted transition-colors hover:bg-ro-card hover:text-ro-pri"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-ro-muted transition-colors hover:bg-ro-card hover:text-ro-pri"
               >
-                <Github size={16} aria-hidden="true" />
-              </a>
-              <a
-                href="https://linkedin.com/in/[YOUR_USERNAME]"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn profile"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-ro-muted transition-colors hover:bg-ro-card hover:text-ro-pri"
-              >
-                <Linkedin size={16} aria-hidden="true" />
+                <Github size={15} aria-hidden="true" />
               </a>
               <a
                 href="mailto:lorelai.raras@edufied.edu.vn"
                 aria-label="Send email"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-ro-muted transition-colors hover:bg-ro-card hover:text-ro-pri"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-ro-muted transition-colors hover:bg-ro-card hover:text-ro-pri"
               >
-                <Mail size={16} aria-hidden="true" />
+                <Mail size={15} aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -105,8 +109,8 @@ export default function HeroSection() {
         {/* Scroll indicator */}
         <div className="mt-10 flex justify-center">
           <a
-            href="#about"
-            aria-label="Scroll to about section"
+            href="#what"
+            aria-label="Scroll to what LifeOS does"
             className="flex flex-col items-center gap-1.5 text-ro-muted transition-colors hover:text-ro-sec"
           >
             <span className="font-mono text-[9px] uppercase tracking-widest">Scroll</span>

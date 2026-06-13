@@ -24,50 +24,31 @@ export const projects: PortfolioProject[] = [
   {
     id: 'lifeos',
     title: 'LifeOS Portfolio Dashboard',
-    description: 'A personal operating system — public portfolio and private productivity dashboard in one React application. Built with Vite, TypeScript, and Tailwind CSS. Includes task tracking, prompt library, job tracker, budget tracker, and projects.',
+    description: 'A personal operating system - public portfolio and private productivity dashboard in one React application. Built with Vite, TypeScript, and Tailwind CSS. Includes task tracking, prompt library, job tracker, budget tracker, and projects.',
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Playwright'],
-    githubUrl: 'https://github.com/[YOUR_USERNAME]/lifeos-portfolio',
+    githubUrl: 'https://github.com/lorelairaras/LifeOS-Dashboard',
     liveDemoUrl: '#',
     featured: true,
-  },
-  {
-    id: 'project-2',
-    title: 'Your Second Project',
-    description: 'Replace this with a real project description. Explain what problem it solves, who it helps, and what makes it interesting.',
-    techStack: ['React', 'Node.js', 'PostgreSQL'],
-    githubUrl: 'https://github.com/[YOUR_USERNAME]/project-two',
   },
 ]
 
 export const caseStudies: CaseStudy[] = [
   {
     id: 'lifeos-case-study',
-    title: 'LifeOS — Building a Personal Operating System',
+    title: 'LifeOS - Building a Personal Operating System',
     summary: 'A portfolio site that is also a daily-use productivity dashboard.',
     problem: 'Most developer portfolios go stale quickly because they serve only a passive showcase purpose. A portfolio with no daily utility gets no daily maintenance.',
     solution: 'Combine the public portfolio with a private productivity dashboard so the system earns daily use and stays current.',
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Playwright', 'Vercel'],
     highlights: [
-      'Documented 32 artefacts before writing a single line of code — requirements, architecture, data models, and QA plans.',
+      'Documented over 30 artefacts before writing a single line of code - requirements, architecture, data models, and QA plans.',
       'TypeScript strict mode with zero lint warnings from day one.',
       'Lazy-loaded dashboard routes to keep the portfolio bundle lean.',
       'Playwright E2E tests covering portfolio smoke, mobile responsiveness, and dashboard navigation.',
     ],
-    githubUrl: 'https://github.com/[YOUR_USERNAME]/lifeos-portfolio',
+    githubUrl: 'https://github.com/lorelairaras/LifeOS-Dashboard',
     liveDemoUrl: '#',
     featured: true,
-  },
-  {
-    id: 'case-study-2',
-    title: 'Your Second Case Study',
-    summary: 'Replace this with a real project you want to write about in depth.',
-    problem: 'Describe the real problem this project solved. Who had the problem? What was broken or missing?',
-    solution: 'Explain your approach. What decisions did you make? What trade-offs did you consider?',
-    techStack: ['Replace', 'with', 'real', 'stack'],
-    highlights: [
-      'Replace with a key outcome or decision from the project.',
-      'Quantify where possible.',
-    ],
   },
 ]
 
